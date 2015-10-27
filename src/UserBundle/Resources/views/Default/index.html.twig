@@ -1,1 +1,23 @@
-Hello {{ name }}!
+{% extends '::base.html.twig' %}
+
+{% block title %} Login {% endblock %}
+        
+{% block body %}
+
+    <div class="account-container">
+
+        <div class="content clearfix">
+            <div class="login-actions">
+                <p style="margin: 0 30%;">
+                    <a href="{{ path('faucondor_login_check') }}">
+                        <button class="button btn btn-success btn-large btn-galaxy">Connect with galaxy</button>
+                    </a>
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+
+
+{% endblock %}

@@ -19,6 +19,7 @@ class AppKernel extends Kernel
             new UserBundle\UserBundle(),
             new FOS\UserBundle\FOSUserBundle(),
             new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
+            new FauconDorBundle\FauconDorBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

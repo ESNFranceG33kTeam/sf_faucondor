@@ -1,0 +1,3 @@
+faucondor_homepage:
+    path:     /faucon/
+    defaults: { _controller: FauconDorBundle:Default:index }

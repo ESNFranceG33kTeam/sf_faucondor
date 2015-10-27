@@ -1,6 +1,10 @@
-user_homepage:
-    path:     /hello/{name}
+index:
+    path:     /
     defaults: { _controller: UserBundle:Default:index }
+
+faucondor_login_check:
+    path:     /login_check
+    defaults: { _controller: UserBundle:Login:check }
 
 fos_user:
     resource: "@FOSUserBundle/Resources/config/routing/all.xml"

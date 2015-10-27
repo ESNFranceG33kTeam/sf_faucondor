@@ -18,3 +18,11 @@ parameters:
 
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
+
+    #CAS
+    cas_host:          ~
+    cas_context:       ~
+    cas_port:          ~
+
+    #Section
+    code_section:      ~
