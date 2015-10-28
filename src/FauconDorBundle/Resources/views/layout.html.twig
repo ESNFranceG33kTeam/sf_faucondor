@@ -1,0 +1,34 @@
+{% extends 'FaucondorBundle::base.html.twig' %}
+
+{% use 'FaucondorBundle::menu.html.twig' %}
+
+{% block body %}
+<div class="header">
+    {{ block('head_menu') }}
+</div>
+<div class="full_container">
+    {% block content_with_container %}
+        <div class="container">
+            {% block flash %}
+                {% for class, messages in app.session.flashbag.all if class != 'indic' %}
+                    {% for message in messages %}
+                        <div class="{{ class }} fade">{{ message|trans }}</div>
+                    {% endfor %}
+                {% endfor %}
+            {% endblock %}
+            {% block content %}{% endblock %}
+            <div class="clear"></div>
+        </div>
+    {% endblock %}
+
+    <div class="footer">
+        <p>
+            © Code & Design by ESN France G33k Team, Mamadou Diop & Jérémie Samson
+        </p>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

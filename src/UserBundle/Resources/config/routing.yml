@@ -6,5 +6,9 @@ faucondor_login_check:
     path:     /login_check
     defaults: { _controller: UserBundle:Login:check }
 
+faucondor_logout:
+    path:     /logout
+    defaults: { _controller: UserBundle:Login:logout }
+
 fos_user:
     resource: "@FOSUserBundle/Resources/config/routing/all.xml"

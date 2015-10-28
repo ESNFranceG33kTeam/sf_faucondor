@@ -1,5 +1,5 @@
 faucon_dor:
-    resource: "@FauconDorBundle/Resources/config/routing.yml"
+    resource: "@FaucondorBundle/Resources/config/routing.yml"
     prefix:   /
 
 user:

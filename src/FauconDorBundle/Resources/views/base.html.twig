@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}Faucon d'Or{% endblock %}</title>
+
+        {% block stylesheets %}
+            {% spaceless %}
+                {% block jquery_css %}
+                    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/faucondor/css/jquery-ui.css') }}" media="all" />
+                {% endblock jquery_css %}
+
+                {% stylesheets
+                'bundles/faucondor/js/DataTable/css/jquery.dataTables.css'
+                'bundles/faucondor/css/style.css'
+                %}
+                {% endstylesheets %}
+
+                <link href='https://fonts.googleapis.com/css?family=Dosis:400,200,300,500,600,700,800' rel='stylesheet' type='text/css'>
+            {% endspaceless %}
+        {% endblock %}
+
+        <meta charset="UTF-8" />
+
+        <link rel="icon" type="image/x-icon" href="{{ asset('bundles/faucondor/img/ESN_star.jpg') }}" />
+    </head>
+    <body>
+        {% block body %}{% endblock %}
+        {% block javascripts %}
+            {% spaceless %}
+                {% javascripts
+                '@FaucondorBundle/Resources/public/js/jquery.js'
+                '@FaucondorBundle/Resources/public/js/jqueryUI.js'
+                '@FaucondorBundle/Resources/public/js/DataTable/js/jquery.dataTables.js'
+                %}
+                {% endjavascripts %}
+            {% endspaceless %}
+        {% endblock %}
+    </body>
+</html>

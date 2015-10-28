@@ -1,13 +1,13 @@
 <?php
 
-namespace FauconDorBundle\Controller;
+namespace FaucondorBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class DefaultController extends Controller
 {
-    public function indexAction($name)
+    public function indexAction()
     {
-        return $this->render('FauconDorBundle:Default:index.html.twig');
+        return $this->render('FaucondorBundle:Default:index.html.twig');
     }
 }

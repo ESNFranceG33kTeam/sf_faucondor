@@ -41,6 +41,7 @@ class LoginListener {
             if($request->get('_route') != null
                 && $request->get('_route') != "faucondor_login"
                 && $request->get('_route') != "faucondor_login_check"
+                && $request->get('_route') != "faucondor_logout"
                 && $request->get('_route') != "fos_user_security_login"
                 && $request->get('_route') != "index"
             ){

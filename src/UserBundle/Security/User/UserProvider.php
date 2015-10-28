@@ -12,7 +12,7 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
-use \phpCAS;
+use phpCAS;
 use UserBundle\Security\User\GalaxyUser;
 
 class UserProvider implements UserProviderInterface
@@ -22,18 +22,18 @@ class UserProvider implements UserProviderInterface
      */
     protected $cas;
 
-    public function __construct($cas_host, $cas_port, $cas_context){
+    public function __construct($cas_server, $cas_path, $cas_port){
         $this->cas = array(
-            "host" => $cas_host,
+            "server" => $cas_server,
             "port" => $cas_port,
-            "context" => $cas_context
+            "path" => $cas_path
         );
     }
 
     public function loadUserByUsername($username)
     {
         phpCAS::setDebug();
-        phpCAS::client(CAS_VERSION_2_0, $this->cas["host"], $this->cas["port"], $this->cas["context"], false);
+        phpCAS::client(CAS_VERSION_2_0, $this->cas["server"], $this->cas["port"], $this->cas["path"], false);
         phpCAS::setNoCasServerValidation();
         phpCAS::forceAuthentication();
 
@@ -56,7 +56,7 @@ class UserProvider implements UserProviderInterface
     public function loadGalaxyUser()
     {
         phpCAS::setDebug();
-        phpCAS::client(CAS_VERSION_2_0, $this->cas["host"], $this->cas["port"], $this->cas["context"], false);
+        phpCAS::client(CAS_VERSION_2_0, $this->cas["server"], $this->cas["port"], $this->cas["path"], false);
         phpCAS::setNoCasServerValidation();
         phpCAS::forceAuthentication();
 

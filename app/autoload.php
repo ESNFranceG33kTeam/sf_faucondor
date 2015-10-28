@@ -7,7 +7,7 @@ use Composer\Autoload\ClassLoader;
  * @var ClassLoader $loader
  */
 $loader = require __DIR__.'/../vendor/autoload.php';
-$loader->add(null, __DIR__.'/../vendor/jasig/phpcas/source');
+$loader->add('phpCAS_', __DIR__.'/../vendor/cas/lib');
 
 AnnotationRegistry::registerLoader(array($loader, 'loadClass'));
 

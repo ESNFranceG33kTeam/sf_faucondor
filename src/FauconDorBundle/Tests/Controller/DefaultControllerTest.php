@@ -1,6 +1,6 @@
 <?php
 
-namespace FauconDorBundle\Tests\Controller;
+namespace FaucondorBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 

@@ -1,9 +1,9 @@
 <?php
 
-namespace FauconDorBundle;
+namespace FaucondorBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class FauconDorBundle extends Bundle
+class FaucondorBundle extends Bundle
 {
 }
