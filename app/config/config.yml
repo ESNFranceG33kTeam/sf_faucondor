@@ -36,6 +36,7 @@ framework:
         handler_id:  ~
     fragments:       ~
     http_method_override: true
+    translator: { fallbacks: ["%locale%"] }
 
 # Twig Configuration
 twig:

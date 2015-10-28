@@ -1,5 +1,5 @@
-index:
-    path:     /
+faucondor_login:
+    path:     /login
     defaults: { _controller: UserBundle:Default:index }
 
 faucondor_login_check:

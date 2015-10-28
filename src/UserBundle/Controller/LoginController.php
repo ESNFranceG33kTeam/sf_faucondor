@@ -73,13 +73,14 @@ class LoginController extends Controller
             $event = new InteractiveLoginEvent($request, $token);
             $this->get("event_dispatcher")->dispatch("security.interactive_login", $event);
 
-            $this->addFlash('success ', $this->get('translator')->trans('label.success.login', array(), 'messages'));
+            $translator = new Translator('fr_FR');
+            $this->addFlash('success ', $translator->trans('label.success.login', array(), 'messages'));
 
             return $this->redirect($this->generateUrl('faucondor_homepage'));
         }
 
         $translator = new Translator('fr_FR');
-        $this->addFlash('error ', $translator->trans('label.error.login', array(), 'messages'));
+        $this->addFlash('error ', $translator->trans('label.error.login'));
 
         return $this->redirect($this->generateUrl('index'));
     }

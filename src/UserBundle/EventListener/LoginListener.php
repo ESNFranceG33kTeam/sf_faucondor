@@ -45,7 +45,7 @@ class LoginListener {
                 && $request->get('_route') != "fos_user_security_login"
                 && $request->get('_route') != "index"
             ){
-                $event->setResponse(new RedirectResponse($this->router->generate('index')));
+                $event->setResponse(new RedirectResponse($this->router->generate('faucondor_login')));
             }
         }
     }
