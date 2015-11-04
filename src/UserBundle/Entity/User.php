@@ -325,4 +325,98 @@ class User extends BaseUser
         $this->setPlainPassword(implode($pass)); //turn the array into a string
     }
 
+    /**
+     * Check if user is super admin
+     *
+     * @return bool
+     */
+    public function isSuperAdmin(){
+        return in_array("ROLE_SUPER_ADMIN", $this->getRoles());
+    }
+
+    /**
+     * Check if user is VP
+     *
+     * @return bool
+     */
+    public function isVP(){
+        return in_array('Local.vicePresident', explode(',', $this->getGalaxyRoles()));
+    }
+
+    /**
+     * Check if user is Treasurer
+     *
+     * @return bool
+     */
+    public function isTreasurer(){
+        return in_array('Local.treasurer', explode(',', $this->getGalaxyRoles()));
+    }
+
+    /**
+     * Check if user is RL
+     *
+     * @return bool
+     */
+    public function isRL(){
+        return in_array('Local.localRepresentative', explode(',', $this->getGalaxyRoles()));
+    }
+
+    /**
+     * Check if user is Webmaster
+     *
+     * @return bool
+     */
+    public function isWebmaster(){
+        return in_array('Local.webmaster', explode(',', $this->getGalaxyRoles()));
+    }
+
+    /**
+     * Check if user is President
+     *
+     * @return bool
+     */
+    public function isPresident(){
+        return in_array('Local.president', explode(',', $this->getGalaxyRoles()));
+    }
+
+    /**
+     * Check if user is Active Member
+     *
+     * @return bool
+     */
+    public function isActiveMember(){
+        return in_array('Local.activeMember', explode(',', $this->getGalaxyRoles()));
+    }
+
+    /**
+     * Check if user is national Comity Chair
+     *
+     * @return bool
+     */
+    public function isChair(){
+        return in_array('National.projectCoordinator', explode(',', $this->getGalaxyRoles()));
+    }
+
+    /**
+     * Check if user is national VP
+     *
+     * @return bool
+     */
+    public function isNationalVP(){
+        return in_array('National.vicePresident', explode(',', $this->getGalaxyRoles()));
+    }
+
+    /**
+     * Check if user is national NR
+     *
+     * @return bool
+     */
+    public function isNationalNR(){
+        return in_array('National.representative', explode(',', $this->getGalaxyRoles()));
+    }
+
+    public function __toString(){
+        return $this->firstname . " " . strtoupper($this->lastname);
+    }
+
 }

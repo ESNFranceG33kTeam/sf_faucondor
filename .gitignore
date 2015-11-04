@@ -4,6 +4,8 @@
 !app/cache/.gitkeep
 !app/logs/.gitkeep
 
+/.idea
+
 # Cache and logs (Symfony3)
 /var/cache/*
 /var/logs/*

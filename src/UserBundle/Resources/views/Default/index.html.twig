@@ -67,7 +67,7 @@
     {% else %}
         <div class="login-galaxy">
             <img src="{{ asset('bundles/faucondor/images/faucondor.jpg') }}" width="320" height="240"><br><br>
-            <a id="login-button" href="{{ path('faucondor_login_check') }}">Login with Galaxy</a>
+            <a id="login-button" href="{{ path('faucondor_login_check') }}">{{ 'label.login.galaxy'|trans }}</a>
         </div>
     {% endif %}
 

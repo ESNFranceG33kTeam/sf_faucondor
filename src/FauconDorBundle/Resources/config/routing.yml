@@ -1,3 +1,31 @@
 faucondor_homepage:
     path:     /
-    defaults: { _controller: FaucondorBundle:Default:index }
+    defaults: { _controller: FaucondorBundle:Faucondor:index }
+
+faucondor_annuaire:
+    path:     /annuaire
+    defaults: { _controller: FaucondorBundle:Faucondor:annuaire }
+
+faucondor_participation:
+    path:     /participation
+    defaults: { _controller: FaucondorBundle:Faucondor:participation }
+
+faucondor_edit_board:
+    path:     /board
+    defaults: { _controller: FaucondorBundle:Faucondor:editBoard }
+
+faucondor_gestion_events:
+    path:     /events
+    defaults: { _controller: FaucondorBundle:Faucondor:events }
+
+faucondor_section:
+    resource: "@FaucondorBundle/Resources/config/routing/section.yml"
+    prefix:   /section
+
+faucondor_mailrl:
+    path:     /rl
+    defaults: { _controller: FaucondorBundle:Faucondor:mailrl }
+
+faucondor_listes:
+    path:     /export
+    defaults: { _controller: FaucondorBundle:Faucondor:exportlistes }

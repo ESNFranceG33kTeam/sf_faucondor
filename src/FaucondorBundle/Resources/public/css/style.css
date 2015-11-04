@@ -14,7 +14,7 @@ body{
 	min-height:150px;
 	height:15%;
 	width: 100%;
-	background-image: url(../img/header.jpg);
+	background-image: url(../images/header.jpg);
 	background-size :377px 150px;
 	background-repeat: no-repeat;
 	background-position: center center;
@@ -32,7 +32,7 @@ section h1{
 	color: rgb(35,158,200);
 }
 
-footer{
+.footer{
 	clear: both;
 	border:1px solid black;
 	height: 75px;
@@ -137,21 +137,21 @@ table{
 	width: 100%;
 }
 
-table th, .firstColumn{
+table thead tr th, .firstColumn{
 	color: white;
 	height: 30px;
 	background-color: rgb(35,158,200);
 }
 
-table tr{
+table tbody tr{
 	text-align: center;
 }
 
-table tr:hover{
+table tbody tr:hover{
 	background-color: #c3c2c2;
 }
 
-table td{
+table tbody td{
 	height:50px;
 	vertical-align:bottom;
 }
@@ -331,20 +331,33 @@ background-position: 10px center;
 .info {
 color: #00529B;
 background-color: #BDE5F8;
-background-image: url('../img/info.png');
+background-image: url('../images/info.png');
 }
 .success {
 color: #4F8A10;
 background-color: #DFF2BF;
-background-image:url('../img/success.png');
+background-image:url('../images/success.png');
 }
 .warning {
 color: #9F6000;
 background-color: #FEEFB3;
-background-image: url('../img/warning.png');
+background-image: url('../images/warning.png');
 }
 .error {
 color: #D8000C;
 background-color: #FFBABA;
-background-image: url('../img/error.png');
+background-image: url('../images/error.png');
+}
+
+
+#menu{
+    background-color: red;
+}
+
+#profile{
+    background-color: green;
+}
+
+section{
+    background-color: blue;
 }

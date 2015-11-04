@@ -1,3 +1,13 @@
+$( document ).ready(function() {
+    $('.message').fadeIn();
+    $('.message').fadeOut(3000);
+
+    $('.datatable').DataTable({
+        "bInfo": false,
+        "bPaginate": false
+    });
+});
+
 function validateAddEvent(){
 	console.log("Entering validateAddEvent");
 	var err = 0;

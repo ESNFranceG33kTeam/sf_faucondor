@@ -1,0 +1,17 @@
+label.error.login: Error, you are not login
+label.success.login: Authentification successful
+label.logout: Logout
+label.login: Login
+label.login.galaxy: Login with galaxy
+label.menu.annuaire: Annuaire
+label.menu.participation: Participations Sections
+label.menu.hello: Hello
+label.menu.board: Update board
+label.menu.events: Events
+label.menu.sections: Sections
+label.menu.rl: Email Local Representativ
+label.menu.listes: Export Listes
+entity.section.name: Name
+entity.section.joindate: Joindate
+entity.section.actions: Actions
+entity.section.new: New Section
