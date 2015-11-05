@@ -137,10 +137,10 @@ table{
 	width: 100%;
 }
 
-table thead tr th, .firstColumn{
+table thead tr th{
 	color: white;
 	height: 30px;
-	background-color: rgb(35,158,200);
+	background-color: rgb(35,158,200) !important;
 }
 
 table tbody tr{
@@ -154,6 +154,10 @@ table tbody tr:hover{
 table tbody td{
 	height:50px;
 	vertical-align:bottom;
+}
+
+.dataTables_filter{
+    margin-bottom: 10px!important;
 }
 
 .hasParticipated{ background-color: green; }
@@ -232,6 +236,9 @@ nav ul{
 .button:hover{ color: white; }
 .button:visited{ color: white; }
 
+.delete{
+    background-color: red;
+}
 
 #listFiles{
 	margin-top: 20px;
@@ -349,15 +356,11 @@ background-color: #FFBABA;
 background-image: url('../images/error.png');
 }
 
-
-#menu{
-    background-color: red;
+.tables{
+    float: left;
+    width: 100%;
 }
 
-#profile{
-    background-color: green;
-}
-
-section{
-    background-color: blue;
+.menuactions{
+    margin: 15px auto 15px auto;
 }

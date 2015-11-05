@@ -1,3 +1,7 @@
+faucondor_events:
+    resource: "@FaucondorBundle/Resources/config/routing/events.yml"
+    prefix:   /events
+
 faucondor_homepage:
     path:     /
     defaults: { _controller: FaucondorBundle:Faucondor:index }

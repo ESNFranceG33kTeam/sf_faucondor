@@ -4,7 +4,8 @@ $( document ).ready(function() {
 
     $('.datatable').DataTable({
         "bInfo": false,
-        "bPaginate": false
+        "bPaginate": false,
+        "oLanguage": { "sSearch": "" }
     });
 });
 

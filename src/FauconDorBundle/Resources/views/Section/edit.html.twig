@@ -2,17 +2,24 @@
 
 {% block content -%}
     <section>
-    <h1>Section edit</h1>
+    <h1>{{ 'entity.section.edit'|trans }}</h1>
+
+    <div class="menuactions">
+        <a href="{{ path('section') }}" class="fancy button">
+            <i class="fa fa-arrow-left"></i>
+            {{ 'label.back.list'|trans }}
+        </a>
+        <a href="{{ path('section_delete', {'id': entity.id} ) }}" class="fancy button delete">
+            <i class="fa fa-trash-o"></i>
+            {{ 'label.button.delete'|trans }}
+        </a>
+        <a href="{{ path('section_create') }}" class="fancy button delete">
+            <i class="fa fa-plus"></i>
+            {{ 'label.button.create'|trans }}
+        </a>
+    </div>
 
     {{ form(edit_form) }}
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('section') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>{{ form(delete_form) }}</li>
-</ul>
     </section>
 {% endblock %}

@@ -15,8 +15,8 @@
             </li>
         {% endif %}
         {% if app.user.isNationalVP() or app.user.isNationalNR() %}
-            <li {% if current == "faucondor_gestion_events" %}id="current"{% endif %}>
-                <a href="{{ path('faucondor_gestion_events') }}">{{ 'label.menu.events'|trans }}</a>
+            <li {% if current == "events" %}id="current"{% endif %}>
+                <a href="{{ path('events') }}">{{ 'label.menu.events'|trans }}</a>
             </li>
             <li {% if current == "section" %}id="current"{% endif %}>
                 <a href="{{ path('section') }}">{{ 'label.menu.sections'|trans }}</a>

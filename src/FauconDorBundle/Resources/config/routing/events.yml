@@ -1,0 +1,30 @@
+events:
+    path:     /
+    defaults: { _controller: "FaucondorBundle:Events:index" }
+
+events_show:
+    path:     /{id}/show
+    defaults: { _controller: "FaucondorBundle:Events:show" }
+
+events_new:
+    path:     /new
+    defaults: { _controller: "FaucondorBundle:Events:new" }
+
+events_create:
+    path:     /create
+    defaults: { _controller: "FaucondorBundle:Events:create" }
+    methods:  POST
+
+events_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "FaucondorBundle:Events:edit" }
+
+events_update:
+    path:     /{id}/update
+    defaults: { _controller: "FaucondorBundle:Events:update" }
+    methods:  [POST, PUT]
+
+events_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "FaucondorBundle:Events:delete" }
+    methods:  [POST, DELETE]

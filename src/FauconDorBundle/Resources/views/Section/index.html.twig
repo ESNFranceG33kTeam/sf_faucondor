@@ -7,9 +7,10 @@
         <a id="addsection" class="button" href="{{ path('section_new') }}">{{ 'entity.section.new'|trans }}</a>
     </p>
 
+    <div class="tables">
     <table class="sections datatable">
         <thead>
-            <tr>
+            <tr class=".firstColumn">
                 <th>{{ 'entity.section.name'|trans }}</th>
                 <th>{{ 'entity.section.joindate'|trans }}</th>
                 <th>{{ 'entity.section.actions'|trans }}</th>
@@ -28,4 +29,6 @@
         {% endfor %}
         </tbody>
     </table>
+    </div>
+
 {% endblock %}
