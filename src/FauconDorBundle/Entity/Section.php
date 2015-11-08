@@ -2,7 +2,9 @@
 
 namespace FaucondorBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\EventDispatcher\Event;
 
 /**
  * Section
@@ -49,6 +51,26 @@ class Section
      */
     private $country;
 
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\ManyToMany(targetEntity="\FaucondorBundle\Entity\Events", cascade={"persist"})
+     */
+    private $events;
+
+    /**
+     * Constructor
+     */
+    public function __constructor(){
+        $this->events = new ArrayCollection();
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString(){
+        return $this->getName();
+    }
 
     /**
      * Get id
@@ -154,6 +176,36 @@ class Section
     public function getCountry()
     {
         return $this->country;
+    }
+
+    /**
+     * @param Events $event
+     */
+    public function addEvent(Events $event){
+        $this->events->add($event);
+
+        return $this;
+    }
+
+    /**
+     *
+     */
+    public function removeEvent(Events $event){
+        $this->events->removeElement($event);
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getEvents(){
+        return $this->events;
+    }
+
+    /**
+     * @param Events $event
+     */
+    public function hasParticipated(Events $event){
+        return $this->events->contains($event);
     }
 }
 

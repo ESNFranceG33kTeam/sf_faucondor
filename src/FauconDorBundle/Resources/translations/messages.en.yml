@@ -24,3 +24,5 @@ entity.event.list: Events List
 entity.event.start: Start
 entity.event.end: End
 entity.event.new: New event
+section.event.removed: %event% has been removed of %section% section
+section.event.added: %event% has been added of %section% section

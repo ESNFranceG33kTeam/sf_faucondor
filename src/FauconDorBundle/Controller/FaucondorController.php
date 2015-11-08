@@ -2,13 +2,18 @@
 
 namespace FaucondorBundle\Controller;
 
+use Doctrine\ORM\EntityManager;
+use FaucondorBundle\Entity\Events;
+use FaucondorBundle\Entity\Section;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class FaucondorController extends Controller
 {
     public function indexAction()
     {
-        return $this->render('FaucondorBundle:Faucondor:index.html.twig');
+        return new RedirectResponse('annuaire');
     }
 
     public function annuaireAction()
@@ -16,9 +21,56 @@ class FaucondorController extends Controller
         return $this->render('FaucondorBundle:Faucondor:annuaire.html.twig');
     }
 
+
+    public function sectionEventAction($section_id, $event_id){
+        if (!$this->getRequest()->isXmlHttpRequest()) {
+            throw $this->createNotFoundException();
+        }
+
+        /** @var EntityManager $em */
+        $em = $this->getDoctrine()->getManager();
+
+        /** @var Section $section */
+        $section = $em->getRepository('FaucondorBundle:Section')->find($section_id);
+
+        /** @var Events $event */
+        $event = $em->getRepository('FaucondorBundle:Events')->find($event_id);
+
+
+        if ($section->getEvents()->contains($event)){
+            $section->removeEvent($event);
+            $msg = "section.event.removed";
+            $id  = "hasNotParticipated";
+        }else{
+            $section->addEvent($event);
+            $msg = "section.event.added";
+            $id  = "hasParticipated";
+        }
+
+        $em->flush();
+
+        return new JsonResponse(array(
+            'code' => 'success',
+            'message' => $this->get('translator')->trans($msg, array("%section%" => $section->getName(), "%event%" => $event->getName())),
+            'id'   => $id
+        ));
+    }
+
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function participationAction()
     {
-        return $this->render('FaucondorBundle:Faucondor:participation.html.twig');
+        /** @var EntityManager $em */
+        $em = $this->getDoctrine()->getManager();
+
+        $events = $em->getRepository('FaucondorBundle:Events')->findBy(array(), array("start" => "DESC"));
+        $sections = $em->getRepository('FaucondorBundle:Section')->findAll();
+
+        return $this->render('FaucondorBundle:Faucondor:participation.html.twig', array(
+            'events' => $events,
+            'sections' => $sections
+        ));
     }
 
     public function editBoardAction()

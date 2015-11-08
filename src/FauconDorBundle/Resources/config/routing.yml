@@ -10,6 +10,10 @@ faucondor_annuaire:
     path:     /annuaire
     defaults: { _controller: FaucondorBundle:Faucondor:annuaire }
 
+faucondor_annuaire_ajax:
+    path:     /annuaire/section/{section_id}/event/{event_id}
+    defaults: { _controller: FaucondorBundle:Faucondor:sectionEvent }
+
 faucondor_participation:
     path:     /participation
     defaults: { _controller: FaucondorBundle:Faucondor:participation }
