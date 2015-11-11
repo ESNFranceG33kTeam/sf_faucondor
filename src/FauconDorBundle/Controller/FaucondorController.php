@@ -5,23 +5,45 @@ namespace FaucondorBundle\Controller;
 use Doctrine\ORM\EntityManager;
 use FaucondorBundle\Entity\Events;
 use FaucondorBundle\Entity\Section;
+use FaucondorBundle\Form\Handler\MailHandler;
+use FaucondorBundle\Form\Type\MailType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 class FaucondorController extends Controller
 {
+    /**
+     * Redirect to Annuaire page
+     *
+     * @return RedirectResponse
+     */
     public function indexAction()
     {
         return new RedirectResponse('annuaire');
     }
 
+
     public function annuaireAction()
     {
-        return $this->render('FaucondorBundle:Faucondor:annuaire.html.twig');
+        /** @var EntityManager $em */
+        $em = $this->getDoctrine()->getManager();
+
+        $users = $em->getRepository('UserBundle:User')->findAll();
+
+        return $this->render('FaucondorBundle:Faucondor:annuaire.html.twig', array(
+            "users" => $users
+        ));
     }
 
-
+    /**
+     *
+     *
+     * @param $section_id
+     * @param $event_id
+     * @return JsonResponse
+     */
     public function sectionEventAction($section_id, $event_id){
         if (!$this->getRequest()->isXmlHttpRequest()) {
             throw $this->createNotFoundException();
@@ -65,7 +87,7 @@ class FaucondorController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $events = $em->getRepository('FaucondorBundle:Events')->findBy(array(), array("start" => "DESC"));
-        $sections = $em->getRepository('FaucondorBundle:Section')->findAll();
+        $sections = $em->getRepository('FaucondorBundle:Section')->findBy(array("country" => $this->container->getParameter('code_country')));
 
         return $this->render('FaucondorBundle:Faucondor:participation.html.twig', array(
             'events' => $events,
@@ -78,19 +100,27 @@ class FaucondorController extends Controller
         return $this->render('FaucondorBundle:Faucondor:board.html.twig');
     }
 
-    public function eventsAction()
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function mailrlAction(Request $request)
     {
-        return $this->render('FaucondorBundle:Faucondor:events.html.twig');
-    }
+        /** @var EntityManager $em */
+        $em = $this->getDoctrine()->getManager();
 
-    public function sectionsAction()
-    {
-        return $this->render('FaucondorBundle:Faucondor:sections.html.twig');
-    }
+        $form = $this->createForm(new MailType());
+        $formHandler = new MailHandler($em, $form, $request, $this->container, $this->get('templating'), $this->get('mailer'));
+        $form->handleRequest($request);
 
-    public function mailrlAction()
-    {
-        return $this->render('FaucondorBundle:Faucondor:email.html.twig');
+        if ($formHandler->process()){
+            $this->addFlash('success', 'label.mail.updated');
+        }
+
+        return $this->render("FaucondorBundle:Faucondor:email.html.twig", array(
+                "form" => $form->createView()
+            )
+        );
     }
 
     public function exportlistesAction()

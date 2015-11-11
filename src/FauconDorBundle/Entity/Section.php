@@ -5,6 +5,7 @@ namespace FaucondorBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\EventDispatcher\Event;
+use UserBundle\Entity\User;
 
 /**
  * Section
@@ -47,6 +48,48 @@ class Section
     /**
      * @var string
      *
+     * @ORM\Column(name="street", type="string", length=255)
+     */
+    private $street;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="city", type="string", length=255)
+     */
+    private $city;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="website", type="string", length=255)
+     */
+    private $website;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="facebook", type="string", length=255)
+     */
+    private $facebook;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="longitude", type="integer")
+     */
+    private $longitude;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="latitude", type="integer")
+     */
+    private $latitude;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="country", type="string", length=255)
      */
     private $country;
@@ -59,9 +102,17 @@ class Section
     private $events;
 
     /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="UserBundle\Entity\User", mappedBy="section")
+     */
+    private $users;
+
+    /**
      * Constructor
      */
     public function __constructor(){
+        $this->users  = new ArrayCollection();
         $this->events = new ArrayCollection();
     }
 
@@ -206,6 +257,131 @@ class Section
      */
     public function hasParticipated(Events $event){
         return $this->events->contains($event);
+    }
+
+    /**
+     * @return string
+     */
+    public function getStreet()
+    {
+        return $this->street;
+    }
+
+    /**
+     * @param string $street
+     */
+    public function setStreet($street)
+    {
+        $this->street = $street;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCity()
+    {
+        return $this->city;
+    }
+
+    /**
+     * @param string $city
+     */
+    public function setCity($city)
+    {
+        $this->city = $city;
+    }
+
+    /**
+     * @return string
+     */
+    public function getWebsite()
+    {
+        return $this->website;
+    }
+
+    /**
+     * @param string $website
+     */
+    public function setWebsite($website)
+    {
+        $this->website = $website;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFacebook()
+    {
+        return $this->facebook;
+    }
+
+    /**
+     * @param string $facebook
+     */
+    public function setFacebook($facebook)
+    {
+        $this->facebook = $facebook;
+    }
+
+    /**
+     * @return int
+     */
+    public function getLongitude()
+    {
+        return $this->longitude;
+    }
+
+    /**
+     * @param int $longitude
+     */
+    public function setLongitude($longitude)
+    {
+        $this->longitude = $longitude;
+    }
+
+    /**
+     * @return int
+     */
+    public function getLatitude()
+    {
+        return $this->latitude;
+    }
+
+    /**
+     * @param int $latitude
+     */
+    public function setLatitude($latitude)
+    {
+        $this->latitude = $latitude;
+    }
+
+    /**
+     * @param User $user
+     * @return $this
+     */
+    public function addUser(User $user)
+    {
+        $this->users->add($user);
+
+        $user->setPost($this);
+
+        return $this;
+    }
+
+    /**
+     * @param User $user
+     */
+    public function removeUser(User $user)
+    {
+        $this->users->removeElement($user);
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getUsers()
+    {
+        return $this->users;
     }
 }
 

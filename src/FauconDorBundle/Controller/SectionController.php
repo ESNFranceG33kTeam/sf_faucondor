@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use FaucondorBundle\Entity\Section;
-use FaucondorBundle\Form\SectionType;
+use FaucondorBundle\Form\Type\SectionType;
 
 /**
  * Section controller.
@@ -25,7 +25,7 @@ class SectionController extends Controller
         /** @var EntityManager $em */
         $em = $this->getDoctrine()->getManager();
 
-        $sections = $em->getRepository('FaucondorBundle:Section')->findAll();
+        $sections = $em->getRepository('FaucondorBundle:Section')->findBy(array("country" => $this->container->getParameter('code_country')), array("name" => "ASC"));
 
         return $this->render('FaucondorBundle:Section:index.html.twig', array(
             'sections' => $sections,

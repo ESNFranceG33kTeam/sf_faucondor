@@ -137,7 +137,7 @@ table{
 	width: 100%;
 }
 
-table thead tr th{
+table thead tr th, .firstColumn{
 	color: white;
 	height: 30px;
 	background-color: rgb(35,158,200) !important;

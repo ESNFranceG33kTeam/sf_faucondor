@@ -6,7 +6,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use FaucondorBundle\Entity\Events;
-use FaucondorBundle\Form\EventsType;
+use FaucondorBundle\Form\Type\EventsType;
 
 /**
  * Events controller.

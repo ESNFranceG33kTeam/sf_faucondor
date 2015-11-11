@@ -6,8 +6,8 @@
     <div class="tables">
         <table id="participations" class="datatable">
             <thead>
-                <tr class=".firstColumn">
-                    <td>{{ 'label.menu.sections'|trans }}</td>
+                <tr>
+                    <th>{{ 'label.menu.sections'|trans }}</th>
 
                     {% for event in events %}
                         <th>{{ event.name }}</th>
@@ -18,7 +18,7 @@
             <tbody>
             {% for section in sections %}
                 <tr>
-                    <td class=".firstColumn">{{ section.name }}</td>
+                    <td class="firstColumn">{{ section.name }}</td>
 
                     {% for event in events %}
                         {% if section.joindate > event.start %}

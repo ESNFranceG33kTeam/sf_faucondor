@@ -11,9 +11,11 @@ label.menu.hello: Hello
 label.menu.board: Update board
 label.menu.events: Events
 label.menu.sections: Sections
+label.menu.users: Users
 label.menu.rl: Email Local Representativ
 label.menu.listes: Export Listes
 label.back.list: Back to the list
+label.menu.email: Email to local representative
 entity.section.name: Name
 entity.section.joindate: Joindate
 entity.section.actions: Actions
@@ -26,3 +28,11 @@ entity.event.end: End
 entity.event.new: New event
 section.event.removed: %event% has been removed of %section% section
 section.event.added: %event% has been added of %section% section
+entity.user.firstname: Firstname
+entity.user.lastname: Lastname
+entity.user.mobile: Mobile
+entity.user.email: Email
+entity.user.post: Post
+entity.user.section: Section
+entity.user.new: New User
+label.email.updated: Email Uptated

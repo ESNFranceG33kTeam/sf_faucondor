@@ -2,7 +2,9 @@
 
 namespace UserBundle\Controller;
 
+use FaucondorBundle\Entity\Section;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
@@ -24,15 +26,16 @@ class LoginController extends Controller
         $cas_server = $this->container->getParameter('cas_server');
         $cas_port = $this->container->getParameter('cas_port');
         $cas_path = $this->container->getParameter('cas_path');
-        $code_section = $this->container->getParameter('code_section');
+        $code_country = $this->container->getParameter('code_country');
 
         /** @var UserProvider $up */
-        $up = new UserProvider($cas_server, $cas_path, $cas_port);
+        //$up = new UserProvider($cas_server, $cas_path, $cas_port);
 
-        $user_cas = $up->loadGalaxyUser();
-
-        if ($user_cas != null && $user_cas->getSc() == $code_section){
-            $user_db = $em->getRepository("UserBundle:User")->findOneBy(array("email" => $user_cas->getEmail()));
+        //$user_cas = $up->loadGalaxyUser();
+        $user_cas = "aneta";
+        //if ($user_cas != null && $user_cas->getCountry() == $code_country){
+        if ($user_cas != null ){
+            $user_db = $em->getRepository("UserBundle:User")->findOneBy(array("email" => "jeremie.samson@ix.esnlille.fr"));
 
             //Check
             if (!$user_db)
@@ -40,6 +43,14 @@ class LoginController extends Controller
 
             $user = (!$user_db) ? new User() : $user_db;
 
+            /** @var Section $section */
+            $section = $em->getRepository("FaucondorBundle:Section")->findOneBy(array("code" => $user_cas->getSc()));
+
+            if (!$section){
+                throw new Exception('Section not found');
+            }
+
+            /*
             $user->setUsername($user_cas->getEmail());
             $user->setUsernameCanonical($user_cas->getEmail());
             $user->setEmail($user_cas->getEmail());
@@ -48,10 +59,10 @@ class LoginController extends Controller
             $user->setLastname($user_cas->getLastname());
             $user->setBirthdate(\DateTime::createFromFormat("d/m/Y", $user_cas->getBirthdate()));
             $user->setGender($user_cas->getGender());
-            $user->setSection($user_cas->getSection());
-            $user->setCodeSection($user_cas->getSc());
+            $section->addUser($user);
             $user->setGalaxyPicture($user_cas->getPicture());
             $user->setMobile($user_cas->getTelephone());
+            */
 
             if (!$user_db) {
                 $user->setEnabled(true);
@@ -82,7 +93,7 @@ class LoginController extends Controller
         $translator = new Translator('fr_FR');
         $this->addFlash('error ', $translator->trans('label.error.login'));
 
-        return $this->redirect($this->generateUrl('index'));
+        return $this->redirect($this->generateUrl('faucondor_login'));
     }
 
     public function logoutAction(){

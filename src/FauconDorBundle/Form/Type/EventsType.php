@@ -1,12 +1,12 @@
 <?php
 
-namespace FaucondorBundle\Form;
+namespace FaucondorBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class SectionType extends AbstractType
+class EventsType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -16,9 +16,8 @@ class SectionType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('joindate')
-            ->add('code')
-            ->add('country')
+            ->add('start')
+            ->add('end')
         ;
     }
     
@@ -28,7 +27,7 @@ class SectionType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'FaucondorBundle\Entity\Section'
+            'data_class' => 'FaucondorBundle\Entity\Events'
         ));
     }
 
@@ -37,6 +36,6 @@ class SectionType extends AbstractType
      */
     public function getName()
     {
-        return 'faucondorbundle_section';
+        return 'faucondorbundle_events';
     }
 }

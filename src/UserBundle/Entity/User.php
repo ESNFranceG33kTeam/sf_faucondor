@@ -9,6 +9,9 @@ namespace UserBundle\Entity;
  * Time: 22:22
  */
 
+use Doctrine\Common\Collections\ArrayCollection;
+use FaucondorBundle\Entity\Post;
+use FaucondorBundle\Entity\Section;
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -70,20 +73,6 @@ class User extends BaseUser
     /**
      * @var string
      *
-     * @ORM\Column(name="section", type="string", length=255, nullable=true)
-     */
-    private $section;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="code_section", type="string", length=255, nullable=true)
-     */
-    private $code_section;
-
-    /**
-     * @var string
-     *
      * @ORM\Column(name="galaxy_picture", type="string", length=255, nullable=true)
      */
     private $galaxy_picture;
@@ -109,9 +98,25 @@ class User extends BaseUser
      */
     private $mobile;
 
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\ManyToMany(targetEntity="FaucondorBundle\Entity\Post")
+     */
+    private $posts;
+
+    /**
+     * @var Section
+     *
+     * @ORM\ManyToOne(targetEntity="FaucondorBundle\Entity\Section", inversedBy="users")
+     */
+    private $section;
+
     public function __construct()
     {
         parent::__construct();
+
+        $this->posts = new ArrayCollection();
     }
 
     /**
@@ -216,38 +221,6 @@ class User extends BaseUser
     public function setGalaxyRoles($galaxy_roles)
     {
         $this->galaxy_roles = $galaxy_roles;
-    }
-
-    /**
-     * @return string
-     */
-    public function getSection()
-    {
-        return $this->section;
-    }
-
-    /**
-     * @param string $section
-     */
-    public function setSection($section)
-    {
-        $this->section = $section;
-    }
-
-    /**
-     * @return string
-     */
-    public function getCodeSection()
-    {
-        return $this->code_section;
-    }
-
-    /**
-     * @param string $code_section
-     */
-    public function setCodeSection($code_section)
-    {
-        $this->code_section = $code_section;
     }
 
     /**
@@ -415,8 +388,52 @@ class User extends BaseUser
         return in_array('National.representative', explode(',', $this->getGalaxyRoles()));
     }
 
+    /**
+     * @return string
+     */
     public function __toString(){
         return $this->firstname . " " . strtoupper($this->lastname);
     }
 
+    /**
+     * @param Post $post
+     * @return $this
+     */
+    public function addPost(Post $post){
+        $this->posts->add($post);
+
+        return $this;
+    }
+
+    /**
+     * @param Post $post
+     */
+    public function removePost(Post $post){
+        $this->posts->removeElement($post);
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getPosts()
+    {
+        return $this->posts;
+    }
+
+
+    /**
+     * @return Section
+     */
+    public function getSection()
+    {
+        return $this->section;
+    }
+
+    /**
+     * @param Section $section
+     */
+    public function setSection($section)
+    {
+        $this->section = $section;
+    }
 }
