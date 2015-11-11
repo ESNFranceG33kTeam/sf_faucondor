@@ -1,0 +1,76 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>User</h1>
+
+    <table class="record_properties">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ entity.id }}</td>
+            </tr>
+            <tr>
+                <th>Firstname</th>
+                <td>{{ entity.firstname }}</td>
+            </tr>
+            <tr>
+                <th>Lastname</th>
+                <td>{{ entity.lastname }}</td>
+            </tr>
+            <tr>
+                <th>Address</th>
+                <td>{{ entity.address }}</td>
+            </tr>
+            <tr>
+                <th>City</th>
+                <td>{{ entity.city }}</td>
+            </tr>
+            <tr>
+                <th>Zipcode</th>
+                <td>{{ entity.zipcode }}</td>
+            </tr>
+            <tr>
+                <th>Galaxy_roles</th>
+                <td>{{ entity.galaxyroles }}</td>
+            </tr>
+            <tr>
+                <th>Section</th>
+                <td>{{ entity.section }}</td>
+            </tr>
+            <tr>
+                <th>Code_section</th>
+                <td>{{ entity.codesection }}</td>
+            </tr>
+            <tr>
+                <th>Galaxy_picture</th>
+                <td>{{ entity.galaxypicture }}</td>
+            </tr>
+            <tr>
+                <th>Birthdate</th>
+                <td>{{ entity.birthdate|date('Y-m-d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>Gender</th>
+                <td>{{ entity.gender }}</td>
+            </tr>
+            <tr>
+                <th>Mobile</th>
+                <td>{{ entity.mobile }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('user') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('user_edit', { 'id': entity.id }) }}">
+            Edit
+        </a>
+    </li>
+    <li>{{ form(delete_form) }}</li>
+</ul>
+{% endblock %}
