@@ -5,7 +5,9 @@ namespace FaucondorBundle\Controller;
 use Doctrine\ORM\EntityManager;
 use FaucondorBundle\Entity\Events;
 use FaucondorBundle\Entity\Section;
+use FaucondorBundle\Form\Handler\BoardHandler;
 use FaucondorBundle\Form\Handler\MailHandler;
+use FaucondorBundle\Form\Type\BoardType;
 use FaucondorBundle\Form\Type\MailType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -95,8 +97,28 @@ class FaucondorController extends Controller
         ));
     }
 
-    public function editBoardAction()
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function editBoardAction(Request $request)
     {
+        /** @var EntityManager $em */
+        $em = $this->getDoctrine()->getManager();
+
+        $form = $this->createForm(new BoardType());
+        $formHandler = new BoardHandler($em, $form, $request);
+        $form->handleRequest($request);
+
+        if ($formHandler->process()){
+            $this->addFlash('success', 'label.mail.updated');
+        }
+
+        return $this->render("FaucondorBundle:Faucondor:email.html.twig", array(
+                "form" => $form->createView()
+            )
+        );
+
         return $this->render('FaucondorBundle:Faucondor:board.html.twig');
     }
 

@@ -420,6 +420,15 @@ class User extends BaseUser
         return $this->posts;
     }
 
+    /**
+     * Reinit posts
+     */
+    public function resetPosts(){
+        foreach($this->getPosts() as $post){
+            $this->removePost($post);
+        }
+    }
+
 
     /**
      * @return Section

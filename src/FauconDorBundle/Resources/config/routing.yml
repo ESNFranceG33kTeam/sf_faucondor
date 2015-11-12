@@ -2,6 +2,10 @@ faucondor_events:
     resource: "@FaucondorBundle/Resources/config/routing/events.yml"
     prefix:   /events
 
+faucondor_board:
+    resource: "@FaucondorBundle/Resources/config/routing/board.yml"
+    prefix:   /board
+
 faucondor_homepage:
     path:     /
     defaults: { _controller: FaucondorBundle:Faucondor:index }

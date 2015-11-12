@@ -2,6 +2,7 @@
 
 namespace UserBundle\Controller;
 
+use FaucondorBundle\Entity\Post;
 use FaucondorBundle\Entity\Section;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Config\Definition\Exception\Exception;
@@ -29,13 +30,12 @@ class LoginController extends Controller
         $code_country = $this->container->getParameter('code_country');
 
         /** @var UserProvider $up */
-        //$up = new UserProvider($cas_server, $cas_path, $cas_port);
+        $up = new UserProvider($cas_server, $cas_path, $cas_port);
 
-        //$user_cas = $up->loadGalaxyUser();
-        $user_cas = "aneta";
-        //if ($user_cas != null && $user_cas->getCountry() == $code_country){
-        if ($user_cas != null ){
-            $user_db = $em->getRepository("UserBundle:User")->findOneBy(array("email" => "jeremie.samson@ix.esnlille.fr"));
+        $user_cas = $up->loadGalaxyUser();
+
+        if ($user_cas != null && $user_cas->getNationality() == $code_country){
+            $user_db = $em->getRepository("UserBundle:User")->findOneBy(array("email" => $user_cas->getEmail()));
 
             //Check
             if (!$user_db)
@@ -50,7 +50,6 @@ class LoginController extends Controller
                 throw new Exception('Section not found');
             }
 
-            /*
             $user->setUsername($user_cas->getEmail());
             $user->setUsernameCanonical($user_cas->getEmail());
             $user->setEmail($user_cas->getEmail());
@@ -59,18 +58,46 @@ class LoginController extends Controller
             $user->setLastname($user_cas->getLastname());
             $user->setBirthdate(\DateTime::createFromFormat("d/m/Y", $user_cas->getBirthdate()));
             $user->setGender($user_cas->getGender());
-            $section->addUser($user);
             $user->setGalaxyPicture($user_cas->getPicture());
             $user->setMobile($user_cas->getTelephone());
-            */
+
+            $roles = $user_cas->getRoles();
+            $user->resetPosts();
+
+            foreach($roles as $role_galaxy){
+
+                if (strpos($role_galaxy, '.') !== false){
+
+                    $tab = explode('.', $role_galaxy);
+
+                    $level = $tab[0];
+                    $role = $tab[1];
+
+                    /** @var Post $role_db */
+                    $role_db = $em->getRepository('FaucondorBundle:Post')->findOneBy(array("role" => $role, "level" => $level));
+
+                    if ($role_db){
+                        $user->addPost($role_db);
+                    }else{
+                        $post = new Post();
+                        $post->setName($role);
+                        $post->setLevel($level);
+                        $post->setRole($role);
+
+                        $em->persist($post);
+
+                        $user->addPost($post);
+                    }
+
+                    $em->flush();
+                }
+            }
 
             if (!$user_db) {
                 $user->setEnabled(true);
-                $user->setUsername($user_cas->getEmail());
-                $user->setUsernameCanonical($user_cas->getEmail());
-                $user->setEmail($user_cas->getEmail());
                 $user->setRoles(array('ROLE_USER'));
                 $user->setRandomPassword();
+                $section->addUser($user);
                 $em->persist($user);
             }
 

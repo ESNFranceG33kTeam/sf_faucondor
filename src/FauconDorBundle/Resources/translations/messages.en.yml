@@ -36,3 +36,4 @@ entity.user.post: Post
 entity.user.section: Section
 entity.user.new: New User
 label.email.updated: Email Uptated
+entity.board.new: New Board Member
