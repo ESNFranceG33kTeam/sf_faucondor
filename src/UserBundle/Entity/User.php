@@ -313,7 +313,7 @@ class User extends BaseUser
      * @return bool
      */
     public function isVP(){
-        return in_array('Local.vicePresident', explode(',', $this->getGalaxyRoles()));
+        return $this->hasPermission("local", "vicePresident");
     }
 
     /**
@@ -322,7 +322,7 @@ class User extends BaseUser
      * @return bool
      */
     public function isTreasurer(){
-        return in_array('Local.treasurer', explode(',', $this->getGalaxyRoles()));
+        return $this->hasPermission("local", "treasurer");
     }
 
     /**
@@ -331,7 +331,7 @@ class User extends BaseUser
      * @return bool
      */
     public function isRL(){
-        return in_array('Local.localRepresentative', explode(',', $this->getGalaxyRoles()));
+        return $this->hasPermission("local", "localRepresentative");
     }
 
     /**
@@ -340,7 +340,7 @@ class User extends BaseUser
      * @return bool
      */
     public function isWebmaster(){
-        return in_array('Local.webmaster', explode(',', $this->getGalaxyRoles()));
+        return $this->hasPermission("local", "webmaster");
     }
 
     /**
@@ -349,7 +349,7 @@ class User extends BaseUser
      * @return bool
      */
     public function isPresident(){
-        return in_array('Local.president', explode(',', $this->getGalaxyRoles()));
+        return $this->hasPermission("local", "president");
     }
 
     /**
@@ -358,7 +358,7 @@ class User extends BaseUser
      * @return bool
      */
     public function isActiveMember(){
-        return in_array('Local.activeMember', explode(',', $this->getGalaxyRoles()));
+        return $this->hasPermission("local", "activeMember");
     }
 
     /**
@@ -367,7 +367,7 @@ class User extends BaseUser
      * @return bool
      */
     public function isChair(){
-        return in_array('National.projectCoordinator', explode(',', $this->getGalaxyRoles()));
+        return $this->hasPermission("national", "projectCoordinator");
     }
 
     /**
@@ -376,7 +376,7 @@ class User extends BaseUser
      * @return bool
      */
     public function isNationalVP(){
-        return in_array('National.vicePresident', explode(',', $this->getGalaxyRoles()));
+        return $this->hasPermission("national", "vicePresident");
     }
 
     /**
@@ -385,7 +385,7 @@ class User extends BaseUser
      * @return bool
      */
     public function isNationalNR(){
-        return in_array('National.representative', explode(',', $this->getGalaxyRoles()));
+        return $this->hasPermission("national", "representative");
     }
 
     /**
@@ -393,6 +393,23 @@ class User extends BaseUser
      */
     public function __toString(){
         return $this->firstname . " " . strtoupper($this->lastname);
+    }
+
+    /**
+     * @param $level
+     * @param $role
+     * @return bool
+     */
+    public function hasPermission($level, $role){
+        if ($this->isSuperAdmin()) return true;
+
+        /** @var Post $post */
+        foreach($this->getPosts() as $post){
+            if (strtolower($post->getLevel()) == strtolower($level) && strtolower($post->getRole()) == strtolower($role))
+                return true;
+        }
+
+        return false;
     }
 
     /**
