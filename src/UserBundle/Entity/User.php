@@ -462,4 +462,20 @@ class User extends BaseUser
     {
         $this->section = $section;
     }
+
+    public function getAnnuairePosts(){
+        $posts = new ArrayCollection();
+
+        /** @var Post $post */
+        foreach($this->getPosts() as $post){
+            if ($post->isLocal()
+                && strtolower($post->getRole()) != "regularboardember"
+                && strtolower($post->getRole()) != "activemember"){
+                $posts->add($post);
+            }
+        }
+
+        return $posts;
+
+    }
 }

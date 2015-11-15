@@ -123,5 +123,13 @@ class Post
     {
         $this->level = $level;
     }
+
+    public function isLocal(){
+        return strtolower($this->getLevel()) == "local";
+    }
+
+    public function isNational(){
+        return strtolower($this->getLevel()) == "national";
+    }
 }
 

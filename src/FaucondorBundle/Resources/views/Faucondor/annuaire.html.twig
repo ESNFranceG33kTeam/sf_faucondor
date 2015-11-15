@@ -23,9 +23,9 @@
                         <td>{{ user.email }}</td>
                         <td>
                             {% spaceless %}
-                                {% for post in user.posts %}
-                                    {{ post }}
-                                    {% if not loop.last %},{% endif %}
+                                {% for post in user.getAnnuairePosts %}
+                                        {{ post }}
+                                    {% if not loop.last %}<br>{% endif %}
                                 {% endfor %}
                             {% endspaceless %}
                         </td>
