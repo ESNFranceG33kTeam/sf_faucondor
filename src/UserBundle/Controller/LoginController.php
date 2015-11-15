@@ -24,13 +24,13 @@ class LoginController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
         $user_cas = null;
 
-        $cas_server = $this->container->getParameter('cas_server');
+        $cas_host = $this->container->getParameter('cas_host');
         $cas_port = $this->container->getParameter('cas_port');
-        $cas_path = $this->container->getParameter('cas_path');
+        $cas_context = $this->container->getParameter('cas_context');
         $code_country = $this->container->getParameter('code_country');
 
         /** @var UserProvider $up */
-        $up = new UserProvider($cas_server, $cas_path, $cas_port);
+        $up = new UserProvider($cas_host, $cas_context, $cas_port);
 
         $user_cas = $up->loadGalaxyUser();
 

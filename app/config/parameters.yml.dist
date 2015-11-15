@@ -20,9 +20,9 @@ parameters:
     secret:            ThisTokenIsNotSoSecretChangeIt
 
     #CAS
-    cas_host:          ~
-    cas_context:       ~
-    cas_port:          ~
+    cas_host:          galaxy.esn.org
+    cas_context:       cas
+    cas_port:          443
 
     #Country
     code_country:      ~

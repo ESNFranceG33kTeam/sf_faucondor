@@ -35,7 +35,7 @@ class ImportSectionCommand extends ContainerAwareCommand
 
         $doc = new \DOMDocument();
 
-        $output->writeln('<comment>Loading accounts from file ...</comment>');
+        $output->writeln('<comment>Loading sections from file ...</comment>');
 
         if ($doc->load($sectionsFile)){
             $sections_xml = $doc->getElementsByTagName('section');

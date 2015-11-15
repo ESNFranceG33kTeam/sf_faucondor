@@ -22,18 +22,18 @@ class UserProvider implements UserProviderInterface
      */
     protected $cas;
 
-    public function __construct($cas_server, $cas_path, $cas_port){
+    public function __construct($cas_host, $cas_context, $cas_port){
         $this->cas = array(
-            "server" => $cas_server,
+            "host" => $cas_host,
             "port" => $cas_port,
-            "path" => $cas_path
+            "context" => $cas_context
         );
     }
 
     public function loadUserByUsername($username)
     {
         phpCAS::setDebug();
-        phpCAS::client(CAS_VERSION_2_0, $this->cas["server"], $this->cas["port"], $this->cas["path"], false);
+        phpCAS::client(CAS_VERSION_2_0, $this->cas["host"], $this->cas["port"], $this->cas["context"], false);
         phpCAS::setNoCasServerValidation();
         phpCAS::forceAuthentication();
 
@@ -56,7 +56,7 @@ class UserProvider implements UserProviderInterface
     public function loadGalaxyUser()
     {
         phpCAS::setDebug();
-        phpCAS::client(CAS_VERSION_2_0, $this->cas["server"], $this->cas["port"], $this->cas["path"], false);
+        phpCAS::client(CAS_VERSION_2_0, $this->cas["host"], $this->cas["port"], $this->cas["context"], false);
         phpCAS::setNoCasServerValidation();
         phpCAS::forceAuthentication();
 

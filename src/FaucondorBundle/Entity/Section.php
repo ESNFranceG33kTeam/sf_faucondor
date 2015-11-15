@@ -363,7 +363,7 @@ class Section
     {
         $this->users->add($user);
 
-        $user->setPost($this);
+        $user->setSection($this);
 
         return $this;
     }
