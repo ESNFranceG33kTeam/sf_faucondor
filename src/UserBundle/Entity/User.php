@@ -10,13 +10,14 @@ namespace UserBundle\Entity;
  */
 
 use Doctrine\Common\Collections\ArrayCollection;
+use FaucondorBundle\Entity\Committee;
 use FaucondorBundle\Entity\Post;
 use FaucondorBundle\Entity\Section;
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="UserBundle\Entity\UserRepository")
  * @ORM\Table(name="fo_user")
  */
 class User extends BaseUser
@@ -366,8 +367,17 @@ class User extends BaseUser
      *
      * @return bool
      */
-    public function isChair(){
+    public function isNationalChair(){
         return $this->hasPermission("national", "projectCoordinator");
+    }
+
+    /**
+     * Check if user is national Comity Chair
+     *
+     * @return bool
+     */
+    public function isInternationalChair(){
+        return $this->hasPermission("international", "projectCoordinator");
     }
 
     /**
@@ -476,6 +486,68 @@ class User extends BaseUser
         }
 
         return $posts;
+    }
 
+    public function isLocalBoardMember(){
+        /** @var Post $post */
+        foreach($this->getPosts() as $post){
+            if ($post->isLocal() && $post->isBoardMember()) return true;
+        }
+
+        return false;
+    }
+
+    public function getLocalBoardPost(){
+        /** @var Post $post */
+        foreach($this->getPosts() as $post){
+            if ($post->isLocal() && $post->isBoardMember()) return $post;
+        }
+
+        return false;
+    }
+
+    public function isNationalBoardMember(){
+        /** @var Post $post */
+        foreach($this->getPosts() as $post){
+            if ($post->isNational() && $post->isBoardMember()) return true;
+        }
+
+        return false;
+    }
+
+    public function getNationalCommitteePost(){
+        /** @var Post $post */
+        foreach($this->getPosts() as $post){
+            if ($post->isNational() && $post->isChair()) return $post;
+        }
+
+        return false;
+    }
+
+    public function getNationalBoardPost(){
+        /** @var Post $post */
+        foreach($this->getPosts() as $post){
+            if ($post->isNational() && $post->isBoardMember()) return $post;
+        }
+
+        return false;
+    }
+
+    public function isInternationalBoardMember(){
+        /** @var Post $post */
+        foreach($this->getPosts() as $post){
+            if ($post->isInternational() && $post->isBoardMember()) return true;
+        }
+
+        return false;
+    }
+
+    public function getInternationalBoardPost(){
+        /** @var Post $post */
+        foreach($this->getPosts() as $post){
+            if ($post->isInternational() && $post->isBoardMember()) return $post;
+        }
+
+        return false;
     }
 }

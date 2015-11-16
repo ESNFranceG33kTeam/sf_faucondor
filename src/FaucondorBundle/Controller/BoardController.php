@@ -2,7 +2,9 @@
 
 namespace FaucondorBundle\Controller;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
+use FaucondorBundle\Entity\Committee;
 use FaucondorBundle\Form\Type\BoardType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -29,10 +31,41 @@ class BoardController extends Controller
         /** @var User $user */
         $user = $this->getUser();
 
-        $board_member = $em->getRepository('UserBundle:User')->findBy(array("section" => $user->getSection()));
+        $users = new ArrayCollection();
+
+        //Local Board Members
+        if ($user->isLocalBoardMember()){
+            $board_members = $em->getRepository('UserBundle:User')->findUsersByPost($user->getLocalBoardPost());
+            foreach($board_members as $board_member){
+                $users->add($board_member);
+            }
+        }
+
+
+        //National Board Members
+        if ($user->isNationalBoardMember()){
+            $board_members = $em->getRepository('UserBundle:User')->findUsersByPost($user->getNationalBoardPost());
+            foreach($board_members as $board_member){
+                $users->add($board_member);
+            }
+        }
+
+        //National Committee Members
+        if ($user->isNationalChair()){
+            /** @var Committee $committee */
+            $committee = $em->getRepository('FaucondorBundle:Committee')->findOneBy(array("chair" => $user));
+            $board_members = $committee->getUsers();
+            foreach($board_members as $board_member){
+                $users->add($board_member);
+            }
+        }
+
+        if (count($users) == 0){
+            throw $this->createNotFoundException('No members, faucondor system error');
+        }
 
         return $this->render('FaucondorBundle:Board:index.html.twig', array(
-            'board_members' => $board_member,
+            'board_members' => $users,
         ));
     }
     /**

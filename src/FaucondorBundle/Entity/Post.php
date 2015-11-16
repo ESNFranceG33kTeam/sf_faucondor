@@ -45,13 +45,6 @@ class Post
     private $level;
 
     /**
-     * Constructor
-     */
-    public function __construct(){
-        $this->users = new ArrayCollection();
-    }
-
-    /**
      * ToString
      */
     public function __toString(){
@@ -131,5 +124,18 @@ class Post
     public function isNational(){
         return strtolower($this->getLevel()) == "national";
     }
+
+    public function isChair(){
+        return strtolower($this->getRole()) == "projectcoordinator";
+    }
+
+    public function isInternational(){
+        return strtolower($this->getLevel()) == "international";
+    }
+
+    public function isBoardMember(){
+        return strtolower($this->getRole()) == "regularboardmember";
+    }
+
 }
 

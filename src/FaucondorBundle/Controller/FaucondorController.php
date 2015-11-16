@@ -46,8 +46,8 @@ class FaucondorController extends Controller
      * @param $event_id
      * @return JsonResponse
      */
-    public function sectionEventAction($section_id, $event_id){
-        if (!$this->getRequest()->isXmlHttpRequest()) {
+    public function sectionEventAction(Request $request, $section_id, $event_id){
+        if (!$request->isXmlHttpRequest()) {
             throw $this->createNotFoundException();
         }
 
