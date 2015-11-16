@@ -469,7 +469,7 @@ class User extends BaseUser
         /** @var Post $post */
         foreach($this->getPosts() as $post){
             if ($post->isLocal()
-                && strtolower($post->getRole()) != "regularboardember"
+                && strtolower($post->getRole()) != "regularboardmember"
                 && strtolower($post->getRole()) != "activemember"){
                 $posts->add($post);
             }
