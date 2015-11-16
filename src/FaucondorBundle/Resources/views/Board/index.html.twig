@@ -8,39 +8,60 @@
     </p>
 
     <div class="tables">
-        <table class="sections datatable">
+        <table class="board">
             <thead>
                 <tr class=".firstColumn">
                     <th>{{ 'entity.user.firstname'|trans }}</th>
                     <th>{{ 'entity.user.lastname'|trans }}</th>
                     <th>{{ 'entity.user.email'|trans }}</th>
-                    <th>{{ 'entity.user.mobile'|trans }}</th>
                     <th>{{ 'entity.user.post'|trans }}</th>
+                    <th>{{ 'entity.user.type'|trans }}</th>
                     <th>{{ 'entity.section.actions'|trans }}</th>
                 </tr>
             </thead>
             <tbody>
-            {% for user in board_members %}
-                <tr>
-                    <td>{{ user.firstname }}</td>
-                    <td>{{ user.lastname }}</td>
-                    <td><a href="{{ path('board_show', { 'id': user.id }) }}">{{ user.email }}</a></td>
-                    <td>{{ user.mobile }}</td>
-                    <td>
-                        {% spaceless %}
-                            {% for post in user.posts %}
-                                {{ post }}
-                                {% if not loop.last %},{% endif %}
-                            {% endfor %}
-                        {% endspaceless %}
-                    </td>
-                    <td>
-                        <a href="{{ path('board_edit', { 'id': user.id }) }}"><i class="fa fa-pencil-square-o"></i></a>
-                    </td>
-                </tr>
+            {% for type, array in board_members %}
+                {% for key, user in array %}
+                    <tr>
+                        <td>{{ user.firstname }}</td>
+                        <td>{{ user.lastname }}</td>
+                        <td><a href="{{ path('board_show', { 'id': user.id }) }}">{{ user.email }}</a></td>
+                        <td>
+                            {% spaceless %}
+                                {% if type != "committee" %}
+                                    {% for post in user.getPostsByLevel(type) %}
+                                        {{ post }}
+                                        {% if not loop.last %},{% endif %}
+                                    {% endfor %}
+                                {% else %}
+                                    {% if app.user.id == user.id %}
+                                        {{ 'entity.user.chair'|trans }}
+                                    {% else %}
+                                        {{ 'entity.user.member'|trans }}
+                                    {% endif %}
+                                {% endif %}
+                            {% endspaceless %}
+                        </td>
+                        <td>{{ type }}</td>
+                        <td>
+                            <a href="{{ path('board_edit', { 'id': user.id }) }}"><i class="fa fa-pencil-square-o"></i></a>
+                        </td>
+                    </tr>
+                {% endfor %}
             {% endfor %}
             </tbody>
         </table>
     </div>
 
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        $('.board').DataTable({
+            "bInfo": false,
+            "bPaginate": false,
+            "oLanguage": { "sSearch": "" },
+            "order": [[ 5, "desc" ]]
+        });
+    </script>
 {% endblock %}

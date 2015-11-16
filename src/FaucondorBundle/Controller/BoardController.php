@@ -31,13 +31,15 @@ class BoardController extends Controller
         /** @var User $user */
         $user = $this->getUser();
 
-        $users = new ArrayCollection();
+        $users = array();
 
         //Local Board Members
         if ($user->isLocalBoardMember()){
             $board_members = $em->getRepository('UserBundle:User')->findUsersByPost($user->getLocalBoardPost());
+            $users[$user->getLocalBoardPost()->getName()] = array();
+
             foreach($board_members as $board_member){
-                $users->add($board_member);
+                $users[$user->getLocalBoardPost()->getName()][] = $board_member;
             }
         }
 
@@ -45,8 +47,9 @@ class BoardController extends Controller
         //National Board Members
         if ($user->isNationalBoardMember()){
             $board_members = $em->getRepository('UserBundle:User')->findUsersByPost($user->getNationalBoardPost());
+            $users[$user->getNationalBoardPost()->getName()] = array();
             foreach($board_members as $board_member){
-                $users->add($board_member);
+                $users[$user->getNationalBoardPost()->getName()][] = $board_member;
             }
         }
 
@@ -54,9 +57,10 @@ class BoardController extends Controller
         if ($user->isNationalChair()){
             /** @var Committee $committee */
             $committee = $em->getRepository('FaucondorBundle:Committee')->findOneBy(array("chair" => $user));
+            $users["committee"] = array();
             $board_members = $committee->getUsers();
             foreach($board_members as $board_member){
-                $users->add($board_member);
+                $users["committee"][] = $board_member;
             }
         }
 

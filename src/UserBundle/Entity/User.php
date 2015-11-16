@@ -473,16 +473,39 @@ class User extends BaseUser
         $this->section = $section;
     }
 
-    public function getAnnuairePosts(){
+    /**
+     * @return ArrayCollection
+     */
+    public function getAnnuairePosts($level){
         $posts = new ArrayCollection();
 
         /** @var Post $post */
         foreach($this->getPosts() as $post){
-            if ($post->isLocal()
+            if (strtolower($post->getLevel()) == $level
                 && strtolower($post->getRole()) != "regularboardmember"
-                && strtolower($post->getRole()) != "activemember"){
+                && strtolower($post->getRole()) != "activemember"
+                && strtolower($post->getRole()) != "projectcoordinator")
+            {
                 $posts->add($post);
             }
+        }
+
+        return $posts;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getPostsByLevel($level){
+        $posts = new ArrayCollection();
+
+        switch($level){
+            case "localBoardMember" :
+                $posts = $this->getAnnuairePosts("local");
+                break;
+            case "nationalBoardMember" :
+                $posts = $this->getAnnuairePosts("national");
+                break;
         }
 
         return $posts;
