@@ -10,4 +10,10 @@ namespace FaucondorBundle\Entity;
  */
 class PostRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findAll(){
+        return $this->createQueryBuilder('p')
+            ->orderBy('p.name', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 }

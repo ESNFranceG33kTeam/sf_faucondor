@@ -4,6 +4,7 @@ namespace FaucondorBundle\Controller;
 
 use Doctrine\ORM\EntityManager;
 use FaucondorBundle\Entity\Events;
+use FaucondorBundle\Entity\Post;
 use FaucondorBundle\Entity\Section;
 use FaucondorBundle\Form\Handler\BoardHandler;
 use FaucondorBundle\Form\Handler\MailHandler;
@@ -13,6 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use UserBundle\Entity\User;
 
 class FaucondorController extends Controller
 {
@@ -147,6 +149,34 @@ class FaucondorController extends Controller
 
     public function exportlistesAction()
     {
-        return $this->render('FaucondorBundle:Faucondor:export.html.twig');
+        /** @var EntityManager $em */
+        $em = $this->getDoctrine()->getManager();
+
+        $posts_users = array();
+
+        $posts = $em->getRepository('FaucondorBundle:Post')->findAll();
+        /** @var Post $post */
+        foreach($posts as $post){
+            $users = $em->getRepository('UserBundle:User')->findUsersByPost($post);
+
+            if (count($users) > 0){
+                $posts_users[$post->getName()] = array();
+
+                $users_str = "";
+                /** @var User $user */
+                foreach($users as $user){
+                    if ($user->getEmail())
+                        $users_str .= $user->getEmail() . ", ";
+                }
+
+                $users_str = substr($users_str, 0, -2);
+                $posts_users[$post->getName()] = $users_str;
+            }
+        }
+
+        return $this->render('FaucondorBundle:Faucondor:export.html.twig', array(
+                "posts_users" => $posts_users
+            )
+        );
     }
 }

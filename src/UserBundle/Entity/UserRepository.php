@@ -15,6 +15,7 @@ class UserRepository extends \Doctrine\ORM\EntityRepository
         return $this->createQueryBuilder('u')
             ->innerJoin('u.posts', 'p', 'WITH', 'p.id = :post')
             ->setParameter('post', $post->getId())
+            ->orderBy('u.firstname, u.lastname', 'ASC')
             ->getQuery()
             ->getResult();
     }

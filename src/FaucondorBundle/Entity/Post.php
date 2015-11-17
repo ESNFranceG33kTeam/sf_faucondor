@@ -14,6 +14,10 @@ use UserBundle\Entity\User;
  */
 class Post
 {
+    const LOCAL = "local";
+    const NATIONAL = "national";
+    const INTERNATIONAL = "international";
+
     /**
      * @var integer
      *

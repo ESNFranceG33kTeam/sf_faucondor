@@ -23,7 +23,7 @@
                         <td>{{ user.email }}</td>
                         <td>
                             {% spaceless %}
-                                {% for post in user.getAnnuairePosts %}
+                                {% for post in user.getAnnuairePosts(constant('\\FaucondorBundle\\Entity\\Post::LOCAL')) %}
                                         {{ post }}
                                     {% if not loop.last %}<br>{% endif %}
                                 {% endfor %}
