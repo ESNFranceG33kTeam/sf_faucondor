@@ -7,6 +7,11 @@ $( document ).ready(function() {
         "bPaginate": false,
         "oLanguage": { "sSearch": "" }
     });
+
+    $(".datepicker").datepicker({
+        dateFormat: 'dd/mm/yy'
+    });
+    $('select').select2();
 });
 
 function validateAddEvent(){

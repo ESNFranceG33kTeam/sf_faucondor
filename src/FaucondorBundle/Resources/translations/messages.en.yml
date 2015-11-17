@@ -1,5 +1,7 @@
 label.error.login: Error, you are not login
 label.success.login: Authentification successful
+committee.success.delete: Committee successfully deleted
+committee.success.update: Committee successfully updated
 label.logout: Logout
 label.login: Login
 label.button.delete: Delete
@@ -12,11 +14,12 @@ label.menu.board: Update board
 label.menu.events: Events
 label.menu.sections: Sections
 label.menu.users: Users
-label.menu.rl: Email Local Representativ
+label.menu.rl: Email Local Representative
 label.menu.listes: Export Listes
 label.back.list: Back to the list
 label.menu.email: Email to local representative
 label.menu.export: Export lists
+label.menu.committee: Committee
 entity.section.name: Name
 entity.section.joindate: Joindate
 entity.section.actions: Actions
@@ -27,6 +30,10 @@ entity.event.list: Events List
 entity.event.start: Start
 entity.event.end: End
 entity.event.new: New event
+entity.committee.name: Name
+entity.committee.title: Committee list
+entity.committee.update: Update Committee
+entity.committee.createdat: Created at
 section.event.removed: %event% has been removed of %section% section
 section.event.added: %event% has been added of %section% section
 entity.user.firstname: Firstname

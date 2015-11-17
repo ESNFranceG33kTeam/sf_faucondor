@@ -1,3 +1,7 @@
+faucondor_committee:
+    resource: "@FaucondorBundle/Resources/config/routing/committee.yml"
+    prefix:   /committee
+
 faucondor_events:
     resource: "@FaucondorBundle/Resources/config/routing/events.yml"
     prefix:   /events

@@ -9,14 +9,15 @@
 
     {% block content_with_container %}
         <div class="container">
-            {% block flash %}
-                {% for class, messages in app.session.flashbag.all if class != 'indic' %}
-                    {% for message in messages %}
-                        <div class="{{ class }} fade span3 message">{{ message|trans }}</div>
-                    {% endfor %}
-                {% endfor %}
-            {% endblock %}
             <section>
+                {% block flash %}
+                    {% for class, messages in app.session.flashbag.all if class != 'indic' %}
+                        {% for message in messages %}
+                            <div class="{{ class }} fade span3 message">{{ message|trans }}</div>
+                        {% endfor %}
+                    {% endfor %}
+                {% endblock %}
+
                 {% block content %}{% endblock %}
             </section>
             <div class="clear"></div>
