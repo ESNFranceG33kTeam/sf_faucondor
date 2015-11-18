@@ -21,7 +21,7 @@
                     <td class="firstColumn">{{ section.name }}</td>
 
                     {% for event in events %}
-                        {% if section.joindate > event.start %}
+                        {% if section.joindate >= event.start %}
                             <td class="notInSection"></td>
                         {% elseif section.hasParticipated(event) %}
                             <td class="hasParticipated" data-href="{{ event.id ~ ',' ~ section.id }}"></td>

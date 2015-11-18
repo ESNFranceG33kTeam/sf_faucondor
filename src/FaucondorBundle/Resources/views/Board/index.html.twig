@@ -44,7 +44,7 @@
                         </td>
                         <td>{{ type }}</td>
                         <td>
-                            <a href="{{ path('board_edit', { 'id': user.id }) }}"><i class="fa fa-pencil-square-o"></i></a>
+                            <a href="{{ path('board_edit', { 'id': user.id, 'type': type }) }}"><i class="fa fa-pencil-square-o"></i></a>
                         </td>
                     </tr>
                 {% endfor %}

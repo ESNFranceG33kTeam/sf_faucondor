@@ -5,6 +5,7 @@ namespace FaucondorBundle\Controller;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
 use FaucondorBundle\Entity\Committee;
+use FaucondorBundle\Entity\Post;
 use FaucondorBundle\Form\Type\BoardType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -161,26 +162,25 @@ class BoardController extends Controller
     }
 
     /**
-     * Displays a form to edit an existing User entity.
-     *
+     * @param $id
+     * @param $type
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function editAction($id)
+    public function editAction($id, $type)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('FaucondorBundle:Board')->find($id);
+        $entity = $em->getRepository('UserBundle:User')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find User entity.');
         }
 
-        $editForm = $this->createEditForm($entity);
-        $deleteForm = $this->createDeleteForm($id);
+        $editForm = $this->createEditForm($entity, $type);
 
         return $this->render('FaucondorBundle:Board:edit.html.twig', array(
             'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+            'edit_form'   => $editForm->createView()
         ));
     }
 
@@ -191,14 +191,12 @@ class BoardController extends Controller
     *
     * @return \Symfony\Component\Form\Form The form
     */
-    private function createEditForm(User $entity)
+    private function createEditForm(User $entity, $type)
     {
-        $form = $this->createForm(new UserType(), $entity, array(
+        $form = $this->createForm(new UserType($this->getDoctrine()->getManager(), $this->container->getParameter('code_country'), Post::$types[$type]), $entity, array(
             'action' => $this->generateUrl('user_update', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));
-
-        $form->add('submit', 'submit', array('label' => 'Update'));
 
         return $form;
     }
@@ -223,6 +221,8 @@ class BoardController extends Controller
         if ($editForm->isValid()) {
             $em->flush();
 
+            $this->addFlash('success', $this->get('translator')->trans('board.success.update'));
+
             return $this->redirect($this->generateUrl('user_edit', array('id' => $id)));
         }
 
@@ -238,20 +238,18 @@ class BoardController extends Controller
      */
     public function deleteAction(Request $request, $id)
     {
-        $form = $this->createDeleteForm($id);
-        $form->handleRequest($request);
 
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('FaucondorBundle:Board')->find($id);
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('FaucondorBundle:Board')->find($id);
 
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find User entity.');
-            }
-
-            $em->remove($entity);
-            $em->flush();
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find User entity.');
         }
+
+        $em->remove($entity);
+        $em->flush();
+
+        $this->addFlash('success', $this->get('translator')->trans('board.success.delete'));
 
         return $this->redirect($this->generateUrl('user'));
     }

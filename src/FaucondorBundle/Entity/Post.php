@@ -18,6 +18,8 @@ class Post
     const NATIONAL = "national";
     const INTERNATIONAL = "international";
 
+    public static $types = array("committee" => "committee", "localBoardMember" => "Local", "NationalBoardMember" => "National");
+
     /**
      * @var integer
      *

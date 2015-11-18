@@ -16,7 +16,7 @@ board_create:
     methods:  POST
 
 board_edit:
-    path:     /{id}/edit
+    path:     type/{type}/{id}/edit/
     defaults: { _controller: "FaucondorBundle:Board:edit" }
 
 board_update:
@@ -27,4 +27,3 @@ board_update:
 board_delete:
     path:     /{id}/delete
     defaults: { _controller: "FaucondorBundle:Board:delete" }
-    methods:  [POST, DELETE]

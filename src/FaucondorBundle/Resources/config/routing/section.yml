@@ -27,4 +27,3 @@ section_update:
 section_delete:
     path:     /{id}/delete
     defaults: { _controller: "FaucondorBundle:Section:delete" }
-    methods:  [POST, DELETE]

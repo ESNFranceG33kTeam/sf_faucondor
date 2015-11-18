@@ -27,4 +27,3 @@ events_update:
 events_delete:
     path:     /{id}/delete
     defaults: { _controller: "FaucondorBundle:Events:delete" }
-    methods:  [POST, DELETE]
