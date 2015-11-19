@@ -32,25 +32,50 @@ class BoardController extends Controller
         /** @var User $user */
         $user = $this->getUser();
 
-        $users = array();
+        $users = $committees = array();
 
         //Local Board Members
         if ($user->isLocalBoardMember()){
             $board_members = $em->getRepository('UserBundle:User')->findUsersByPost($user->getLocalBoardPost());
             $users[$user->getLocalBoardPost()->getName()] = array();
 
+            /** @var User $board_member */
             foreach($board_members as $board_member){
                 $users[$user->getLocalBoardPost()->getName()][] = $board_member;
+
+                if (!isset($committees[$board_member->getId()]))
+                    $committees[$board_member->getId()] = array();
+
+                $committees_db = $em->getRepository('FaucondorBundle:Committee')->findByUser($board_member);
+                if ($committees_db) {
+                    /** @var Committee $com */
+                    foreach($committees_db as $com){
+                        $committees[$board_member->getId()][] = $com->getName();
+                    }
+                }
             }
         }
-
 
         //National Board Members
         if ($user->isNationalBoardMember()){
             $board_members = $em->getRepository('UserBundle:User')->findUsersByPost($user->getNationalBoardPost());
             $users[$user->getNationalBoardPost()->getName()] = array();
+
+            /** @var User $board_member */
             foreach($board_members as $board_member){
                 $users[$user->getNationalBoardPost()->getName()][] = $board_member;
+
+                if (!isset($committees[$board_member->getId()]))
+                    $committees[$board_member->getId()] = array();
+
+                $committees_db = $em->getRepository('FaucondorBundle:Committee')->findByUser($board_member);
+
+                if ($committees_db) {
+                    /** @var Committee $com */
+                    foreach($committees_db as $com){
+                        $committees[$board_member->getId()][] = $com->getName();
+                    }
+                }
             }
         }
 
@@ -59,6 +84,7 @@ class BoardController extends Controller
             /** @var Committee $committee */
             $committee = $em->getRepository('FaucondorBundle:Committee')->findOneBy(array("chair" => $user));
             $users["committee"] = array();
+
             $board_members = $committee->getUsers();
             foreach($board_members as $board_member){
                 $users["committee"][] = $board_member;
@@ -71,6 +97,7 @@ class BoardController extends Controller
 
         return $this->render('FaucondorBundle:Board:index.html.twig', array(
             'board_members' => $users,
+            'committees'    => $committees
         ));
     }
     /**
@@ -114,12 +141,10 @@ class BoardController extends Controller
      */
     private function createCreateForm(User $entity)
     {
-        $form = $this->createForm(new BoardType(), $entity, array(
+        $form = $this->createForm(new BoardType($this->getDoctrine()->getManager(), $this->getUser(), $this->container->getParameter('code_country')), $entity, array(
             'action' => $this->generateUrl('board_create'),
             'method' => 'POST',
         ));
-
-        $form->add('submit', 'submit', array('label' => 'Create'));
 
         return $form;
     }
@@ -193,8 +218,8 @@ class BoardController extends Controller
     */
     private function createEditForm(User $entity, $type)
     {
-        $form = $this->createForm(new UserType($this->getDoctrine()->getManager(), $this->container->getParameter('code_country'), Post::$types[$type]), $entity, array(
-            'action' => $this->generateUrl('user_update', array('id' => $entity->getId())),
+        $form = $this->createForm(new BoardType($this->getDoctrine()->getManager(), $this->getUser(), $this->container->getParameter('code_country'), Post::$types[$type]), $entity, array(
+            'action' => $this->generateUrl('board_update', array('id' => $entity->getId(), 'type' => $type)),
             'method' => 'PUT',
         ));
 
@@ -204,18 +229,17 @@ class BoardController extends Controller
      * Edits an existing User entity.
      *
      */
-    public function updateAction(Request $request, $id)
+    public function updateAction(Request $request, $type, $id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('FaucondorBundle:Board')->find($id);
+        $entity = $em->getRepository('UserBundle:User')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find User entity.');
         }
 
-        $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createEditForm($entity);
+        $editForm = $this->createEditForm($entity, $type);
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
@@ -223,13 +247,12 @@ class BoardController extends Controller
 
             $this->addFlash('success', $this->get('translator')->trans('board.success.update'));
 
-            return $this->redirect($this->generateUrl('user_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('board_edit', array('id' => $id, 'type' => $type)));
         }
 
         return $this->render('FaucondorBundle:Board:edit.html.twig', array(
             'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+            'edit_form'   => $editForm->createView()
         ));
     }
     /**
@@ -251,7 +274,7 @@ class BoardController extends Controller
 
         $this->addFlash('success', $this->get('translator')->trans('board.success.delete'));
 
-        return $this->redirect($this->generateUrl('user'));
+        return $this->redirect($this->generateUrl('board'));
     }
 
     /**

@@ -1,15 +1,41 @@
 {% extends 'FaucondorBundle::layout.html.twig' %}
 
+{% form_theme form _self %}
+
+{%- block radio_widget -%}
+    {% spaceless %}
+        <input style="min-width: 15px;" type="radio" name="{{ full_name }}" id="radio_{{ value }}" value="{{ value }}"{% if checked %} checked="checked"{% endif %} />
+    {% endspaceless %}
+{%- endblock -%}
+
+{%- block checkbox_widget -%}
+    {% spaceless %}
+        <br><input style="min-width: 15px;" type="checkbox" name="{{ full_name }}" id="radio_{{ value }}" value="{{ value }}"{% if checked %} checked="checked"{% endif %} />
+    {% endspaceless %}
+{%- endblock -%}
+
 {% block content -%}
-    <h1>Section creation</h1>
+<section>
+    <h1>{{ 'entity.board.new'|trans }}</h1>
 
-    {{ form(form) }}
+    {{ form_start(form) }}
+    {{ form_row(form.firstname) }}<br>
+    {{ form_row(form.lastname) }}<br>
+    {{ form_row(form.gender) }}<br><br>
+    {{ form_row(form.email) }}<br>
+    {{ form_row(form.mobile) }}<br>
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('section') }}">
-            Back to the list
-        </a>
-    </li>
-</ul>
+    {% if form.section is defined %}
+        {{ form_row(form.section) }}<br>
+    {% endif %}
+
+    {% if form.posts is defined %}
+        {{ form_row(form.posts) }}<br>
+    {% endif %}
+
+    <input type="submit" value="{{ 'entity.board.new'|trans }}" class="button" />
+
+{{ form_end(form) }}
+
+</section>
 {% endblock %}

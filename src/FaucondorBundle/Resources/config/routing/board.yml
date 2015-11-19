@@ -20,7 +20,7 @@ board_edit:
     defaults: { _controller: "FaucondorBundle:Board:edit" }
 
 board_update:
-    path:     /{id}/update
+    path:     type/{type}/{id}/update
     defaults: { _controller: "FaucondorBundle:Board:update" }
     methods:  [POST, PUT]
 

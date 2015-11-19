@@ -10,4 +10,13 @@ namespace FaucondorBundle\Entity;
  */
 class CommitteeRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findByUser($user){
+        return $this->createQueryBuilder('c')
+            ->leftjoin("c.users", "u")
+            ->where("u = :user")
+            ->setParameter('user', $user)
+            ->orderBy('c.name', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 }

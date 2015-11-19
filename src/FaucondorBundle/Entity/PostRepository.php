@@ -18,9 +18,19 @@ class PostRepository extends \Doctrine\ORM\EntityRepository
     }
 
     public function findByLevel($level){
-        return $this->createQueryBuilder('p')
-            ->where('p.level = :level')->setParameter('level', $level)
+
+        $levels = array();
+        array_push($levels, $level);
+
+        if (strtolower($level) == strtolower(Post::NATIONAL)) {
+            array_push($levels, Post::LOCAL);
+        }
+
+        $builder = $this->createQueryBuilder('p')
+            ->where('p.level in (:level)')->setParameter('level', $levels)
             ->andWhere('p.role NOT IN (:roles)')->setParameter('roles', 'activeMember,regularBoardMember,projectCoordinator')
             ->orderBy('p.name', 'ASC');
+
+        return $builder;
     }
 }

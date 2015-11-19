@@ -11,25 +11,8 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class UserType extends AbstractType
 {
-    /**
-     * @var string
-     */
-    private $code_country;
+    public function __construct(){
 
-    /**
-     * @var EntityManager
-     */
-    private $em;
-
-    /**
-     * @var string
-     */
-    private $type;
-
-    public function __construct($em, $code_country, $type){
-        $this->em = $em;
-        $this->code_country = $code_country;
-        $this->type = $type;
     }
 
     /**
@@ -41,14 +24,6 @@ class UserType extends AbstractType
         $builder
             ->add('firstname')
             ->add('lastname')
-            ->add('section', null, array(
-                'query_builder' => function(EntityRepository $er) {
-                    return $er->createQueryBuilder('s')
-                        ->where('s.country = :country')
-                        ->setParameter('country', $this->code_country)
-                        ->orderBy('s.name', 'ASC');
-                },
-            ))
             ->add('gender', 'choice', array(
                 'expanded' => true,
                 'choices' => array(
@@ -59,6 +34,16 @@ class UserType extends AbstractType
             ->add('mobile')
             ->add('email')
         ;
+
+        /*$builder
+            ->add('section', null, array(
+            'query_builder' => function(EntityRepository $er) {
+                return $er->createQueryBuilder('s')
+                    ->where('s.country = :country')
+                    ->setParameter('country', $this->code_country)
+                    ->orderBy('s.name', 'ASC');
+            },
+        )):*/
 
         if ($this->type != "committee"){
             $builder

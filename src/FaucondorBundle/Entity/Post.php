@@ -143,5 +143,8 @@ class Post
         return strtolower($this->getRole()) == "regularboardmember";
     }
 
+    public function fullname(){
+        return $this->getLevel() . " " . $this->getName();
+    }
 }
 

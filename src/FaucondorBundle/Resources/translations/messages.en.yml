@@ -2,8 +2,8 @@ label.error.login: Error, you are not login
 label.success.login: Authentification successful
 committee.success.delete: Committee successfully deleted
 committee.success.update: Committee successfully updated
-board.success.delete: Board successfully deleted
-board.success.update: Board successfully updated
+board.success.delete: Board member successfully deleted
+board.success.update: Board member successfully updated
 label.logout: Logout
 label.login: Login
 label.button.delete: Delete
@@ -51,3 +51,4 @@ entity.user.member: Member
 label.email.updated: Email Uptated
 entity.board.new: New Board Member
 entity.board.update: Update Board Member
+label.board.section: Section/Committee

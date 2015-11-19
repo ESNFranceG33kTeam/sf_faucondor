@@ -303,7 +303,16 @@ input, select{
     min-width: 200px;
 }
 
-input .select2-search__field{
+input .select2-search__field {
+    width: auto;
+}
+
+#userbundle_user_gender{
+    display: block;
+}
+
+#userbundle_user_gender > input, #userbundle_user_gender > label{
+    float: left;
     width: auto;
 }
 

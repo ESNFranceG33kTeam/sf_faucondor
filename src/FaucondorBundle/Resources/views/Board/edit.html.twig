@@ -1,17 +1,35 @@
 {% extends 'FaucondorBundle::layout.html.twig' %}
 
+{% form_theme edit_form _self %}
+
+{%- block radio_widget -%}
+    {% spaceless %}
+         <input style="min-width: 15px;" type="radio" name="{{ full_name }}" id="radio_{{ value }}" value="{{ value }}"{% if checked %} checked="checked"{% endif %} />
+    {% endspaceless %}
+{%- endblock -%}
+
+{%- block checkbox_widget -%}
+    {% spaceless %}
+        <br><input style="min-width: 15px;" type="checkbox" name="{{ full_name }}" id="radio_{{ value }}" value="{{ value }}"{% if checked %} checked="checked"{% endif %} />
+    {% endspaceless %}
+{%- endblock -%}
+
+
 {% block content -%}
     <section>
-    <h1>{{ 'entity.section.edit'|trans }}</h1>
+    <h1>{{ 'entity.section.edit'|trans }} - {{ app.request.get('type') }}</h1>
 
         <div>
             {{ form_start(edit_form) }}
                 {{ form_row(edit_form.firstname) }}<br>
                 {{ form_row(edit_form.lastname) }}<br>
-                {{ form_row(edit_form.gender) }}<br>
+                {{ form_row(edit_form.gender) }}<br><br>
                 {{ form_row(edit_form.email) }}<br>
                 {{ form_row(edit_form.mobile) }}<br>
+
+            {% if edit_form.section is defined %}
                 {{ form_row(edit_form.section) }}<br>
+            {% endif %}
 
             {% if edit_form.posts is defined %}
                 {{ form_row(edit_form.posts) }}<br>
@@ -23,3 +41,4 @@
         </div>
     </section>
 {% endblock %}
+
