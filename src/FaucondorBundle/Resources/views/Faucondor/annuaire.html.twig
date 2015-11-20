@@ -17,7 +17,12 @@
             <tbody>
                 {% for user in users %}
                     <tr>
-                        <td><a href="{{ path('user_show', { 'id': user.id }) }}">{{ user.firstname }}</a></td>
+                        <td>{% if app.user.isNationalVP or app.user.isNationalWebmaster %}
+                                <a href="{{ path('board_edit', { 'id': user.id, 'type' : 'NationalBoardMember' }) }}">{{ user.firstname }}</a>
+                            {% else %}
+                                {{ user.firstname }}
+                            {% endif %}
+                        </td>
                         <td>{{ user.lastname }}</td>
                         <td>{{ user.mobile }}</td>
                         <td>{{ user.email }}</td>

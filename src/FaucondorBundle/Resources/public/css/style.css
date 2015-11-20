@@ -385,3 +385,12 @@ background-image: url('../images/error.png');
 .fa-trash-o{
     color: red;
 }
+
+#userbundle_user_posts > div > label{
+    width: 220px;
+    float: left;
+}
+
+#userbundle_user_posts > div > input{
+    min-width: 15px;
+}
