@@ -164,7 +164,7 @@ class FaucondorController extends Controller
         /** @var EntityManager $em */
         $em = $this->getDoctrine()->getManager();
 
-        $form = $this->createForm(new MailType());
+        $form = $this->createForm(new MailType($this->get('translator')));
         $formHandler = new MailHandler($em, $form, $request);
         $form->handleRequest($request);
 

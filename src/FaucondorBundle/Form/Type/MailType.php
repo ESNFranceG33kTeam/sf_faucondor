@@ -6,9 +6,16 @@ use FaucondorBundle\Form\Model\Mail;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\Translation\Translator;
 
 class MailType extends AbstractType
 {
+    private $translator;
+
+    public function __construct($translator){
+        $this->translator = $translator;
+    }
+
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -18,14 +25,18 @@ class MailType extends AbstractType
         $builder
             ->add('from', 'text', array(
                 'data' => Mail::FROM,
-                'read_only' => true
+                'read_only' => true,
+                'label' => $this->translator->trans('label.mail.from')
+
             ))
             ->add('subject', 'text', array(
                 'data' => Mail::SUBJECT,
-                'read_only' => true
+                'read_only' => true,
+                'label' => $this->translator->trans('label.mail.subject')
             ))
             ->add('body', 'textarea', array(
-                'data' => file_get_contents(__DIR__ . Mail::EMAILPATH)
+                'data' => file_get_contents(__DIR__ . Mail::EMAILPATH),
+                'label' => $this->translator->trans('label.mail.body')
             ))
         ;
     }
