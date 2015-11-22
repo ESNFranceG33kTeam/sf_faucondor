@@ -25,7 +25,7 @@
                     <tr>
                         <td>{{ user.firstname }}</td>
                         <td>{{ user.lastname }}</td>
-                        <td><a href="{{ path('board_show', { 'id': user.id }) }}">{{ user.email }}</a></td>
+                        <td>{{ user.email }}</td>
                         <td>
                             {% spaceless %}
                                 {% set level = type %}

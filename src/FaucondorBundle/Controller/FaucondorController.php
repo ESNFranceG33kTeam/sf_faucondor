@@ -37,8 +37,6 @@ class FaucondorController extends Controller
         /** @var EntityManager $em */
         $em = $this->getDoctrine()->getManager();
 
-
-
         //LOCAL BOARD MEMBERS
         $localusers = array();
 
@@ -191,9 +189,10 @@ class FaucondorController extends Controller
         /** @var Post $post */
         foreach($posts as $post){
             $users = $em->getRepository('UserBundle:User')->findUsersByPost($post);
+            $postname = $post->getLevel() . " " . $post->getName();
 
             if (count($users) > 0){
-                $posts_users[$post->getName()] = array();
+                $posts_users[$postname] = array();
 
                 $users_str = "";
                 /** @var User $user */
@@ -203,7 +202,7 @@ class FaucondorController extends Controller
                 }
 
                 $users_str = substr($users_str, 0, -2);
-                $posts_users[$post->getName()] = $users_str;
+                $posts_users[$postname] = $users_str;
             }
         }
 
