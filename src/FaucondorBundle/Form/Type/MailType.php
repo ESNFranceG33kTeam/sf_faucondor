@@ -2,6 +2,7 @@
 
 namespace FaucondorBundle\Form\Type;
 
+use FaucondorBundle\Form\Model\Mail;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -15,10 +16,17 @@ class MailType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('to')
-            ->add('from')
-            ->add('subject')
-            ->add('body', 'textarea')
+            ->add('from', 'text', array(
+                'data' => Mail::FROM,
+                'read_only' => true
+            ))
+            ->add('subject', 'text', array(
+                'data' => Mail::SUBJECT,
+                'read_only' => true
+            ))
+            ->add('body', 'textarea', array(
+                'data' => file_get_contents(__DIR__ . Mail::EMAILPATH)
+            ))
         ;
     }
     

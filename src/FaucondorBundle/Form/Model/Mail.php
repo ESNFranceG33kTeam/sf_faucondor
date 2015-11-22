@@ -10,6 +10,10 @@ namespace FaucondorBundle\Form\Model;
  */
 class Mail
 {
+    const EMAILPATH = "/../../Resources/views/Emails/rl.html.twig";
+    const FROM = "vp@ixesn.fr";
+    const SUBJECT = "Hello RL";
+
     private $to;
 
     private $from;

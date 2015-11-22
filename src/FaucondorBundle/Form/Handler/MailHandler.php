@@ -22,39 +22,17 @@ class MailHandler
     protected $request;
 
     /**
-     * @var ContainerInterface
-     */
-    protected $container;
-
-    /**
-     * Twig
-     *
-     * @var TwigEngine
-     */
-    protected $templating;
-
-    /**
-     * Mailer
-     *
-     * @var \Swift_Mailer
-     */
-    protected $mailer;
-
-    /**
      * Initialize the handler with the form and the request.
      * @param
      * @param Form    $form
      * @param Request $request
      * @param $mailer
      */
-    public function __construct(EntityManager $em, Form $form, Request $request, ContainerInterface $container, TwigEngine $templating, \Swift_Mailer $mailer)
+    public function __construct(EntityManager $em, Form $form, Request $request)
     {
         $this->em = $em;
         $this->form = $form;
         $this->request = $request;
-        $this->container = $container;
-        $this->templating = $templating;
-        $this->mailer = $mailer;
     }
 
     public function process()
@@ -77,30 +55,7 @@ class MailHandler
      * @param Mail $mail
      */
     protected function onSuccess(Mail $mail){
-        $this->em->flush();
-    }
-
-    /**
-     * Send email to user
-     *
-     * @param User $user
-     */
-    private function sendEmail(User $user){
-        $attach = __DIR__ . "/../../../HRBundle/Resources/views/Emails/guide.pptx";
-
-        $message = \Swift_Message::newInstance()
-            ->setSubject('[ESN Lille] Bienvenue dans l\'association')
-            ->setFrom($this->container->getParameter('mailer_from'))
-            ->setTo($user->getEmail())
-            ->setBody(
-                $this->templating->render(
-                    'ESNHRBundle:Emails:registration.html.twig',
-                    array('user' => $user)
-                ),
-                'text/html'
-            )
-            ->attach(\Swift_Attachment::fromPath($attach))
-        ;
-        $this->mailer->send($message);
+        //Update body
+        file_put_contents(__DIR__ . Mail::EMAILPATH, $mail->getBody());
     }
 }

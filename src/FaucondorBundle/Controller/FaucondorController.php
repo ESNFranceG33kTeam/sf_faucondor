@@ -165,7 +165,7 @@ class FaucondorController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $form = $this->createForm(new MailType());
-        $formHandler = new MailHandler($em, $form, $request, $this->container, $this->get('templating'), $this->get('mailer'));
+        $formHandler = new MailHandler($em, $form, $request);
         $form->handleRequest($request);
 
         if ($formHandler->process()){

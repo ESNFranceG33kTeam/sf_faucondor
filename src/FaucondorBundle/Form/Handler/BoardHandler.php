@@ -23,16 +23,32 @@ class BoardHandler
     protected $request;
 
     /**
+     * Twig
+     *
+     * @var TwigEngine
+     */
+    protected $templating;
+
+    /**
+     * Mailer
+     *
+     * @var \Swift_Mailer
+     */
+    protected $mailer;
+
+    /**
      * Initialize the handler with the form and the request.
      * @param EntityManager $em
      * @param Form    $form
      * @param Request $request
      */
-    public function __construct(EntityManager $em, Form $form, Request $request)
+    public function __construct(EntityManager $em, Form $form, Request $request, TwigEngine $templating, \Swift_Mailer $mailer)
     {
         $this->em = $em;
         $this->form = $form;
         $this->request = $request;
+        $this->templating = $templating;
+        $this->mailer = $mailer;
     }
 
     public function process()
@@ -57,5 +73,29 @@ class BoardHandler
     protected function onSuccess(User $user){
         $this->em->persist($user);
         $this->em->flush();
+    }
+
+    /**
+     * Send email to user
+     *
+     * @param User $user
+     */
+    private function sendEmail(User $user){
+        $attach = __DIR__ . "/../../../HRBundle/Resources/views/Emails/guide.pptx";
+
+        $message = \Swift_Message::newInstance()
+            ->setSubject('[ESN Lille] Bienvenue dans l\'association')
+            ->setFrom($this->container->getParameter('mailer_from'))
+            ->setTo($user->getEmail())
+            ->setBody(
+                $this->templating->render(
+                    'ESNHRBundle:Emails:registration.html.twig',
+                    array('user' => $user)
+                ),
+                'text/html'
+            )
+            ->attach(\Swift_Attachment::fromPath($attach))
+        ;
+        $this->mailer->send($message);
     }
 }

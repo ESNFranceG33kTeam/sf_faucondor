@@ -52,3 +52,5 @@ label.email.updated: Email Uptated
 entity.board.new: New Board Member
 entity.board.update: Update Board Member
 label.board.section: Section/Committee
+label.mail.update: Update email
+label.mail.updated: Email successfully updated
