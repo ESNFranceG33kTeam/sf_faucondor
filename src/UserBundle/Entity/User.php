@@ -503,7 +503,7 @@ class User extends BaseUser
             case "localBoardMember" :
                 $posts = $this->getAnnuairePosts("local");
                 break;
-            case "nationalBoardMember" :
+            case "NationalBoardMember" :
                 $posts = $this->getAnnuairePosts("national");
                 break;
         }

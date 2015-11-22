@@ -31,7 +31,7 @@ class GalaxyUser implements UserInterface, EquatableInterface
     private $section;
     private $country;
 
-    public function __construct($username, $attributes, $password, $salt, array $roles)
+    public function __construct($username, $attributes, $password = null, $salt = null, array $roles = null)
     {
         $this->username     = $username;
         $this->email        = $attributes['mail'];

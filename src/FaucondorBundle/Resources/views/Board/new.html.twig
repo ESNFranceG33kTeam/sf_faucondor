@@ -8,9 +8,22 @@
     {% endspaceless %}
 {%- endblock -%}
 
+{% block choice_widget %}
+    {% spaceless %}
+        <div {{ block('widget_container_attributes') }} style="margin-left: 150px;">
+            {% for child in form %}
+                {{ form_widget(child) }}
+            {% endfor %}
+        </div>
+    {% endspaceless %}
+{% endblock %}
+
 {%- block checkbox_widget -%}
     {% spaceless %}
-        <br><input style="min-width: 15px;" type="checkbox" name="{{ full_name }}" id="radio_{{ value }}" value="{{ value }}"{% if checked %} checked="checked"{% endif %} />
+        <div>
+            <label for="{{ id }}">{{ label|trans }}</label>
+            <input type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} /><br>
+        </div>
     {% endspaceless %}
 {%- endblock -%}
 
