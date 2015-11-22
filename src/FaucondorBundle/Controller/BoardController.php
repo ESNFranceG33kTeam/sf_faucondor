@@ -141,7 +141,7 @@ class BoardController extends Controller
      */
     private function createCreateForm(User $entity)
     {
-        $form = $this->createForm(new BoardType($this->getDoctrine()->getManager(), $this->getUser(), $this->container->getParameter('code_country')), $entity, array(
+        $form = $this->createForm(new BoardType($this->getDoctrine()->getManager(), $this->getUser(), substr($this->container->getParameter('country'),0,2)), $entity, array(
             'action' => $this->generateUrl('board_create'),
             'method' => 'POST',
         ));
@@ -218,7 +218,7 @@ class BoardController extends Controller
     */
     private function createEditForm(User $entity, $type)
     {
-        $form = $this->createForm(new BoardType($this->getDoctrine()->getManager(), $this->getUser(), $this->container->getParameter('code_country'), Post::$types[$type]), $entity, array(
+        $form = $this->createForm(new BoardType($this->getDoctrine()->getManager(), $this->getUser(), substr($this->container->getParameter('country'),0,2), Post::$types[$type]), $entity, array(
             'action' => $this->generateUrl('board_update', array('id' => $entity->getId(), 'type' => $type)),
             'method' => 'PUT',
         ));

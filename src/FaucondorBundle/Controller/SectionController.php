@@ -25,7 +25,7 @@ class SectionController extends Controller
         /** @var EntityManager $em */
         $em = $this->getDoctrine()->getManager();
 
-        $sections = $em->getRepository('FaucondorBundle:Section')->findBy(array("country" => $this->container->getParameter('code_country')), array("name" => "ASC"));
+        $sections = $em->getRepository('FaucondorBundle:Section')->findBy(array("country" => substr($this->container->getParameter('country'),0,2)), array("name" => "ASC"));
 
         return $this->render('FaucondorBundle:Section:index.html.twig', array(
             'sections' => $sections,

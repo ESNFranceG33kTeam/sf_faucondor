@@ -28,7 +28,7 @@ class LoginController extends Controller
         $cas_host = $this->container->getParameter('cas_host');
         $cas_port = $this->container->getParameter('cas_port');
         $cas_context = $this->container->getParameter('cas_context');
-        $code_country = $this->container->getParameter('code_country');
+        $code_country = substr($this->container->getParameter('country'),0,2);
 
         if (isset($_SERVER['HTTP_CLIENT_IP'])
             || isset($_SERVER['HTTP_X_FORWARDED_FOR'])

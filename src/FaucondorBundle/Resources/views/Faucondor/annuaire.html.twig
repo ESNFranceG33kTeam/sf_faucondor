@@ -15,27 +15,86 @@
             </thead>
 
             <tbody>
-                {% for user in users %}
-                    <tr>
-                        <td>{% if app.user.isNationalVP or app.user.isNationalWebmaster %}
-                                <a href="{{ path('board_edit', { 'id': user.id, 'type' : 'NationalBoardMember' }) }}">{{ user.firstname }}</a>
-                            {% else %}
-                                {{ user.firstname }}
-                            {% endif %}
-                        </td>
-                        <td>{{ user.lastname }}</td>
-                        <td>{{ user.mobile }}</td>
-                        <td>{{ user.email }}</td>
-                        <td>
-                            {% spaceless %}
-                                {% for post in user.getAnnuairePosts(constant('\\FaucondorBundle\\Entity\\Post::LOCAL')) %}
+                {% for section, users in localusers %}
+                    {% for user in users %}
+                        <tr>
+                            <td>{% if app.user.isNationalVP or app.user.isNationalWebmaster %}
+                                    <a href="{{ path('board_edit', { 'id': user.id, 'type' : 'NationalBoardMember' }) }}">{{ user.firstname }}</a>
+                                {% else %}
+                                    {{ user.firstname }}
+                                {% endif %}
+                            </td>
+                            <td>{{ user.lastname }}</td>
+                            <td>{{ user.mobile }}</td>
+                            <td>{{ user.email }}</td>
+                            <td>
+                                {% spaceless %}
+                                    {% for post in user.getPostsByLevel("localBoardMember") %}
                                         {{ post }}
-                                    {% if not loop.last %}<br>{% endif %}
-                                {% endfor %}
-                            {% endspaceless %}
-                        </td>
-                        <td>{{ user.section }}</td>
-                    </tr>
+                                        {% if not loop.last %},{% endif %}
+                                    {% endfor %}
+                                {% endspaceless %}
+                            </td>
+                            <td>
+                                {{ section }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endfor %}
+
+                {% for section, users in nationalusers %}
+                    {% for user in users %}
+                        {% set user = user[0] %}
+
+                        <tr>
+                            <td>{% if app.user.isNationalVP or app.user.isNationalWebmaster %}
+                                    <a href="{{ path('board_edit', { 'id': user.id, 'type' : 'NationalBoardMember' }) }}">{{ user.firstname }}</a>
+                                {% else %}
+                                    {{ user.firstname }}
+                                {% endif %}
+                            </td>
+                            <td>{{ user.lastname }}</td>
+                            <td>{{ user.mobile }}</td>
+                            <td>{{ user.email }}</td>
+                            <td>
+                                {% spaceless %}
+                                    {% for post in user.getPostsByLevel("NationalBoardMember") %}
+                                        {{ post }}
+                                        {% if not loop.last %},{% endif %}
+                                    {% endfor %}
+                                {% endspaceless %}
+                            </td>
+                            <td>
+                                {{ section }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endfor %}
+
+                {% for committee, users in committeesusers %}
+                    {% for user in users %}
+                        <tr>
+                            <td>{% if app.user.isNationalVP or app.user.isNationalWebmaster %}
+                                    <a href="{{ path('board_edit', { 'id': user.id, 'type' : 'NationalBoardMember' }) }}">{{ user.firstname }}</a>
+                                {% else %}
+                                    {{ user.firstname }}
+                                {% endif %}
+                            </td>
+                            <td>{{ user.lastname }}</td>
+                            <td>{{ user.mobile }}</td>
+                            <td>{{ user.email }}</td>
+                            <td>
+                                {% if user.isNationalChair %}
+                                    {{ "entity.user.chair"|trans }}
+                                {% else %}
+                                    {{ 'entity.user.member'|trans }}
+                                {% endif %}
+                            </td>
+                            <td>
+                                {{ committee }}
+                            </td>
+                        </tr>
+                    {% endfor %}
                 {% endfor %}
             </tbody>
         </table>

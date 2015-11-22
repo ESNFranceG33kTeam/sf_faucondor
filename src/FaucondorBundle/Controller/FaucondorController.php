@@ -2,7 +2,9 @@
 
 namespace FaucondorBundle\Controller;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
+use FaucondorBundle\Entity\Committee;
 use FaucondorBundle\Entity\Events;
 use FaucondorBundle\Entity\Post;
 use FaucondorBundle\Entity\Section;
@@ -14,6 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Acl\Exception\Exception;
 use UserBundle\Entity\User;
 
 class FaucondorController extends Controller
@@ -34,10 +37,65 @@ class FaucondorController extends Controller
         /** @var EntityManager $em */
         $em = $this->getDoctrine()->getManager();
 
-        $users = $em->getRepository('UserBundle:User')->findAll();
+
+
+        //LOCAL BOARD MEMBERS
+        $localusers = array();
+
+        $sections = $em->getRepository('FaucondorBundle:Section')->findBy(array("country" => substr($this->container->getParameter('country'),0,2)));
+
+        /** @var Section $section */
+        foreach($sections as $section){
+            $localusers[$section->getName()] = array();
+
+            /** @var User $user */
+            foreach($section->getUsers() as $user){
+                if ($user->isLocalBoardMember()){
+                    $localusers[$section->getName()][] = $user;
+                }
+            }
+        }
+
+        //NATIONAL BOARD MEMBERS
+        $nationalusers = array();
+        $nationalName = "ESN " . $this->container->getParameter('country');
+
+        $nationalPosts = $em->getRepository('FaucondorBundle:Post')->findPostsByLevel(Post::NATIONAL);
+
+        /** @var Post $post */
+        foreach($nationalPosts as $post){
+            $user = $em->getRepository('UserBundle:User')->findUsersByPost($post);
+
+            if (!isset($nationalusers[$nationalName])){
+                $nationalusers[$nationalName] = array();
+            }
+
+            if (count($user) == 1) {
+                $nationalusers[$nationalName][] = $user;
+            }elseif (count($user) > 1){
+                throw new Exception('Multiple National Board members on the same post');
+            }
+        }
+
+        //COMMITTEES BOARD MEMBERS
+        $committeesusers = array();
+
+        $committees = $em->getRepository('FaucondorBundle:Committee')->findAll();
+
+        /** @var Committee $committee */
+        foreach($committees as $committee){
+            $committeesusers[$committee->getName()] = array();
+
+            /** @var User $user */
+            foreach($committee->getUsers() as $user){
+                $committeesusers[$committee->getName()][] = $user;
+            }
+        }
 
         return $this->render('FaucondorBundle:Faucondor:annuaire.html.twig', array(
-            "users" => $users
+            'nationalusers'     => $nationalusers,
+            'localusers'        => $localusers,
+            'committeesusers'   => $committeesusers
         ));
     }
 
@@ -91,37 +149,12 @@ class FaucondorController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $events = $em->getRepository('FaucondorBundle:Events')->findBy(array(), array("start" => "DESC"));
-        $sections = $em->getRepository('FaucondorBundle:Section')->findBy(array("country" => $this->container->getParameter('code_country')));
+        $sections = $em->getRepository('FaucondorBundle:Section')->findBy(array("country" => substr($this->container->getParameter('country'),0,2)));
 
         return $this->render('FaucondorBundle:Faucondor:participation.html.twig', array(
             'events' => $events,
             'sections' => $sections
         ));
-    }
-
-    /**
-     * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function editBoardAction(Request $request)
-    {
-        /** @var EntityManager $em */
-        $em = $this->getDoctrine()->getManager();
-
-        $form = $this->createForm(new BoardType());
-        $formHandler = new BoardHandler($em, $form, $request);
-        $form->handleRequest($request);
-
-        if ($formHandler->process()){
-            $this->addFlash('success', 'label.mail.updated');
-        }
-
-        return $this->render("FaucondorBundle:Faucondor:email.html.twig", array(
-                "form" => $form->createView()
-            )
-        );
-
-        return $this->render('FaucondorBundle:Faucondor:board.html.twig');
     }
 
     /**

@@ -33,4 +33,17 @@ class PostRepository extends \Doctrine\ORM\EntityRepository
 
         return $builder;
     }
+
+    public function findPostsByLevel($level){
+
+        $builder = $this->createQueryBuilder('p')
+            ->where('p.level = :level')->setParameter('level', $level)
+            ->andWhere("p.role != 'regularBoardMember'")
+            ->andWhere("p.role != 'projectCoordinator'")
+            ->orderBy('p.name', 'ASC')
+            ->getQuery()
+            ->getResult();
+
+        return $builder;
+    }
 }
