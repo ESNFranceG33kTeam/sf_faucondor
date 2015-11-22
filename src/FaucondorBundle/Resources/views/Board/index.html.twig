@@ -28,8 +28,14 @@
                         <td><a href="{{ path('board_show', { 'id': user.id }) }}">{{ user.email }}</a></td>
                         <td>
                             {% spaceless %}
-                                {% if type != "committee" %}
-                                    {% for post in user.getPostsByLevel(type) %}
+                                {% set level = type %}
+
+                                {% if level != "committee" %}
+                                    {% if level != "localBoardMember" %}
+                                        {% set level = "NationalBoardMember" %}
+                                    {% endif %}
+
+                                    {% for post in user.getPostsByLevel(level) %}
                                         {{ post }}
                                         {% if not loop.last %},{% endif %}
                                     {% endfor %}
@@ -46,8 +52,8 @@
                             {% if type != "committee" %}
                                 {% if type == "localBoardMember" %}
                                     {{ user.section }}
-                                {% elseif type == "NationalBoardMember" %}
-                                    {{ user.getNationalBoardPost }}
+                                {% else %}
+                                    {{ type }}
                                 {% endif %}
                             {% else %}
                                 {% for committee in committees[user.id] %}

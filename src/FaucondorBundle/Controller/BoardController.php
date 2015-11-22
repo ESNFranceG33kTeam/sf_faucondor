@@ -58,12 +58,13 @@ class BoardController extends Controller
 
         //National Board Members
         if ($user->isNationalBoardMember()){
+            $nationalboardname = "ESN " . $this->container->getParameter('country');
             $board_members = $em->getRepository('UserBundle:User')->findUsersByPost($user->getNationalBoardPost());
-            $users[$user->getNationalBoardPost()->getName()] = array();
+            $users[$nationalboardname] = array();
 
             /** @var User $board_member */
             foreach($board_members as $board_member){
-                $users[$user->getNationalBoardPost()->getName()][] = $board_member;
+                $users[$nationalboardname][] = $board_member;
 
                 if (!isset($committees[$board_member->getId()]))
                     $committees[$board_member->getId()] = array();
@@ -73,7 +74,8 @@ class BoardController extends Controller
                 if ($committees_db) {
                     /** @var Committee $com */
                     foreach($committees_db as $com){
-                        $committees[$board_member->getId()][] = $com->getName();
+                        if (!in_array($com->getName(), $committees[$board_member->getId()]))
+                            $committees[$board_member->getId()][] = $com->getName();
                     }
                 }
             }
@@ -161,28 +163,6 @@ class BoardController extends Controller
         return $this->render('FaucondorBundle:Board:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
-        ));
-    }
-
-    /**
-     * Finds and displays a User entity.
-     *
-     */
-    public function showAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('FaucondorBundle:Board')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find User entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-
-        return $this->render('FaucondorBundle:Board:show.html.twig', array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),
         ));
     }
 
