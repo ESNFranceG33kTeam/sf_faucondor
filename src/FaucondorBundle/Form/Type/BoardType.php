@@ -32,10 +32,10 @@ class BoardType extends AbstractType
      */
     private $type;
 
-    public function __construct($em, User $user, $code_country, $type = null){
+    public function __construct($em, User $user, $country, $type = null){
         $this->em = $em;
         $this->user = $user;
-        $this->code_country = $code_country;
+        $this->code_country = substr($country, 0, 2);
         $this->type = $type;
     }
 
@@ -59,15 +59,14 @@ class BoardType extends AbstractType
             ->add('email')
         ;
 
-        /*$builder
-            ->add('section', null, array(
-            'query_builder' => function(EntityRepository $er) {
-                return $er->createQueryBuilder('s')
-                    ->where('s.country = :country')
-                    ->setParameter('country', $this->code_country)
-                    ->orderBy('s.name', 'ASC');
-            },
-        )):*/
+        if ($this->user->isNationalBoardMember()){
+            $builder
+                ->add('section', 'entity', array(
+                    'class' => 'FaucondorBundle:Section',
+                    'choices' => $this->getSections()
+                ));
+        }
+
 
         if ($this->type != "committee"){
             $level = ($this->user->isNationalBoardMember()) ? $this->user->getNationalBoardPost()->getLevel() : $this->user->getLocalBoardPost()->getLevel();
@@ -82,6 +81,16 @@ class BoardType extends AbstractType
                 ))
             ;
         }
+    }
+
+    public function getSections(){
+        return $this->em->getRepository('FaucondorBundle:Section')
+            ->createQueryBuilder('s')
+            ->where('s.country = :country')
+            ->setParameter('country', $this->code_country)
+            ->orderBy('s.name', 'ASC')
+            ->getQuery()
+            ->getResult();
     }
 
     /**

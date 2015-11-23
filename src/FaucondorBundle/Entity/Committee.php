@@ -48,7 +48,7 @@ class Committee
      * @var User
      *
      * @ORM\OneToOne(targetEntity="UserBundle\Entity\User", cascade={"all"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $chair;
 
@@ -157,7 +157,7 @@ class Committee
     /**
      * @param User $chair
      */
-    public function setChair(User $chair)
+    public function setChair($chair)
     {
         $this->chair = $chair;
     }

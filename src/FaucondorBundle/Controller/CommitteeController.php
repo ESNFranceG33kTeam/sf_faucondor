@@ -154,16 +154,18 @@ class CommitteeController extends Controller
      */
     public function updateAction(Request $request, $id)
     {
+        /** @var EntityManager $em */
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('FaucondorBundle:Committee')->find($id);
+        /** @var Committee $committee */
+        $committee = $em->getRepository('FaucondorBundle:Committee')->find($id);
 
-        if (!$entity) {
+        if (!$committee) {
             throw $this->createNotFoundException('Unable to find Committee entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createEditForm($entity);
+        $editForm = $this->createEditForm($committee);
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
@@ -171,12 +173,11 @@ class CommitteeController extends Controller
 
             $this->addFlash('success', $this->get('translator')->trans('committee.success.update'));
 
-
             return $this->redirect($this->generateUrl('committee_edit', array('id' => $id)));
         }
 
         return $this->render('FaucondorBundle:Committee:edit.html.twig', array(
-            'entity'      => $entity,
+            'entity'      => $committee,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));

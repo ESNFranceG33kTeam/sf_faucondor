@@ -411,7 +411,7 @@ class User extends BaseUser
      * @return bool
      */
     public function hasPermission($level, $role){
-        if ($this->isSuperAdmin()) return true;
+        if ($role != "projectCoordinator" && $this->isSuperAdmin()) return true;
 
         /** @var Post $post */
         foreach($this->getPosts() as $post){
