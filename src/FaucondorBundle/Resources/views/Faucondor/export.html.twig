@@ -7,7 +7,7 @@
         {% for postname, users in posts_users %}
             <h3>{{ postname }}</h3>
             <div>
-                <textarea class="focus" style="width: 100%;">{% spaceless %}{{- users -}}{% endspaceless %}</textarea>
+                <div class="focus" style="width: 100%;">{% spaceless %}{{- users -}}{% endspaceless %}</div>
             </div>
         {% endfor %}
     </div>
