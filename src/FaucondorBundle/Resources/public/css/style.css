@@ -117,9 +117,10 @@ label{
 
 /******************* LISTEMAILS ***********************/
 
-textarea{
+#mceu_13{
 	width: 700px;
-	height: 300px;
+    margin-left: 150px;
+
 }
 
 .long_label{
@@ -232,6 +233,7 @@ nav ul{
   border-bottom: 1px solid #333333;
   border-left: 1px solid #CCCCCC;
   border-radius: 5px;
+  margin-top: 25px;
 }
 .button:hover{ color: white; }
 .button:visited{ color: white; }
