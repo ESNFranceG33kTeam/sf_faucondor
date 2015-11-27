@@ -16,7 +16,13 @@ class SectionType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('joindate')
+            ->add('joindate', null, array(
+                'widget'=> 'single_text',
+                'format'=>'d/m/Y',
+                'attr'  => array(
+                    'class' => 'datepicker'
+                )
+            ))
             ->add('code')
             ->add('country')
         ;

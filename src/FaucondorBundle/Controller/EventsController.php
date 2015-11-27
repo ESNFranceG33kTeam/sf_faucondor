@@ -67,8 +67,6 @@ class EventsController extends Controller
             'method' => 'POST',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Create'));
-
         return $form;
     }
 
@@ -88,28 +86,6 @@ class EventsController extends Controller
     }
 
     /**
-     * Finds and displays a Events entity.
-     *
-     */
-    public function showAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('FaucondorBundle:Events')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Events entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-
-        return $this->render('FaucondorBundle:Events:show.html.twig', array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),
-        ));
-    }
-
-    /**
      * Displays a form to edit an existing Events entity.
      *
      */
@@ -124,12 +100,10 @@ class EventsController extends Controller
         }
 
         $editForm = $this->createEditForm($entity);
-        $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('FaucondorBundle:Events:edit.html.twig', array(
             'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+            'edit_form'   => $editForm->createView()
         ));
     }
 
@@ -146,8 +120,6 @@ class EventsController extends Controller
             'action' => $this->generateUrl('events_update', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));
-
-        $form->add('submit', 'submit', array('label' => 'Update'));
 
         return $form;
     }

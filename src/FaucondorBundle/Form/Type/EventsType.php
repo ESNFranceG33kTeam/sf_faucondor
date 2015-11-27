@@ -16,8 +16,20 @@ class EventsType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('start')
-            ->add('end')
+            ->add('start', null, array(
+                'widget'=> 'single_text',
+                'format'=>'d/m/Y',
+                'attr'  => array(
+                    'class' => 'datepicker'
+                )
+            ))
+            ->add('end', null, array(
+                'widget'=> 'single_text',
+                'format'=>'d/m/Y',
+                'attr'  => array(
+                    'class' => 'datepicker'
+                )
+            ))
         ;
     }
     

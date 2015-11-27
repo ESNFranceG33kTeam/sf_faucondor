@@ -134,25 +134,25 @@ label{
 	margin-top: 25px;		
 }
 
-table{
+.table{
 	width: 100%;
 }
 
-table thead tr th, .firstColumn{
+.table thead tr th, .firstColumn{
 	color: white;
 	height: 30px;
 	background-color: rgb(35,158,200) !important;
 }
 
-table tbody tr{
+.table tbody tr{
 	text-align: center;
 }
 
-table tbody tr:hover{
+.table tbody tr:hover{
 	background-color: #c3c2c2;
 }
 
-table tbody td{
+.table tbody td{
 	height:50px;
 	vertical-align:bottom;
 }
