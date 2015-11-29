@@ -1,0 +1,18 @@
+{% extends 'FaucondorBundle::layout.html.twig' %}
+
+{% block content -%}
+    <h1>{{ 'entity.points.new'|trans }}</h1>
+
+    {{ form_start(form) }}
+
+    {{ form_row(form.points) }}<br>
+    {{ form_row(form.date) }}<br>
+    {{ form_row(form.basicAction) }}<br>
+    {{ form_row(form.to) }}<br>
+    {{ form_row(form.bonus) }}<br>
+    {{ form_row(form.situation) }}<br>
+
+    <input type="submit" value="{{ 'label.button.save'|trans }}" class="button" />
+
+    {{ form_end(form) }}
+{% endblock %}
