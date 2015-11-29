@@ -1,3 +1,7 @@
+faucondor_points:
+    resource: "@FaucondorBundle/Resources/config/routing/points.yml"
+    prefix:   /points
+
 faucondor_committee:
     resource: "@FaucondorBundle/Resources/config/routing/committee.yml"
     prefix:   /committee
@@ -45,7 +49,3 @@ faucondor_mailrl:
 faucondor_listes:
     path:     /export
     defaults: { _controller: FaucondorBundle:Faucondor:exportlistes }
-
-faucondor_konami:
-    path:     /konami
-    defaults: { _controller: FaucondorBundle:Faucondor:konami }

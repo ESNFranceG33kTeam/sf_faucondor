@@ -60,3 +60,11 @@ label.mail.subject: Subject
 label.mail.body: Body
 label.mail.update: Update email
 label.mail.updated: Email successfully updated
+entity.points.my: My points
+entity.points.total: Total
+entity.points.basicaction: Basic Action
+entity.points.receiver: Receiver
+entity.points.bonus: Bonus
+entity.points.action: Action
+entity.points.new: Add Points
+label.date: Date
