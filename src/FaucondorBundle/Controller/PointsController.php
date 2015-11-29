@@ -2,6 +2,7 @@
 
 namespace FaucondorBundle\Controller;
 
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -26,13 +27,19 @@ class PointsController extends Controller
         $points = $em->getRepository('FaucondorBundle:Points')->findBy(array("from" => $this->getUser()));
 
         $total = 0;
+        $potential = 0;
+
         /** @var Points $point */
         foreach($points as $point){
-            $total += $point->getPoints();
+            $potential += $point->getPoints();
+
+            if ($point->getStatus() == 1)
+                $total += $point->getPoints();
         }
 
         return $this->render('FaucondorBundle:Points:index.html.twig', array(
             'total'  => $total,
+            'potential' => $potential,
             'points' => $points
         ));
     }
@@ -52,7 +59,7 @@ class PointsController extends Controller
             //From User Points
             $total = $entity->getBasicAction() * $entity->getTo()->getValue() * $entity->getBonus();
             $entity->setPoints($total);
-            $entity->setStatus(2);
+            $entity->setStatus(0);
             $entity->setFrom($this->getUser());
             $em->persist($entity);
 
@@ -63,7 +70,7 @@ class PointsController extends Controller
             $receiverPoints->setBonus($form->get('situation')->getData());
             $receiverPoints->setFrom($entity->getTo());
             $receiverPoints->setTo($this->getUser());
-            $entity->setStatus(1);
+            $receiverPoints->setStatus(0);
             $receiverPoints->setDate($entity->getDate());
             $em->persist($receiverPoints);
 
@@ -130,6 +137,43 @@ class PointsController extends Controller
             'entity'      => $entity,
             'edit_form'   => $editForm->createView()
         ));
+    }
+
+    /**
+     * Displays a form to edit an existing Points entity.
+     *
+     */
+    public function validateAction($id)
+    {
+        /** @var EntityManager $em */
+        $em = $this->getDoctrine()->getManager();
+
+        /** @var Points $entity */
+        $entity = $em->getRepository('FaucondorBundle:Points')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Points entity.');
+        }
+
+        $entity->setStatus(1);
+
+        /** @var Points $pointRelated */
+        $pointRelated = $em->getRepository('FaucondorBundle:Points')->findBy(array(
+            'from' => $entity->getTo(),
+            'to' => $entity->getFrom()
+        ));
+
+        var_dump($pointRelated->getId());die();
+        $em->flush();
+
+
+
+        $this->addFlash(
+            'success',
+            'success.points.validated'
+        );
+
+        return $this->redirect($this->generateUrl('points'));
     }
 
     /**

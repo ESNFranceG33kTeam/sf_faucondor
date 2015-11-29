@@ -13,11 +13,19 @@ use UserBundle\Entity\User;
  */
 class Points
 {
-    /*const ACTIONS = array(
+    private $actions_tab = array(
+        "1" => "French Kiss 1pt",
+        "2" => "Oral Sex (giving) 2pts",
+        "3" => "Sex 3pts",
+        "4" => "Other kinky stuff (anal sex, group sex, gang bang, bondage) 4pts"
+    );
+
+    private $bonus_tab = array(
         "1" => "Single x1",
         "2" => "In a RelationShip x2",
         "3" => "Engaged x3",
-        "4" => "Married x4");*/
+        "4" => "Married x4"
+    );
 
     /**
      * @var integer
@@ -229,6 +237,24 @@ class Points
     public function setStatus($status)
     {
         $this->status = $status;
+    }
+
+    /**
+     * @param $key
+     *
+     * @return array
+     */
+    public function getActionString($key){
+        return $this->actions_tab[$key];
+    }
+
+    /**
+     * @param $key
+     *
+     * @return array
+     */
+    public function getBonusString($key){
+        return $this->bonus_tab[$key];
     }
 }
 

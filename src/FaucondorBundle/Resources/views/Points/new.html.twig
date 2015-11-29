@@ -5,14 +5,55 @@
 
     {{ form_start(form) }}
 
-    {{ form_row(form.points) }}<br>
+    {{ form_row(form.points, {'id':'points'} ) }}<br>
     {{ form_row(form.date) }}<br>
-    {{ form_row(form.basicAction) }}<br>
-    {{ form_row(form.to) }}<br>
-    {{ form_row(form.bonus) }}<br>
+    {{ form_row(form.basicAction, {'id':'basicAction'} ) }}<br>
+    {{ form_row(form.to,  {'id':'to'} ) }}<br>
+    <div style="display: none;" id="from">{{ app.user.getValue }}</div>
+    {{ form_row(form.bonus,  {'id':'bonus'} ) }}<br>
     {{ form_row(form.situation) }}<br>
 
     <input type="submit" value="{{ 'label.button.save'|trans }}" class="button" />
 
     {{ form_end(form) }}
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        $( "#basicAction, #to, #bonus" ).change(function() {
+            updatePoints();
+        });
+
+        function updatePoints(){
+            var points = $("#points");
+            var action = $("#basicAction").val();
+            var to = $("#to");
+            var bonus = $("#bonus").val();
+            var from = $("#from").text();
+            var currentpoint = points.val();
+
+            if (action){
+                var total = 0;
+
+                if ($.isNumeric(action)){
+                    total = parseInt(total) + parseInt(action);
+                }
+
+                if (to.find('option:selected').text() != ""){
+                    var toPoints = to.find('option:selected').text();
+                    toPoints = toPoints.substring(toPoints.indexOf('(')+1, toPoints.indexOf(')'));
+                    total = parseInt(total) * parseInt(toPoints);
+                }
+
+                if ($.isNumeric(bonus)){
+                    total = parseInt(total) * parseInt(bonus);
+                }
+
+                points.val(total.toString());
+            }
+
+            //alert(points + (action * to * bonus));
+            //$("#points").html(points + (action * to * bonus));
+        }
+    </script>
 {% endblock %}

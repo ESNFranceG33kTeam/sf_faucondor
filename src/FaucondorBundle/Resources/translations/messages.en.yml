@@ -62,9 +62,13 @@ label.mail.update: Update email
 label.mail.updated: Email successfully updated
 entity.points.my: My points
 entity.points.total: Total
+entity.points.potential: Potential
 entity.points.basicaction: Basic Action
 entity.points.receiver: Receiver
 entity.points.bonus: Bonus
 entity.points.action: Action
 entity.points.new: Add Points
+entity.points.status: Status
 label.date: Date
+label.validate: Validate
+success.points.validated: Points validated

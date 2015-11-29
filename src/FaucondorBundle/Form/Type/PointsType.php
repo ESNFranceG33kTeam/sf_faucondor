@@ -21,7 +21,10 @@ class PointsType extends AbstractType
                     "2" => "Oral Sex (giving) 2pts",
                     "3" => "Sex 3pts",
                     "4" => "Other kinky stuff (anal sex, group sex, gang bang, bondage) 4pts"
-                 )
+                 ),
+                'empty_value'       => '',
+                'empty_data'        => null,
+                'preferred_choices' => array(null)
             ))
             ->add('to', null, array(
                 'property' => 'toStringWithPoints'
@@ -32,7 +35,10 @@ class PointsType extends AbstractType
                     "2" => "In a RelationShip x2",
                     "3" => "Engaged x3",
                     "4" => "Married x4"
-                )
+                ),
+                'empty_value'       => '',
+                'empty_data'        => null,
+                'preferred_choices' => array(null)
             ))
             ->add('points', 'integer', array(
                 'read_only' => true
@@ -51,7 +57,10 @@ class PointsType extends AbstractType
                     "2" => "In a RelationShip x2",
                     "3" => "Engaged x3",
                     "4" => "Married x4"
-                )
+                ),
+                'empty_value'       => '',
+                'empty_data'        => null,
+                'preferred_choices' => array(null)
             ))
         ;
     }

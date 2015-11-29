@@ -28,3 +28,7 @@ points_delete:
     path:     /{id}/delete
     defaults: { _controller: "FaucondorBundle:Points:delete" }
     methods:  [POST, DELETE]
+
+points_validate:
+    path:     /{id}/validate
+    defaults: { _controller: "FaucondorBundle:Points:validate" }
