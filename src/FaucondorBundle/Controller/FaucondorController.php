@@ -211,4 +211,10 @@ class FaucondorController extends Controller
             )
         );
     }
+
+    public function konamiAction(){
+
+
+        return $this->render('FaucondorBundle:Faucondor:konami.html.twig');
+    }
 }

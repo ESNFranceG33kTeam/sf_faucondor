@@ -45,3 +45,7 @@ faucondor_mailrl:
 faucondor_listes:
     path:     /export
     defaults: { _controller: FaucondorBundle:Faucondor:exportlistes }
+
+faucondor_konami:
+    path:     /konami
+    defaults: { _controller: FaucondorBundle:Faucondor:konami }
