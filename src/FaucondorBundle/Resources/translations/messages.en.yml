@@ -72,3 +72,4 @@ entity.points.status: Status
 label.date: Date
 label.validate: Validate
 success.points.validated: Points validated
+label.worth.point: You are worh %points% points

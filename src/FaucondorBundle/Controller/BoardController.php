@@ -41,7 +41,8 @@ class BoardController extends Controller
 
             /** @var User $board_member */
             foreach($board_members as $board_member){
-                $users[$user->getLocalBoardPost()->getName()][] = $board_member;
+                if ($board_member->getSection() == $this->getUser()->getSection())
+                    $users[$user->getLocalBoardPost()->getName()][] = $board_member;
 
                 if (!isset($committees[$board_member->getId()]))
                     $committees[$board_member->getId()] = array();
@@ -85,11 +86,14 @@ class BoardController extends Controller
         if ($user->isNationalChair()){
             /** @var Committee $committee */
             $committee = $em->getRepository('FaucondorBundle:Committee')->findOneBy(array("chair" => $user));
-            $users["committee"] = array();
 
-            $board_members = $committee->getUsers();
-            foreach($board_members as $board_member){
-                $users["committee"][] = $board_member;
+            if ($committee){
+                $users["committee"] = array();
+
+
+                foreach($committee->getUsers() as $board_member){
+                    $users["committee"][] = $board_member;
+                }
             }
         }
 
