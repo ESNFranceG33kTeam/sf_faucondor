@@ -1,0 +1,71 @@
+{% extends 'FaucondorBundle::layout.html.twig' %}
+
+{% form_theme form _self %}
+
+{%- block radio_widget -%}
+    {% spaceless %}
+        <input style="min-width: 15px;" type="radio" name="{{ full_name }}" id="radio_{{ value }}" value="{{ value }}"{% if checked %} checked="checked"{% endif %} />
+    {% endspaceless %}
+{%- endblock -%}
+
+{% block choice_widget %}
+    {% spaceless %}
+        {% if expanded %}
+            <div {{ block('widget_container_attributes') }} style="margin-left: 150px;">
+                {% for child in form %}
+                    {{ form_widget(child) }}
+                {% endfor %}
+            </div>
+        {% else %}
+            <select {{ block('widget_attributes') }}{% if multiple %} multiple="multiple"{% endif %}>
+                {% if empty_value is not none %}
+                    <option value="">{{ empty_value|trans }}</option>
+                {% endif %}
+                {% if preferred_choices|length > 0 %}
+                    {% set options = preferred_choices %}
+                    {{ block('widget_choice_options') }}
+                    {% if choices|length > 0 and separator is not none %}
+                        <option disabled="disabled">{{ separator }}</option>
+                    {% endif %}
+                {% endif %}
+                {% set options = choices %}
+                {{ block('widget_choice_options') }}
+            </select>
+        {% endif %}
+    {% endspaceless %}
+{% endblock %}
+
+{%- block checkbox_widget -%}
+    {% spaceless %}
+        <div>
+            <label for="{{ id }}">{{ label|trans }}</label>
+            <input type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} /><br>
+        </div>
+    {% endspaceless %}
+{%- endblock -%}
+
+{% block content -%}
+<section>
+    <h1>{{ 'entity.board.new'|trans }}</h1>
+
+    {{ form_start(form) }}
+    {{ form_row(form.firstname) }}<br>
+    {{ form_row(form.lastname) }}<br>
+    {{ form_row(form.gender) }}<br><br>
+    {{ form_row(form.email) }}<br>
+    {{ form_row(form.mobile) }}<br>
+
+    {% if form.section is defined %}
+        {{ form_row(form.section) }}<br>
+    {% endif %}
+
+    {% if form.posts is defined %}
+        {{ form_row(form.posts) }}<br>
+    {% endif %}
+
+    <input type="submit" value="{{ 'label.button.save'|trans }}" class="button" />
+
+{{ form_end(form) }}
+
+</section>
+{% endblock %}

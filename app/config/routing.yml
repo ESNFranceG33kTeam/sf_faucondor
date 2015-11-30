@@ -1,3 +1,7 @@
-app:
-    resource: "@AppBundle/Controller/"
-    type:     annotation
+faucon_dor:
+    resource: "@FaucondorBundle/Resources/config/routing.yml"
+    prefix:   /
+
+user:
+    resource: "@UserBundle/Resources/config/routing.yml"
+    prefix:   /

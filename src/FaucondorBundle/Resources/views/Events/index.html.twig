@@ -1,0 +1,31 @@
+{% extends 'FaucondorBundle::layout.html.twig' %}
+
+{% block content -%}
+    <h1>{{ 'entity.event.list'|trans }}</h1>
+
+    <p>
+        <a class="button" href="{{ path('events_new') }}">{{ 'entity.event.new'|trans }}</a>
+    </p>
+
+    <div class="tables">
+        <table class="table records_list datatable">
+            <thead>
+                <tr>
+                    <th>{{ 'entity.event.name'|trans }}</th>
+                    <th>{{ 'entity.event.start'|trans }}</th>
+                    <th>{{ 'entity.event.end'|trans }}</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for entity in entities %}
+                <tr>
+                    <td><a href="{{ path('events_edit', { 'id': entity.id }) }}">{{ entity.name }}</a></td>
+                    <td>{% if entity.start %}{{ entity.start|date('Y-m-d H:i:s') }}{% endif %}</td>
+                    <td>{% if entity.end %}{{ entity.end|date('Y-m-d H:i:s') }}{% endif %}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

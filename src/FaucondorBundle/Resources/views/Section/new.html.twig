@@ -1,0 +1,20 @@
+{% extends 'FaucondorBundle::layout.html.twig' %}
+
+{% block content -%}
+    <section>
+        <h1>Section creation</h1>
+
+        {{ form(form) }}
+
+        {{ form_start(form) }}
+
+        {{ form_row(form.name) }}<br>
+        {{ form_row(form.joindate) }}<br>
+        {{ form_row(form.code) }}<br><br>
+        {{ form_row(form.country) }}
+
+        <input type="submit" value="{{ 'label.button.save'|trans }}" class="button" />
+
+        {{ form_end(form) }}
+    </section>
+{% endblock %}

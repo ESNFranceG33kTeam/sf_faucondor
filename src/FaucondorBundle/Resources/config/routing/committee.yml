@@ -1,0 +1,29 @@
+committee:
+    path:     /
+    defaults: { _controller: "FaucondorBundle:Committee:index" }
+
+committee_show:
+    path:     /{id}/show
+    defaults: { _controller: "FaucondorBundle:Committee:show" }
+
+committee_new:
+    path:     /new
+    defaults: { _controller: "FaucondorBundle:Committee:new" }
+
+committee_create:
+    path:     /create
+    defaults: { _controller: "FaucondorBundle:Committee:create" }
+    methods:  POST
+
+committee_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "FaucondorBundle:Committee:edit" }
+
+committee_update:
+    path:     /{id}/update
+    defaults: { _controller: "FaucondorBundle:Committee:update" }
+    methods:  [POST, PUT]
+
+committee_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "FaucondorBundle:Committee:delete" }

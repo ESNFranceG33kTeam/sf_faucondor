@@ -1,0 +1,51 @@
+{% block menu %}
+    {% set current = app.request.attributes.get('_route') %}
+    <ul id="menu">
+        {% if app.user.isActiveMember() %}
+            <li {% if current == "faucondor_annuaire" %}id="current"{% endif %}>
+                <a href="{{ path('faucondor_annuaire') }}">{{ 'label.menu.annuaire'|trans }}</a>
+            </li>
+            <li {% if current == "faucondor_participation" %}id="current"{% endif %}>
+                <a href="{{ path('faucondor_participation') }}">{{ 'label.menu.participation'|trans }}</a>
+            </li>
+        {% endif %}
+        {% if app.user.isRL() or app.user.isChair() or app.user.isNationalVP() %}
+            <li {% if current == "faucondor_edit_board" %}id="current"{% endif %}>
+                <a href="{{ path('faucondor_edit_board') }}">{{ 'label.menu.board'|trans }}</a>
+            </li>
+        {% endif %}
+        {% if app.user.isNationalVP() or app.user.isNationalNR() %}
+            <li {% if current == "events" %}id="current"{% endif %}>
+                <a href="{{ path('events') }}">{{ 'label.menu.events'|trans }}</a>
+            </li>
+            <li {% if current == "section" %}id="current"{% endif %}>
+                <a href="{{ path('section') }}">{{ 'label.menu.sections'|trans }}</a>
+            </li>
+            <li {% if current == "committee" %}id="current"{% endif %}>
+                <a href="{{ path('committee') }}">{{ 'label.menu.committee'|trans }}</a>
+            </li>
+            <li {% if current == "faucondor_mailrl" %}id="current"{% endif %}>
+                <a href="{{ path('faucondor_mailrl') }}">{{ 'label.menu.rl'|trans }}</a>
+            </li>
+            <li {% if current == "faucondor_listes" %}id="current"{% endif %}>
+                <a href="{{ path('faucondor_listes') }}">{{ 'label.menu.listes'|trans }}</a>
+            </li>
+        {% endif %}
+    </ul>
+
+    <div id="profile">
+
+        <img src='{{ app.user.galaxypicture }}' title="{{ 'label.worth.point'|trans({'%points%': app.user.getValue} ) }}">
+
+        <p>
+            {{ 'label.menu.hello'|trans }} {{ app.user }}<br><br>
+
+           {{ app.user.section }}<br>
+           {{ app.user.email }}<br><br>
+
+           <a href='{{ path('faucondor_logout') }}'>
+                {{ 'label.logout'|trans }}
+           </a>
+        </p>
+    </div>
+{% endblock %}

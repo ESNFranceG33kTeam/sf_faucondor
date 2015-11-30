@@ -1,0 +1,20 @@
+{% extends 'FaucondorBundle::layout.html.twig' %}
+
+{% block content %}
+    <h1>{{ 'label.menu.email'|trans }}</h1>
+
+    <div id="edit_email">
+        {{ form_start(form) }}
+
+        {{ form_label(form.from) }}
+        {{ form_widget(form.from) }}<br><br>
+        {{ form_label(form.subject) }}
+        {{ form_widget(form.subject) }}<br><br>
+        {{ form_label(form.body) }}
+        {{ form_widget(form.body) }}
+
+        <input type="submit" value="{{ 'label.mail.update'|trans }}" class="button" />
+
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

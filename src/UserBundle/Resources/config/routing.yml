@@ -1,0 +1,18 @@
+user_user:
+    resource: "@UserBundle/Resources/config/routing/user.yml"
+    prefix:   /user
+
+faucondor_login:
+    path:     /login
+    defaults: { _controller: UserBundle:Default:index }
+
+faucondor_login_check:
+    path:     /login_check
+    defaults: { _controller: UserBundle:Login:check }
+
+faucondor_logout:
+    path:     /logout
+    defaults: { _controller: UserBundle:Login:logout }
+
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"

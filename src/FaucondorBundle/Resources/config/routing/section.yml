@@ -1,0 +1,29 @@
+section:
+    path:     /
+    defaults: { _controller: "FaucondorBundle:Section:index" }
+
+section_show:
+    path:     /{id}/show
+    defaults: { _controller: "FaucondorBundle:Section:show" }
+
+section_new:
+    path:     /new
+    defaults: { _controller: "FaucondorBundle:Section:new" }
+
+section_create:
+    path:     /create
+    defaults: { _controller: "FaucondorBundle:Section:create" }
+    methods:  POST
+
+section_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "FaucondorBundle:Section:edit" }
+
+section_update:
+    path:     /{id}/update
+    defaults: { _controller: "FaucondorBundle:Section:update" }
+    methods:  [POST, PUT]
+
+section_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "FaucondorBundle:Section:delete" }

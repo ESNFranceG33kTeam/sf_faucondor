@@ -1,0 +1,51 @@
+faucondor_points:
+    resource: "@FaucondorBundle/Resources/config/routing/points.yml"
+    prefix:   /points
+
+faucondor_committee:
+    resource: "@FaucondorBundle/Resources/config/routing/committee.yml"
+    prefix:   /committee
+
+faucondor_events:
+    resource: "@FaucondorBundle/Resources/config/routing/events.yml"
+    prefix:   /events
+
+faucondor_board:
+    resource: "@FaucondorBundle/Resources/config/routing/board.yml"
+    prefix:   /board
+
+faucondor_homepage:
+    path:     /
+    defaults: { _controller: FaucondorBundle:Faucondor:index }
+
+faucondor_annuaire:
+    path:     /annuaire
+    defaults: { _controller: FaucondorBundle:Faucondor:annuaire }
+
+faucondor_annuaire_ajax:
+    path:     /annuaire/section/{section_id}/event/{event_id}
+    defaults: { _controller: FaucondorBundle:Faucondor:sectionEvent }
+
+faucondor_participation:
+    path:     /participation
+    defaults: { _controller: FaucondorBundle:Faucondor:participation }
+
+faucondor_edit_board:
+    path:     /board
+    defaults: { _controller: FaucondorBundle:Faucondor:editBoard }
+
+faucondor_gestion_events:
+    path:     /events
+    defaults: { _controller: FaucondorBundle:Faucondor:events }
+
+faucondor_section:
+    resource: "@FaucondorBundle/Resources/config/routing/section.yml"
+    prefix:   /section
+
+faucondor_mailrl:
+    path:     /rl
+    defaults: { _controller: FaucondorBundle:Faucondor:mailrl }
+
+faucondor_listes:
+    path:     /export
+    defaults: { _controller: FaucondorBundle:Faucondor:exportlistes }

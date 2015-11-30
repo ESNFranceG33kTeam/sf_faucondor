@@ -1,0 +1,28 @@
+{% extends 'FaucondorBundle::layout.html.twig' %}
+
+{% block content %}
+    <h1>{{ 'label.menu.export'|trans }}</h1>
+
+    <div id="accordion">
+        {% for postname, users in posts_users %}
+            <h3>{{ postname }}</h3>
+            <div>
+                <div class="focus" style="width: 100%;">{% spaceless %}{{- users -}}{% endspaceless %}</div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        $( document ).ready(function() {
+            $( "#accordion" ).accordion({
+                collapsible: true
+            });
+
+            $(".focus").click(function() {
+                $(this).select();
+            });
+        });
+    </script>
+{% endblock %}

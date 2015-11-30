@@ -1,0 +1,29 @@
+{% extends 'FaucondorBundle::layout.html.twig' %}
+
+{% block content -%}
+    <h1>{{ 'label.menu.sections'|trans }}</h1>
+
+    <p>
+        <a id="addsection" class="button" href="{{ path('section_new') }}">{{ 'entity.section.new'|trans }}</a>
+    </p>
+
+    <div class="tables">
+        <table class="table sections datatable">
+            <thead>
+                <tr class=".firstColumn">
+                    <th>{{ 'entity.section.name'|trans }}</th>
+                    <th>{{ 'entity.section.joindate'|trans }}</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for section in sections %}
+                <tr>
+                    <td><a href="{{ path('section_edit', { 'id': section.id }) }}">{{ section.name }}</a></td>
+                    <td>{% if section.joindate %}{{ section.joindate|date('Y-m-d H:i:s') }}{% endif %}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}
