@@ -231,7 +231,7 @@ class BoardController extends Controller
 
             $this->addFlash('success', $this->get('translator')->trans('board.success.update'));
 
-            return $this->redirect($this->generateUrl('board_edit', array('id' => $id, 'type' => $type)));
+            return $this->redirect($this->generateUrl('board'));
         }
 
         return $this->render('FaucondorBundle:Board:edit.html.twig', array(

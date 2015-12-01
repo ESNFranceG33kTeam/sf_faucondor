@@ -71,7 +71,7 @@ class FaucondorController extends Controller
             if (count($user) == 1) {
                 $nationalusers[$nationalName][] = $user;
             }elseif (count($user) > 1){
-                throw new Exception('Multiple National Board members on the same post');
+                $this->addFlash('error', $this->get('translator')->trans('error.multiplenbmembers'));
             }
         }
 

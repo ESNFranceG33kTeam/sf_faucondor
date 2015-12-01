@@ -75,3 +75,4 @@ success.points.validated: Points validated
 label.worth.point: You are worh %points% point|You are worh %points% points
 label.droits: Droits
 label.situation: Your situation
+error.multiplenbmembers: Multiple National Board members on the same post
