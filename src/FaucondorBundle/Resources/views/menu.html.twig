@@ -9,7 +9,7 @@
                 <a href="{{ path('faucondor_participation') }}">{{ 'label.menu.participation'|trans }}</a>
             </li>
         {% endif %}
-        {% if app.user.isRL() or app.user.isChair() or app.user.isNationalVP() %}
+        {% if app.user.isRL() or app.user.isNationalChair() or app.user.isNationalVP() %}
             <li {% if current == "faucondor_edit_board" %}id="current"{% endif %}>
                 <a href="{{ path('faucondor_edit_board') }}">{{ 'label.menu.board'|trans }}</a>
             </li>
