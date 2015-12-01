@@ -1,7 +1,7 @@
 {% block menu %}
     {% set current = app.request.attributes.get('_route') %}
     <ul id="menu">
-        {% if app.user.isActiveMember() %}
+        {% if app.user.isActiveMember() or app.user.isAlumnus() %}
             <li {% if current == "faucondor_annuaire" %}id="current"{% endif %}>
                 <a href="{{ path('faucondor_annuaire') }}">{{ 'label.menu.annuaire'|trans }}</a>
             </li>
@@ -35,13 +35,19 @@
 
     <div id="profile">
 
-        <img src='{{ app.user.galaxypicture }}' title="{{ 'label.worth.point'|trans({'%points%': app.user.getValue} ) }}">
+        {% set value = (app.user.getValue >= 1) ? app.user.getValue : 1 %}
+
+        <img src='{{ app.user.galaxypicture }}' title="{{ 'label.worth.point'|transchoice(value, {'%points%': app.user.getValue} ) }}">
 
         <p>
             {{ 'label.menu.hello'|trans }} {{ app.user }}<br><br>
 
            {{ app.user.section }}<br>
            {{ app.user.email }}<br><br>
+
+            {% for post in app.user.posts %}
+                {{ post.fullname }}<br>
+            {% endfor %}<br>
 
            <a href='{{ path('faucondor_logout') }}'>
                 {{ 'label.logout'|trans }}

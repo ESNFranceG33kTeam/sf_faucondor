@@ -392,6 +392,15 @@ class User extends BaseUser
      *
      * @return bool
      */
+    public function isNationalWebmaster(){
+        return $this->hasPermission("national", "webmaster");
+    }
+
+    /**
+     * Check if user is national Comity Chair
+     *
+     * @return bool
+     */
     public function isInternationalChair(){
         return $this->hasPermission("international", "projectCoordinator");
     }
@@ -403,6 +412,15 @@ class User extends BaseUser
      */
     public function isNationalVP(){
         return $this->hasPermission("national", "vicePresident");
+    }
+
+    /**
+     * Check if user is national VP
+     *
+     * @return bool
+     */
+    public function isAlumnus(){
+        return $this->hasPermission("national", "alumnus") or $this->hasPermission("local", "alumnus");
     }
 
     /**
@@ -460,6 +478,7 @@ class User extends BaseUser
         if ($this->isLocalPresident()) return 3;
         if ($this->isLocalBoardMember()) return 2;
         if ($this->isActiveMember()) return 1;
+        if ($this->isAlumnus()) return -1;
     }
 
     /**
