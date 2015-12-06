@@ -161,7 +161,7 @@ class CommitteeController extends Controller
         $committee = $em->getRepository('FaucondorBundle:Committee')->find($id);
 
         if (!$committee) {
-            throw $this->createNotFoundException('Unable to find Committee entity.');
+            throw $this->createNotFoundException('Unable to find Committee.');
         }
 
         $deleteForm = $this->createDeleteForm($id);

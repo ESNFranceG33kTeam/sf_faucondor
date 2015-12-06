@@ -10,18 +10,18 @@
             </li>
         {% endif %}
         {% if app.user.isRL() or app.user.isNationalChair() or app.user.isNationalVP() %}
-            <li {% if current == "faucondor_edit_board" %}id="current"{% endif %}>
-                <a href="{{ path('faucondor_edit_board') }}">{{ 'label.menu.board'|trans }}</a>
+            <li {% if current == "board" or current == "board_new" or current == "board_edit" %}id="current"{% endif %}>
+                <a href="{{ path('board') }}">{{ 'label.menu.board'|trans }}</a>
             </li>
         {% endif %}
         {% if app.user.isNationalVP() or app.user.isNationalNR() %}
-            <li {% if current == "events" %}id="current"{% endif %}>
+            <li {% if current == "events" or current == "events_new" or current == "events_edit" %}id="current"{% endif %}>
                 <a href="{{ path('events') }}">{{ 'label.menu.events'|trans }}</a>
             </li>
-            <li {% if current == "section" %}id="current"{% endif %}>
+            <li {% if current == "section" or current == "section_new" or current == "section_edit"%}id="current"{% endif %}>
                 <a href="{{ path('section') }}">{{ 'label.menu.sections'|trans }}</a>
             </li>
-            <li {% if current == "committee" %}id="current"{% endif %}>
+            <li {% if current == "committee" or current == "committee_new" or current == "committee_edit"%}id="current"{% endif %}>
                 <a href="{{ path('committee') }}">{{ 'label.menu.committee'|trans }}</a>
             </li>
             <li {% if current == "faucondor_mailrl" %}id="current"{% endif %}>

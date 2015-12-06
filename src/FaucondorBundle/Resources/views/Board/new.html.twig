@@ -2,11 +2,11 @@
 
 {% form_theme form _self %}
 
-{%- block radio_widget -%}
+{% block radio_widget %}
     {% spaceless %}
-        <input style="min-width: 15px;" type="radio" name="{{ full_name }}" id="radio_{{ value }}" value="{{ value }}"{% if checked %} checked="checked"{% endif %} />
+        <label  for="{{ id }}"><input type="radio" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />{{ label|trans }}</label>
     {% endspaceless %}
-{%- endblock -%}
+{% endblock radio_widget %}
 
 {% block choice_widget %}
     {% spaceless %}
@@ -29,11 +29,25 @@
                     {% endif %}
                 {% endif %}
                 {% set options = choices %}
-                {{ block('widget_choice_options') }}
+                {{ block('choice_widget_options') }}
             </select>
         {% endif %}
     {% endspaceless %}
 {% endblock %}
+
+{%- block choice_widget_options -%}
+    {% for group_label, choice in options %}
+        {%- if choice is iterable -%}
+            <optgroup label="{{ choice_translation_domain is same as(false) ? group_label : group_label|trans({}, choice_translation_domain) }}">
+                {% set options = choice %}
+                {{- block('choice_widget_options') -}}
+            </optgroup>
+        {%- else -%}
+            {% set attr = choice.attr %}
+            <option value="{{ choice.value }}" {{ block('attributes') }}{% if choice is selectedchoice(value) %} selected="selected"{% endif %}>{{ choice_translation_domain is same as(false) ? choice.label : choice.label|trans({}, choice_translation_domain) }}</option>
+        {%- endif -%}
+    {% endfor %}
+{%- endblock choice_widget_options -%}
 
 {%- block checkbox_widget -%}
     {% spaceless %}
@@ -44,8 +58,17 @@
     {% endspaceless %}
 {%- endblock -%}
 
+{% block choice_widget_expanded %}
+    {% spaceless %}
+        <div {{ block('widget_container_attributes') }}>
+            {% for child in form %}
+                {{ form_widget(child) }}
+            {% endfor %}
+        </div>
+    {% endspaceless %}
+{% endblock choice_widget_expanded %}
+
 {% block content -%}
-<section>
     <h1>{{ 'entity.board.new'|trans }}</h1>
 
     {{ form_start(form) }}
@@ -66,6 +89,40 @@
     <input type="submit" value="{{ 'label.button.save'|trans }}" class="button" />
 
 {{ form_end(form) }}
+{% endblock %}
 
-</section>
+{% block javascript %}
+    <script>
+        var localboardmember = $("#userbundle_user_posts_3");
+        var nationalboardmember = $("#userbundle_user_posts_6");
+        var activemember = $("#userbundle_user_posts_12");
+
+        //President, RL, Secretary, Treasurer, VP, Webmaster
+        var arrayLocalBoardPosts = ["36", "7", "18", "20", "21", "4"];
+
+        //NR, President, Secretary, Treasurer, VP
+        var arrayNationalBoardPosts = ["8", "11", "29", "31", "32", "1"];
+
+        $('input:checkbox').click(function() {
+            if (!activemember.checked){
+                activemember.prop('checked', true);
+            }
+
+            if (!nationalboardmember.checked){
+                if ($.inArray($(this).val(), arrayNationalBoardPosts) >= 0){
+                    nationalboardmember.prop('checked', true);
+                }
+            }
+
+
+            if (!localboardmember.checked){
+                console.log($.inArray($(this).val(), arrayLocalBoardPosts));
+                if ($.inArray($(this).val(), arrayLocalBoardPosts) >= 0){
+                    localboardmember.prop('checked', true);
+                }
+            }
+
+
+        });
+    </script>
 {% endblock %}

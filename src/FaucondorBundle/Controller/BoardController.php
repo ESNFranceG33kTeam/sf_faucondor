@@ -36,7 +36,8 @@ class BoardController extends Controller
 
         //Local Board Members
         if ($user->isLocalBoardMember()){
-            $board_members = $em->getRepository('UserBundle:User')->findUsersByPost($user->getLocalBoardPost());
+            //$board_members = $em->getRepository('UserBundle:User')->findUsersByPost($user->getLocalBoardPost());
+            $board_members = $em->getRepository('UserBundle:User')->findUsersBySection($user->getSection());
             $users[$user->getLocalBoardPost()->getName()] = array();
 
             /** @var User $board_member */
@@ -123,7 +124,6 @@ class BoardController extends Controller
             if (!$entity->getId()){
                 $entity->setUsername($form->get('email')->getData());
                 $entity->setRandomPassword();
-                $entity->setSection($this->getUser()->getSection());
             }
 
             $em->persist($entity);
