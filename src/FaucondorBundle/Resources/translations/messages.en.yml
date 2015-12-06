@@ -78,3 +78,4 @@ label.worth.point: You are worh %points% point|You are worh %points% points
 label.droits: Droits
 label.situation: Your situation
 error.multiplenbmembers: Multiple National Board members on the same post
+email.welcome: <h1>Bienvenue dans Faucon d'or</h1><p>Bienvenue, tu viens d'être ajouter dans notre annuaire national : <a href="http://faucondor.ixesn.fr">le Faucon d'or</a></p><p>Tu peux t'y connecter via l'adresse email avec laquelle tu t'es enregistré sur <a href="http://galaxy.esn.org">galaxy</a></p><p>Pour tout probleme tu peux contacter ta RL, le <a href="mailto:vp@ixesn.fr">VP Section</a> ou encore <a href="mailto:jeremie.samson@ix.esnlille.fr">le développeur</a></p><br><p>A bientôt !</p>

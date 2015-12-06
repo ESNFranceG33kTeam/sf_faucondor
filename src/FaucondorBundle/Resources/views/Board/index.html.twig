@@ -72,7 +72,8 @@
                             {% endif %}
                         </td>
                         <td>
-                            <a href="{{ path('board_edit', { 'id': user.id, 'type': type }) }}">Edit<i class="fa fa-pencil-square-o"></i></a>
+                            <a href="{{ path('board_edit', { 'id': user.id, 'type': type }) }}"><i class="fa fa-pencil-square-o"></i></a>
+                            <a href="{{ path('board_delete', { 'id': user.id }) }}">Delete<i class="fa fa-times"></i></a>
                         </td>
                     </tr>
                 {% endfor %}

@@ -22,6 +22,10 @@ class SectionController extends Controller
      */
     public function indexAction()
     {
+        if (!$this->getUser()->isNationalVP() || !$this->getUser()->isNationalNR()){
+            throw $this->createAccessDeniedException();
+        }
+
         /** @var EntityManager $em */
         $em = $this->getDoctrine()->getManager();
 
@@ -37,6 +41,10 @@ class SectionController extends Controller
      */
     public function createAction(Request $request)
     {
+        if (!$this->getUser()->isNationalVP() || !$this->getUser()->isNationalNR()){
+            throw $this->createAccessDeniedException();
+        }
+
         $entity = new Section();
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
@@ -78,6 +86,10 @@ class SectionController extends Controller
      */
     public function newAction()
     {
+        if (!$this->getUser()->isNationalVP() || !$this->getUser()->isNationalNR()){
+            throw $this->createAccessDeniedException();
+        }
+
         $entity = new Section();
         $form   = $this->createCreateForm($entity);
 
@@ -94,6 +106,10 @@ class SectionController extends Controller
      */
     public function editAction($id)
     {
+        if (!$this->getUser()->isNationalVP() || !$this->getUser()->isNationalNR()){
+            throw $this->createAccessDeniedException();
+        }
+
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('FaucondorBundle:Section')->find($id);
@@ -132,6 +148,10 @@ class SectionController extends Controller
      */
     public function updateAction(Request $request, $id)
     {
+        if (!$this->getUser()->isNationalVP() || !$this->getUser()->isNationalNR()){
+            throw $this->createAccessDeniedException();
+        }
+
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('FaucondorBundle:Section')->find($id);
@@ -162,6 +182,10 @@ class SectionController extends Controller
      */
     public function deleteAction(Request $request, $id)
     {
+        if (!$this->getUser()->isNationalVP() || !$this->getUser()->isNationalNR()){
+            throw $this->createAccessDeniedException();
+        }
+
         $form = $this->createDeleteForm($id);
         $form->handleRequest($request);
 

@@ -26,6 +26,10 @@ class BoardController extends Controller
      */
     public function indexAction()
     {
+        if (!$this->getUser()->isRL() || !$this->getUser()->isNationalVP() || !$this->getUser()->isNationalNR() ){
+            throw $this->createAccessDeniedException();
+        }
+
         /** @var EntityManager $em */
         $em = $this->getDoctrine()->getManager();
 
@@ -113,6 +117,10 @@ class BoardController extends Controller
      */
     public function createAction(Request $request)
     {
+        if (!$this->getUser()->isRL() || !$this->getUser()->isNationalVP() || !$this->getUser()->isNationalNR() ){
+            throw $this->createAccessDeniedException();
+        }
+
         $entity = new User();
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
@@ -122,6 +130,12 @@ class BoardController extends Controller
             $em = $this->getDoctrine()->getManager();
 
             if (!$entity->getId()){
+                if ($entity->isRL()){
+                    $this->sendRLEmail($entity);
+                }else{
+                    $this->sendWelcomeEmail($entity);
+                }
+
                 $entity->setUsername($form->get('email')->getData());
                 $entity->setRandomPassword();
             }
@@ -161,6 +175,10 @@ class BoardController extends Controller
      */
     public function newAction()
     {
+        if (!$this->getUser()->isRL() || !$this->getUser()->isNationalVP() || !$this->getUser()->isNationalNR() ){
+            throw $this->createAccessDeniedException();
+        }
+
         $entity = new User();
         $form   = $this->createCreateForm($entity);
 
@@ -177,6 +195,10 @@ class BoardController extends Controller
      */
     public function editAction($id, $type)
     {
+        if (!$this->getUser()->isRL() || !$this->getUser()->isNationalVP() || !$this->getUser()->isNationalNR() ){
+            throw $this->createAccessDeniedException();
+        }
+
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('UserBundle:User')->find($id);
@@ -215,6 +237,10 @@ class BoardController extends Controller
      */
     public function updateAction(Request $request, $type, $id)
     {
+        if (!$this->getUser()->isRL() || !$this->getUser()->isNationalVP() || !$this->getUser()->isNationalNR() ){
+            throw $this->createAccessDeniedException();
+        }
+
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('UserBundle:User')->find($id);
@@ -245,9 +271,12 @@ class BoardController extends Controller
      */
     public function deleteAction(Request $request, $id)
     {
+        if (!$this->getUser()->isRL() || !$this->getUser()->isNationalVP() || !$this->getUser()->isNationalNR() ){
+            throw $this->createAccessDeniedException();
+        }
 
         $em = $this->getDoctrine()->getManager();
-        $entity = $em->getRepository('FaucondorBundle:Board')->find($id);
+        $entity = $em->getRepository('UserBundle:User')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find User entity.');
@@ -262,19 +291,54 @@ class BoardController extends Controller
     }
 
     /**
-     * Creates a form to delete a User entity by id.
+     * Send email to user
      *
-     * @param mixed $id The entity id
-     *
-     * @return \Symfony\Component\Form\Form The form
+     * @param User $user
      */
-    private function createDeleteForm($id)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('user_delete', array('id' => $id)))
-            ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
-            ->getForm()
+    private function sendRLEmail(User $user){
+        $attach = __DIR__ . "/../../../HRBundle/Resources/views/Emails/guide.pptx";
+
+        $message = \Swift_Message::newInstance()
+            ->setSubject('[ESN France] Faucon d\'or')
+            ->setFrom($this->container->getParameter('mailer_from'))
+            ->setTo($user->getEmail())
+            ->setBody(
+                $this->get('templating')->render(
+                    'FaucondorBundle:Emails:rl.html.twig',
+                    array('user' => $user)
+                ),
+                'text/html'
+            )
+            //->attach(\Swift_Attachment::fromPath($attach))
         ;
+        $this->get('mailer')->send($message);
+    }
+
+    /**
+     * Send email to user
+     *
+     * @param User $user
+     */
+    private function sendWelcomeEmail(User $user){
+        $message = \Swift_Message::newInstance()
+            ->setSubject('[ESN France] Faucon d\'or')
+            ->setFrom($this->container->getParameter('mailer_from'))
+            ->setTo($user->getEmail())
+            ->setBody(
+                $this->get('templating')->render(
+                    'FaucondorBundle:Emails:welcome.html.twig',
+                    array('user' => $user)
+                ),
+                'text/html'
+            )
+        ;
+        $this->get('mailer')->send($message);
+    }
+
+    /**
+     * @return User
+     */
+    public function getUser(){
+        return $this->getUser();
     }
 }

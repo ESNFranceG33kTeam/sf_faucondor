@@ -161,6 +161,10 @@ class FaucondorController extends Controller
      */
     public function mailrlAction(Request $request)
     {
+        if (!$this->getUser()->isNationalVP() || !$this->getUser()->isNationalNR() ){
+            throw $this->createAccessDeniedException();
+        }
+
         /** @var EntityManager $em */
         $em = $this->getDoctrine()->getManager();
 
@@ -180,6 +184,10 @@ class FaucondorController extends Controller
 
     public function exportlistesAction()
     {
+        if (!$this->getUser()->isNationalBoardMember()){
+            throw $this->createAccessDeniedException();
+        }
+
         /** @var EntityManager $em */
         $em = $this->getDoctrine()->getManager();
 

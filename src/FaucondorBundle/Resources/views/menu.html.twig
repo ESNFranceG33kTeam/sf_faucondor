@@ -24,9 +24,13 @@
             <li {% if current == "committee" or current == "committee_new" or current == "committee_edit"%}id="current"{% endif %}>
                 <a href="{{ path('committee') }}">{{ 'label.menu.committee'|trans }}</a>
             </li>
+        {% endif %}
+        {% if app.user.isNationalVP() %}
             <li {% if current == "faucondor_mailrl" %}id="current"{% endif %}>
                 <a href="{{ path('faucondor_mailrl') }}">{{ 'label.menu.rl'|trans }}</a>
             </li>
+        {% endif %}
+        {% if app.user.isNationalBoardMember %}
             <li {% if current == "faucondor_listes" %}id="current"{% endif %}>
                 <a href="{{ path('faucondor_listes') }}">{{ 'label.menu.listes'|trans }}</a>
             </li>
