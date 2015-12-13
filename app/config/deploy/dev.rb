@@ -1,5 +1,5 @@
-set :branch, "master"
-set :deploy_to, "/homez.635/esnfranc/www/annuaire"
-set :symfony_env_prod, "prod"
+set :branch, "dev"
+set :deploy_to, "/volume1/web/faucondor"
+set :symfony_env_prod, "dev"
 
-set :domain,      "ftp.ixesn.fr"
+set :domain,      "thebestcolocever.no-ip.org"

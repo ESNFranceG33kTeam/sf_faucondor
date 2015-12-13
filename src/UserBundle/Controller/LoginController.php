@@ -50,11 +50,24 @@ class LoginController extends Controller
 
 
         if ($user_cas != null && $user_cas->getNationality() == $code_country){
-            $user_db = $em->getRepository("UserBundle:User")->findOneBy(array("email" => $user_cas->getEmail()));
+            $user_db = $em->getRepository("UserBundle:User")->findOneBy(array("emailgalaxy" => $user_cas->getEmail()));
 
-            //Check
-            if (!$user_db)
+            //Check on first and lastname
+            if (!$user_db){
                 $user_db = $em->getRepository("UserBundle:User")->findOneBy(array("firstname" => $user_cas->getFirstname(), "lastname" => $user_cas->getLastname()));
+
+                if ($user_db && $user_db->getEmail() != $user_cas->getEmail()){
+                    $user_db->setEmailgalaxy($user_cas->getEmail());
+                }
+            }else{
+                //Check on email
+                $user_db = $em->getRepository("UserBundle:User")->findOneBy(array("email" => $user_cas->getEmail()));
+
+                if ($user_db){
+                    $user_db->setEmail(null);
+                    $user_db->setEmailgalaxy($user_cas->getEmail());
+                }
+            }
 
             $user = (!$user_db) ? new User() : $user_db;
 

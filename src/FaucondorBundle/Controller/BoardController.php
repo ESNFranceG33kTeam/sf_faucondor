@@ -334,11 +334,4 @@ class BoardController extends Controller
         ;
         $this->get('mailer')->send($message);
     }
-
-    /**
-     * @return User
-     */
-    public function getUser(){
-        return $this->getUser();
-    }
 }
