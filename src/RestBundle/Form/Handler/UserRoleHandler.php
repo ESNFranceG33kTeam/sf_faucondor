@@ -11,8 +11,10 @@ namespace RestBundle\Form\Handler;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManager;
+use FaucondorBundle\Entity\Post;
 use FaucondorBundle\Entity\Section;
 use RestBundle\Form\Model\ModelUser;
+use RestBundle\Form\Model\ModelUserRole;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,7 +23,7 @@ use Symfony\Component\Serializer\Tests\Model;
 use Symfony\Component\Translation\Exception\NotFoundResourceException;
 use UserBundle\Entity\User;
 
-class UserHandler
+class UserRoleHandler
 {
     /**
      * Form
@@ -69,20 +71,28 @@ class UserHandler
             $this->form->handleRequest($this->request);
 
             if ($this->form->isValid()) {
-                /** @var ModelUser $user */
-                $user = $this->form->getData();
+                /** @var ModelUserRole $model */
+                $model = $this->form->getData();
 
-                if (!$user->getFirstname() || !$user->getLastname() || !$user->getEmailGalaxy() || !$user->getSection()){
+                if (!$model->getUser() || !$model->getRole()){
                     throw new Exception('Missing parameters');
                 }
 
-                $section = $this->em->getRepository('FaucondorBundle:Section')->find($user->getSection());
+                /** @var User $user */
+                $user = $this->em->getRepository('UserBundle:User')->find($model->getUser());
 
-                if (!$section){
-                    throw new NotFoundResourceException('Section with id ' . $user->getSection() . ' not found');
+                /** @var Post $role */
+                $role = $this->em->getRepository('FaucondorBundle:Post')->find($model->getRole());
+
+                if (!$user){
+                    throw new NotFoundResourceException('User with id ' . $model->getUser() . ' not found ');
                 }
 
-                $this->onSuccess($user, $section);
+                if (!$role){
+                    throw new NotFoundResourceException('Role with id ' . $model->getRole() . ' not found ');
+                }
+
+                $this->onSuccess($user, $role);
 
                 return true;
             }
@@ -96,23 +106,13 @@ class UserHandler
      *
      * @author Jeremie Samson <jeremie@ylly.fr>
      *
-     * @param ModelUser $user
+     * @param User $user
+     * @param Post $post
      */
-    protected function onSuccess(ModelUser $model, Section $section)
+    protected function onSuccess(User $user, Post $post)
     {
-        $user = new User();
-        $user->setEnabled(true);
-        $user->setRandomPassword();
+        $user->addPost($post);
 
-        $user->setFirstname($model->getFirstname());
-        $user->setLastname($model->getLastname());
-        $user->setEmailgalaxy($model->getEmailGalaxy());
-        $user->setEmail(($model->getEmail()) ? $model->getEmail() : $model->getEmailGalaxy());
-        $user->setUsername($model->getEmailgalaxy());
-
-        $section->addUser($user);
-
-        $this->em->persist($user);
         $this->em->flush();
     }
 }
