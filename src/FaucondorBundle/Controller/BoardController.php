@@ -66,11 +66,11 @@ class BoardController extends Controller
         if ($user->isNationalBoardMember()){
             $nationalboardname = "ESN " . $this->container->getParameter('country');
             $board_members = $em->getRepository('UserBundle:User')->findUsersByPost($user->getNationalBoardPost());
-            $users[$nationalboardname] = array();
+            $users[$user->getNationalBoardPost()->getName()] = array();
 
             /** @var User $board_member */
             foreach($board_members as $board_member){
-                $users[$nationalboardname][] = $board_member;
+                $users[$user->getNationalBoardPost()->getName()][] = $board_member;
 
                 if (!isset($committees[$board_member->getId()]))
                     $committees[$board_member->getId()] = array();
@@ -108,7 +108,8 @@ class BoardController extends Controller
 
         return $this->render('FaucondorBundle:Board:index.html.twig', array(
             'board_members' => $users,
-            'committees'    => $committees
+            'committees'    => $committees,
+            'nationalboardname' => $nationalboardname
         ));
     }
     /**
@@ -136,6 +137,7 @@ class BoardController extends Controller
                     $this->sendWelcomeEmail($entity);
                 }
 
+                $entity->setEmailgalaxy($form->get('email')->getData());
                 $entity->setUsername($form->get('email')->getData());
                 $entity->setRandomPassword();
             }
@@ -296,7 +298,7 @@ class BoardController extends Controller
      * @param User $user
      */
     private function sendRLEmail(User $user){
-        $attach = __DIR__ . "/../../../HRBundle/Resources/views/Emails/guide.pptx";
+        $attach = __DIR__ . "/../../../FauconDorBundle/Resources/views/Emails/FicheDePosteRL.pdf";
 
         $message = \Swift_Message::newInstance()
             ->setSubject('[ESN France] Faucon d\'or')
@@ -309,7 +311,7 @@ class BoardController extends Controller
                 ),
                 'text/html'
             )
-            //->attach(\Swift_Attachment::fromPath($attach))
+            ->attach(\Swift_Attachment::fromPath($attach))
         ;
         $this->get('mailer')->send($message);
     }

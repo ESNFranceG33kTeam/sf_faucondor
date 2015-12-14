@@ -71,8 +71,9 @@ class BoardHandler
      * @param User $user
      */
     protected function onSuccess(User $user){
-        if (!$user->getId()){}
+        if (!$user->getId()){
             $this->sendEmail($user);
+        }
 
         $this->em->persist($user);
         $this->em->flush();
