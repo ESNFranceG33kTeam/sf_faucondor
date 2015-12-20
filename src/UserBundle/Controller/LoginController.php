@@ -80,7 +80,7 @@ class LoginController extends Controller
 
             $user->setUsername($user_cas->getEmail());
             $user->setUsernameCanonical($user_cas->getEmail());
-            $user->setEmail($user_cas->getEmail());
+            $user->setEmailgalaxy($user_cas->getEmail());
             $user->setGalaxyRoles(implode(",", $user_cas->getRoles()));
             $user->setFirstname($user_cas->getFirstname());
             $user->setLastname($user_cas->getLastname());
@@ -123,6 +123,7 @@ class LoginController extends Controller
 
             if (!$user_db) {
                 $user->setEnabled(true);
+                $user->setEmail($user_cas->getEmail());
                 $user->setRoles(array('ROLE_USER'));
                 $user->setRandomPassword();
                 $section->addUser($user);
