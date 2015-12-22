@@ -113,3 +113,26 @@ fos_rest:
         validate: true
     serializer:
         serialize_null: true
+
+monolog:
+    handlers:
+        main:
+            type:         fingers_crossed
+            action_level: critical
+            handler:      buffered
+        grouped:
+            type:    group
+            members: [streamed, buffered]
+        streamed:
+            type:  stream
+            path:  '%kernel.logs_dir%/%kernel.environment%.log'
+            level: debug
+        buffered:
+            type:    buffer
+            handler: swift
+        swift:
+            type:       swift_mailer
+            from_email: 'no-reply@buddysystem.eu'
+            to_email:   'jeremie.samson@ix.esnlille.fr'
+            subject:    An Error Occurred!
+            level:      debug
