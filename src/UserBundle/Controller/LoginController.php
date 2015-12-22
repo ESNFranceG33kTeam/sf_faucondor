@@ -30,23 +30,23 @@ class LoginController extends Controller
         $cas_context = $this->container->getParameter('cas_context');
         $code_country = substr($this->container->getParameter('country'),0,2);
 
-        if (isset($_SERVER['HTTP_CLIENT_IP'])
+        /*if (isset($_SERVER['HTTP_CLIENT_IP'])
             || isset($_SERVER['HTTP_X_FORWARDED_FOR'])
             || !(in_array(@$_SERVER['REMOTE_ADDR'], array('127.0.0.1', 'fe80::1', '::1')) || php_sapi_name() === 'cli-server')
-        ) {
+        ) {*/
             /** @var UserProvider $up */
             $up = new UserProvider($cas_host, $cas_context, $cas_port);
 
             $user_cas = $up->loadGalaxyUser();
-        }else{
+        /*}else{
             /** @var User $user_db */
             //$user_db = $em->getRepository("UserBundle:User")->findOneBy(array("email" => "camille.eurin@gmail.com"));
-            $user_db = $em->getRepository("UserBundle:User")->findOneBy(array("email" => "jeremie.samson@ix.esnlille.fr"));
+            //$user_db = $em->getRepository("UserBundle:User")->findOneBy(array("email" => "jeremie.samson@ix.esnlille.fr"));
             //$user_db = $em->getRepository("UserBundle:User")->findOneBy(array("email" => "rl@esnlille.fr"));
             //$user_db = $em->getRepository("UserBundle:User")->findOneBy(array("email" => "rl@esnlille.fr"));
 
-            $user_cas =  $this->userTransformer($user_db);
-        }
+            //$user_cas =  $this->userTransformer($user_db);
+        //}
 
 
         if ($user_cas != null && $user_cas->getNationality() == $code_country){
@@ -64,7 +64,9 @@ class LoginController extends Controller
                 $user_db = $em->getRepository("UserBundle:User")->findOneBy(array("email" => $user_cas->getEmail()));
 
                 if ($user_db){
-                    $user_db->setEmail(null);
+                    if (!$user_db->getEmail())
+                        $user_db->setEmail($user_cas->getEmail());
+
                     $user_db->setEmailgalaxy($user_cas->getEmail());
                 }
             }
