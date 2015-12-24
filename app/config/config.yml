@@ -118,21 +118,23 @@ monolog:
     handlers:
         main:
             type:         fingers_crossed
-            action_level: critical
-            handler:      buffered
+            action_level: error
+            handler:      grouped
         grouped:
             type:    group
-            members: [streamed, buffered]
+            members: [streamed, swift]
         streamed:
             type:  stream
             path:  '%kernel.logs_dir%/%kernel.environment%.log'
             level: debug
-        buffered:
-            type:    buffer
-            handler: swift
         swift:
             type:       swift_mailer
             from_email: 'no-reply@buddysystem.eu'
             to_email:   'jeremie.samson@ix.esnlille.fr'
             subject:    An Error Occurred!
-            level:      debug
+            level:      error
+        login:
+            type: stream
+            path: "%kernel.logs_dir%/auth.log"
+            level: error
+            channels: security
