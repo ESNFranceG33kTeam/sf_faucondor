@@ -36,4 +36,14 @@
 
 {% block javascripts %}
     {{ parent() }}
+    <script>
+        var egg = new Egg();
+        egg.addCode("up,up,down,down,left,right,left,right,b,a", function() {
+            window.location.href = "{{ path('points') }}";
+        })
+        .addHook(function(){
+            console.log("Hook called for: " + this.activeEgg.keys);
+            console.log(this.activeEgg.metadata);
+        }).listen();
+    </script>
 {% endblock %}

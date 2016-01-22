@@ -1,3 +1,7 @@
+faucondor_points:
+    resource: "@FaucondorBundle/Resources/config/routing/points.yml"
+    prefix:   /points
+
 faucondor_committee:
     resource: "@FaucondorBundle/Resources/config/routing/committee.yml"
     prefix:   /committee

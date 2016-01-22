@@ -117,9 +117,10 @@ label{
 
 /******************* LISTEMAILS ***********************/
 
-textarea{
+.mce-tinymce.mce-container.mce-panel{
 	width: 700px;
-	height: 300px;
+    margin-left: 150px;
+
 }
 
 .long_label{
@@ -133,25 +134,25 @@ textarea{
 	margin-top: 25px;		
 }
 
-table{
+.table{
 	width: 100%;
 }
 
-table thead tr th, .firstColumn{
+.table thead tr th, .firstColumn{
 	color: white;
 	height: 30px;
 	background-color: rgb(35,158,200) !important;
 }
 
-table tbody tr{
+.table tbody tr{
 	text-align: center;
 }
 
-table tbody tr:hover{
+.table tbody tr:hover{
 	background-color: #c3c2c2;
 }
 
-table tbody td{
+.table tbody td{
 	height:50px;
 	vertical-align:bottom;
 }
@@ -232,6 +233,7 @@ nav ul{
   border-bottom: 1px solid #333333;
   border-left: 1px solid #CCCCCC;
   border-radius: 5px;
+  margin-top: 25px;
 }
 .button:hover{ color: white; }
 .button:visited{ color: white; }

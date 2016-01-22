@@ -3,13 +3,13 @@
 {% block content -%}
     <h1>Events creation</h1>
 
-    {{ form(form) }}
+    {{ form_start(form) }}
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('events') }}">
-            Back to the list
-        </a>
-    </li>
-</ul>
+    {{ form_row(form.name) }}<br>
+    {{ form_row(form.start) }}<br>
+    {{ form_row(form.end) }}<br>
+
+    <input type="submit" value="{{ 'label.button.save'|trans }}" class="button" />
+
+    {{ form_end(form) }}
 {% endblock %}

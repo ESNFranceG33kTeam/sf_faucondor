@@ -113,11 +113,27 @@ class User extends BaseUser
      */
     private $section;
 
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="FaucondorBundle\Entity\Points", mappedBy="from")
+     */
+    private $pointsReceived;
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="FaucondorBundle\Entity\Points", mappedBy="to")
+     */
+    private $pointsGiven;
+
     public function __construct()
     {
         parent::__construct();
 
         $this->posts = new ArrayCollection();
+        $this->pointsReceived = new ArrayCollection();
+        $this->pointsGiven = new ArrayCollection();
     }
 
     /**
@@ -349,7 +365,7 @@ class User extends BaseUser
      *
      * @return bool
      */
-    public function isPresident(){
+    public function isLocalPresident(){
         return $this->hasPermission("local", "president");
     }
 
@@ -399,10 +415,51 @@ class User extends BaseUser
     }
 
     /**
+     * Check if user is national VP
+     *
+     * @return bool
+     */
+    public function isInternationalPresident(){
+        return $this->hasPermission("international", "president");
+    }
+
+    /**
+     * Check if user is national VP
+     *
+     * @return bool
+     */
+    public function isNationalPresident(){
+        return $this->hasPermission("national", "president");
+    }
+
+    /**
      * @return string
      */
     public function __toString(){
         return $this->firstname . " " . strtoupper($this->lastname);
+    }
+
+    /**
+     * @return string
+     */
+    public function toStringWithPoints(){
+        return $this->firstname . " " . strtoupper($this->lastname) . " (" . $this->getValue() . ")";
+    }
+
+    /**
+     * @return int
+     */
+    public function getValue(){
+        if ($this->isInternationalPresident()) return 10;
+        if ($this->isInternationalBoardMember()) return 9;
+        //if ($this->isInternationalCommitteeMember()) return 8;
+        if ($this->isNationalNR()) return 7;
+        if ($this->isNationalPresident()) return 6;
+        if ($this->isNationalBoardMember()) return 5;
+        //if ($this->isCommitteeMember()) return 4;
+        if ($this->isLocalPresident()) return 3;
+        if ($this->isLocalBoardMember()) return 2;
+        if ($this->isActiveMember()) return 1;
     }
 
     /**
@@ -572,5 +629,55 @@ class User extends BaseUser
         }
 
         return false;
+    }
+
+    /**
+     * @param User $user
+     * @return $this
+     */
+    public function addPointReceived(User $user){
+        $this->pointsReceived->add($user);
+
+        return $this;
+    }
+
+    /**
+     * @param User $user
+     */
+    public function removePointReceived(User $user){
+        $this->pointsReceived->removeElement($user);
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getPointsReceived()
+    {
+        return $this->pointsReceived;
+    }
+
+    /**
+     * @param User $user
+     * @return $this
+     */
+    public function addPointGiven(User $user){
+        $this->pointsGiven->add($user);
+
+        return $this;
+    }
+
+    /**
+     * @param User $user
+     */
+    public function removePointGiven(User $user){
+        $this->pointsGiven->removeElement($user);
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getPointsGiven()
+    {
+        return $this->pointsGiven;
     }
 }

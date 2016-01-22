@@ -1,0 +1,34 @@
+points:
+    path:     /
+    defaults: { _controller: "FaucondorBundle:Points:index" }
+
+points_show:
+    path:     /{id}/show
+    defaults: { _controller: "FaucondorBundle:Points:show" }
+
+points_new:
+    path:     /new
+    defaults: { _controller: "FaucondorBundle:Points:new" }
+
+points_create:
+    path:     /create
+    defaults: { _controller: "FaucondorBundle:Points:create" }
+    methods:  POST
+
+points_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "FaucondorBundle:Points:edit" }
+
+points_update:
+    path:     /{id}/update
+    defaults: { _controller: "FaucondorBundle:Points:update" }
+    methods:  [POST, PUT]
+
+points_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "FaucondorBundle:Points:delete" }
+    methods:  [POST, DELETE]
+
+points_validate:
+    path:     /{id}/validate
+    defaults: { _controller: "FaucondorBundle:Points:validate" }

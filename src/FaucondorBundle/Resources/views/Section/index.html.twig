@@ -8,23 +8,18 @@
     </p>
 
     <div class="tables">
-        <table class="sections datatable">
+        <table class="table sections datatable">
             <thead>
                 <tr class=".firstColumn">
                     <th>{{ 'entity.section.name'|trans }}</th>
                     <th>{{ 'entity.section.joindate'|trans }}</th>
-                    <th>{{ 'entity.section.actions'|trans }}</th>
                 </tr>
             </thead>
             <tbody>
             {% for section in sections %}
                 <tr>
-                    <td><a href="{{ path('section_show', { 'id': section.id }) }}">{{ section.name }}</a></td>
+                    <td><a href="{{ path('section_edit', { 'id': section.id }) }}">{{ section.name }}</a></td>
                     <td>{% if section.joindate %}{{ section.joindate|date('Y-m-d H:i:s') }}{% endif %}</td>
-                    <td>
-                        <a href="{{ path('section_show', { 'id': section.id }) }}"><i class="fa fa-eye"></i></a>
-                        <a href="{{ path('section_edit', { 'id': section.id }) }}"><i class="fa fa-pencil-square-o"></i></a>
-                    </td>
                 </tr>
             {% endfor %}
             </tbody>

@@ -1,0 +1,48 @@
+{% extends 'FaucondorBundle::layout.html.twig' %}
+
+{% block content -%}
+    <h1>{{ 'entity.points.my'|trans }} - {{ 'entity.points.total'|trans }}:{{ total }}{% if potential != total %}, {{ 'entity.points.potential'|trans }}: {{ potential }}{% endif %}</h1>
+
+    <p>
+        <a class="button" href="{{ path('points_new') }}">{{ 'entity.points.new'|trans }}</a>
+    </p>
+
+    <div class="tables">
+        <table class="table records_list datatable">
+            <thead>
+                <tr>
+                    <th>{{ 'label.date'|trans }}</th>
+                    <th>{{ 'entity.points.basicaction'|trans }}</th>
+                    <th>{{ 'entity.points.receiver'|trans }}</th>
+                    <th>{{ 'entity.points.bonus'|trans }}</th>
+                    <th>{{ 'entity.points.total'|trans }}</th>
+                    <th>{{ 'entity.points.status'|trans }}</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for point in points %}
+                <tr>
+                    <td>{% if point.date %}{{ point.date|date('Y-m-d H:i:s') }}{% endif %}</td>
+                    <td>{{ point.getActionString(point.basicAction) }}</td>
+                    <td>{{ point.to.toStringWithPoints }}</td>
+                    <td>{{ point.getBonusString(point.bonus) }}</td>
+                    <td><a href="{{ path('points_edit', {'id' : point.id}) }}">{{ point.points }}</a></td>
+                    <td>
+                        {% if point.status == 1 %}
+                            <i class="fa fa-check" style="color:green;"></i>
+                        {% elseif point.status == 0 %}
+                            <i class="fa fa-times" style="color:red;"></i>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if point.status == 0 and app.user == point.to %}
+                            <a href="{{ path('points_validate', {'id': point.id}) }}"><span style="color:green"><b>{{ 'label.validate'|trans }}</b></span></a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

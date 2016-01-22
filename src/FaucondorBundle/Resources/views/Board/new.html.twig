@@ -10,11 +10,28 @@
 
 {% block choice_widget %}
     {% spaceless %}
-        <div {{ block('widget_container_attributes') }} style="margin-left: 150px;">
-            {% for child in form %}
-                {{ form_widget(child) }}
-            {% endfor %}
-        </div>
+        {% if expanded %}
+            <div {{ block('widget_container_attributes') }} style="margin-left: 150px;">
+                {% for child in form %}
+                    {{ form_widget(child) }}
+                {% endfor %}
+            </div>
+        {% else %}
+            <select {{ block('widget_attributes') }}{% if multiple %} multiple="multiple"{% endif %}>
+                {% if empty_value is not none %}
+                    <option value="">{{ empty_value|trans }}</option>
+                {% endif %}
+                {% if preferred_choices|length > 0 %}
+                    {% set options = preferred_choices %}
+                    {{ block('widget_choice_options') }}
+                    {% if choices|length > 0 and separator is not none %}
+                        <option disabled="disabled">{{ separator }}</option>
+                    {% endif %}
+                {% endif %}
+                {% set options = choices %}
+                {{ block('widget_choice_options') }}
+            </select>
+        {% endif %}
     {% endspaceless %}
 {% endblock %}
 
@@ -46,7 +63,7 @@
         {{ form_row(form.posts) }}<br>
     {% endif %}
 
-    <input type="submit" value="{{ 'entity.board.new'|trans }}" class="button" />
+    <input type="submit" value="{{ 'label.button.save'|trans }}" class="button" />
 
 {{ form_end(form) }}
 

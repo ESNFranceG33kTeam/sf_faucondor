@@ -5,9 +5,13 @@
 
     <div id="edit_email">
         {{ form_start(form) }}
-        {{ form_row(form.from) }}<br>
-        {{ form_row(form.subject) }}<br><br>
-        {{ form_row(form.body) }}<br>
+
+        {{ form_label(form.from) }}
+        {{ form_widget(form.from) }}<br><br>
+        {{ form_label(form.subject) }}
+        {{ form_widget(form.subject) }}<br><br>
+        {{ form_label(form.body) }}
+        {{ form_widget(form.body) }}
 
         <input type="submit" value="{{ 'label.mail.update'|trans }}" class="button" />
 

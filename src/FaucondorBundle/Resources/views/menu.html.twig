@@ -35,7 +35,7 @@
 
     <div id="profile">
 
-        <img src='{{ app.user.galaxypicture }}'>
+        <img src='{{ app.user.galaxypicture }}' title="{{ 'label.worth.point'|trans({'%points%': app.user.getValue} ) }}">
 
         <p>
             {{ 'label.menu.hello'|trans }} {{ app.user }}<br><br>
