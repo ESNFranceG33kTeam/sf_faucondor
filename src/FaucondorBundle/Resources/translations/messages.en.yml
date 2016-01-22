@@ -31,6 +31,7 @@ entity.section.new: New Section
 entity.section.edit: Edit Section
 entity.event.name: Name
 entity.event.list: Events List
+entity.event.edit: Edit Events
 entity.event.start: Start
 entity.event.end: End
 entity.event.new: New event
@@ -54,6 +55,7 @@ entity.user.member: Member
 label.email.updated: Email Uptated
 entity.board.new: New Board Member
 entity.board.update: Update Board Member
+label.boardmember: Board Member
 label.board.section: Section/Committee
 label.mail.from: From
 label.mail.subject: Subject
@@ -72,4 +74,8 @@ entity.points.status: Status
 label.date: Date
 label.validate: Validate
 success.points.validated: Points validated
-label.worth.point: You are worh %points% points
+label.worth.point: You are worh %points% point|You are worh %points% points
+label.droits: Droits
+label.situation: Your situation
+error.multiplenbmembers: Multiple National Board members on the same post
+email.welcome: <h1>Bienvenue dans Faucon d'or</h1><p>Bienvenue, tu viens d'être ajouter dans notre annuaire national : <a href="http://faucondor.ixesn.fr">le Faucon d'or</a></p><p>Tu peux t'y connecter via l'adresse email avec laquelle tu t'es enregistré sur <a href="http://galaxy.esn.org">galaxy</a></p><p>Pour tout probleme tu peux contacter ta RL, le <a href="mailto:vp@ixesn.fr">VP Section</a> ou encore <a href="mailto:jeremie.samson@ix.esnlille.fr">le développeur</a></p><br><p>A bientôt !</p>

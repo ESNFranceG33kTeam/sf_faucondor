@@ -45,6 +45,8 @@ class BoardType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $code_country = $this->code_country;
+
         $builder
             ->add('firstname')
             ->add('lastname')
@@ -61,9 +63,12 @@ class BoardType extends AbstractType
 
         if ($this->user->isNationalBoardMember()){
             $builder
-                ->add('section', 'entity', array(
-                    'class' => 'FaucondorBundle:Section',
-                    'choices' => $this->getSections()
+                ->add('section', null, array(
+                    'expanded' => false,
+                    'property' => 'name',
+                    'query_builder' => function(EntityRepository $er) use ($code_country) {
+                        return $er->getSectionsByCountry($code_country);
+                    }
                 ));
         }
 
@@ -81,16 +86,6 @@ class BoardType extends AbstractType
                 ))
             ;
         }
-    }
-
-    public function getSections(){
-        return $this->em->getRepository('FaucondorBundle:Section')
-            ->createQueryBuilder('s')
-            ->where('s.country = :country')
-            ->setParameter('country', $this->code_country)
-            ->orderBy('s.name', 'ASC')
-            ->getQuery()
-            ->getResult();
     }
 
     /**

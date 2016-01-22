@@ -29,7 +29,7 @@ class PostRepository extends \Doctrine\ORM\EntityRepository
         $builder = $this->createQueryBuilder('p')
             ->where('p.level in (:level)')->setParameter('level', $levels)
             ->andWhere('p.role NOT IN (:roles)')->setParameter('roles', 'activeMember,regularBoardMember,projectCoordinator')
-            ->orderBy('p.name', 'ASC');
+            ->orderBy('p.level, p.name', 'ASC');
 
         return $builder;
     }

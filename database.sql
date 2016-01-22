@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.0.10deb1
+-- version 4.5.0.2
 -- http://www.phpmyadmin.net
 --
--- Client: localhost
--- Généré le: Dim 22 Novembre 2015 à 19:51
--- Version du serveur: 5.5.46-0ubuntu0.14.04.2
--- Version de PHP: 5.5.9-1ubuntu4.14
+-- Client :  localhost
+-- Généré le :  Lun 14 Décembre 2015 à 23:26
+-- Version du serveur :  5.6.26
+-- Version de PHP :  5.5.27
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -14,10 +14,10 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données: `esn_faucondor`
+-- Base de données :  `faucondor_dev`
 --
 
 -- --------------------------------------------------------
@@ -26,22 +26,24 @@ SET time_zone = "+00:00";
 -- Structure de la table `committee`
 --
 
-CREATE TABLE IF NOT EXISTS `committee` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `chair_id` int(11) NOT NULL,
+CREATE TABLE `committee` (
+  `id` int(11) NOT NULL,
+  `chair_id` int(11) DEFAULT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `createdat` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `UNIQ_D2F2C2378CA3C745` (`chair_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=4 ;
+  `createdat` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Contenu de la table `committee`
 --
 
 INSERT INTO `committee` (`id`, `chair_id`, `name`, `createdat`) VALUES
-(1, 1, 'G33kTeam', '2013-12-22 00:11:00'),
-(3, 6, 'ADR', '2011-12-25 00:11:00');
+(1, 11, 'G33kTeam', '2011-12-25 00:11:00'),
+(3, 7, 'Animation du réseau', '2006-12-24 00:11:00'),
+(6, 10, 'Recherche et Éducation', '2011-12-25 00:11:00'),
+(7, 8, 'ComCom', '2013-12-22 00:11:00'),
+(8, 9, 'International', '2013-12-22 00:11:00'),
+(9, 12, 'Trésorerie & Partnership Management', '2013-12-22 00:11:00');
 
 -- --------------------------------------------------------
 
@@ -49,12 +51,9 @@ INSERT INTO `committee` (`id`, `chair_id`, `name`, `createdat`) VALUES
 -- Structure de la table `committee_user`
 --
 
-CREATE TABLE IF NOT EXISTS `committee_user` (
+CREATE TABLE `committee_user` (
   `committee_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  PRIMARY KEY (`committee_id`,`user_id`),
-  KEY `IDX_1ABDE46AED1A100B` (`committee_id`),
-  KEY `IDX_1ABDE46AA76ED395` (`user_id`)
+  `user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -63,9 +62,10 @@ CREATE TABLE IF NOT EXISTS `committee_user` (
 
 INSERT INTO `committee_user` (`committee_id`, `user_id`) VALUES
 (1, 1),
-(1, 2),
-(3, 3),
-(3, 6);
+(1, 11),
+(3, 1),
+(3, 7),
+(6, 10);
 
 -- --------------------------------------------------------
 
@@ -73,20 +73,19 @@ INSERT INTO `committee_user` (`committee_id`, `user_id`) VALUES
 -- Structure de la table `events`
 --
 
-CREATE TABLE IF NOT EXISTS `events` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `events` (
+  `id` int(11) NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `start` datetime NOT NULL,
-  `end` datetime NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=17 ;
+  `end` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Contenu de la table `events`
 --
 
 INSERT INTO `events` (`id`, `name`, `start`, `end`) VALUES
-(3, 'AG Lille', '2013-02-02 00:00:00', '0000-00-00 00:00:00'),
+(3, 'AG Lille', '2014-12-21 00:11:00', '2014-12-21 00:11:00'),
 (4, 'NP Clermont', '2014-06-01 00:00:00', '0000-00-00 00:00:00'),
 (5, 'AG Toulouse', '2014-02-21 00:00:00', '0000-00-00 00:00:00'),
 (6, 'NP Rennes', '2013-10-01 00:00:00', '0000-00-00 00:00:00'),
@@ -106,8 +105,8 @@ INSERT INTO `events` (`id`, `name`, `start`, `end`) VALUES
 -- Structure de la table `fo_user`
 --
 
-CREATE TABLE IF NOT EXISTS `fo_user` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `fo_user` (
+  `id` int(11) NOT NULL,
   `username` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `username_canonical` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -135,23 +134,97 @@ CREATE TABLE IF NOT EXISTS `fo_user` (
   `gender` varchar(1) COLLATE utf8_unicode_ci DEFAULT NULL,
   `mobile` varchar(13) COLLATE utf8_unicode_ci DEFAULT NULL,
   `section_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `UNIQ_9A3C4A6192FC23A8` (`username_canonical`),
-  UNIQUE KEY `UNIQ_9A3C4A61A0D96FBF` (`email_canonical`),
-  KEY `IDX_9A3C4A61D823E37A` (`section_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=7 ;
+  `emailgalaxy` varchar(255) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Contenu de la table `fo_user`
 --
 
-INSERT INTO `fo_user` (`id`, `username`, `username_canonical`, `email`, `email_canonical`, `enabled`, `salt`, `password`, `last_login`, `locked`, `expired`, `expires_at`, `confirmation_token`, `password_requested_at`, `roles`, `credentials_expired`, `credentials_expire_at`, `firstname`, `lastname`, `address`, `city`, `zipcode`, `galaxy_roles`, `galaxy_picture`, `birthdate`, `gender`, `mobile`, `section_id`) VALUES
-(1, 'jeremie.samson@ix.esnlille.fr', 'jeremie.samson@ix.esnlille.fr', 'jeremie.samson@ix.esnlille.fr', 'jeremie.samson@ix.esnlille.fr', 1, 'lt7sno18mxsg0sck8o84s4oowck4ksc', '$2y$13$lt7sno18mxsg0sck8o84suFf2voR628KWdijY2GfsKLpNbkdi0nMa', '2015-11-22 10:16:43', 0, 0, NULL, NULL, NULL, 'a:1:{i:0;s:16:"ROLE_SUPER_ADMIN";}', 0, NULL, 'Jeremie', 'Samson', NULL, NULL, NULL, 'authenticated user,National.webmaster,Local.activeMember,Local.regularBoardMember,Local.webmaster,National.projectCoordinator', 'http://galaxy.esn.org/sites/galaxy.esn.org/files/avatars/picture-13336.jpg', '1989-12-20', 'M', '', 223),
-(2, 'test', 'test', 'test@test.com', 'test@test.com', 1, 'lt7sno18mxsg0sck8o84s4oowck4ksc', '$2y$13$lt7sno18mxsg0sck8o84suFf2voR628KWdijY2GfsKLpNbkdi0nMa', '2015-11-16 13:39:16', 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Test', 'Test', NULL, NULL, NULL, NULL, NULL, NULL, 'M', NULL, 223),
-(3, 'rl@esnlille.fr', 'rl@esnlille.fr', 'rl@esnlille.fr', 'rl@esnlille.fr', 0, 'j3m1jf10dk8oswkw0oo0s0cwo4o0ggs', '$2y$13$j3m1jf10dk8oswkw0oo0suFMExmFTg.5oHixzEWwGZQHwmCPPNWrm', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Tiphaine', 'Tournay', NULL, NULL, NULL, NULL, NULL, NULL, 'F', '0987654321', 223),
-(4, 'president@ixesn.fr', 'president@ixesn.fr', 'president@ixesn.fr', 'president@ixesn.fr', 0, '48zx26swlbs4oc48ococsgcw04sg0sw', '$2y$13$48zx26swlbs4oc48ococse4y7DOOkxAOEWU5DRGkglBrxL9zUbT2W', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Sarah', 'Holveck', NULL, NULL, NULL, NULL, NULL, NULL, 'F', NULL, 223),
-(5, 'president@esnlille.fr', 'president@esnlille.fr', 'president@esnlille.fr', 'president@esnlille.fr', 0, 'sm9po609acggckowwk0sw880wwgw4k0', '$2y$13$sm9po609acggckowwk0swuT3ViE5j40nSvvCttsSDuqQ9reUe06lC', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Nassim', 'Abderrahim', NULL, NULL, NULL, NULL, NULL, NULL, 'M', NULL, 223),
-(6, 'jst@ix.esnlille.fr', 'jst@ix.esnlille.fr', 'jst@ix.esnlille.fr', 'jst@ix.esnlille.fr', 0, '5e53dsbpegsgc4ssss040g0sc0o0soc', '$2y$13$5e53dsbpegsgc4ssss040eA8sX1Ft6i0XNM4ssEUjqZ19DmZiEff.', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'JS', 'Thesse', NULL, NULL, NULL, NULL, NULL, NULL, 'M', NULL, 223);
+INSERT INTO `fo_user` (`id`, `username`, `username_canonical`, `email`, `email_canonical`, `enabled`, `salt`, `password`, `last_login`, `locked`, `expired`, `expires_at`, `confirmation_token`, `password_requested_at`, `roles`, `credentials_expired`, `credentials_expire_at`, `firstname`, `lastname`, `address`, `city`, `zipcode`, `galaxy_roles`, `galaxy_picture`, `birthdate`, `gender`, `mobile`, `section_id`, `emailgalaxy`) VALUES
+(1, 'jeremie.samson@ix.esnlille.fr', 'jeremie.samson@ix.esnlille.fr', 'jeremie.samson@ix.esnlille.fr', 'jeremie.samson@ix.esnlille.fr', 1, 'lt7sno18mxsg0sck8o84s4oowck4ksc', '$2y$13$lt7sno18mxsg0sck8o84suFf2voR628KWdijY2GfsKLpNbkdi0nMa', '2015-12-14 22:29:28', 0, 0, NULL, NULL, NULL, 'a:1:{i:0;s:16:"ROLE_SUPER_ADMIN";}', 0, NULL, 'Jeremie', 'Samson', NULL, NULL, NULL, 'authenticated user,National.webmaster,Local.activeMember,Local.regularBoardMember,Local.webmaster', 'http://galaxy.esn.org/sites/galaxy.esn.org/files/avatars/picture-13336.jpg', '1989-12-20', 'M', '0613303219', 223, ''),
+(3, 'rl@esnlille.fr', 'rl@esnlille.fr', 'rl@esnlille.fr', 'rl@esnlille.fr', 0, 'j3m1jf10dk8oswkw0oo0s0cwo4o0ggs', '$2y$13$j3m1jf10dk8oswkw0oo0suFMExmFTg.5oHixzEWwGZQHwmCPPNWrm', '2015-12-01 21:26:30', 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Tiphaine', 'Tournay', NULL, NULL, NULL, 'authenticated user,Local.activeMember,Local.regularBoardMember,Local.localRepresentative', NULL, '2015-12-02', 'F', '0612775758', 223, ''),
+(4, 'president@ixesn.fr', 'president@ixesn.fr', 'president@ixesn.fr', 'president@ixesn.fr', 0, '48zx26swlbs4oc48ococsgcw04sg0sw', '$2y$13$48zx26swlbs4oc48ococse4y7DOOkxAOEWU5DRGkglBrxL9zUbT2W', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Sarah', 'Holveck', NULL, NULL, NULL, NULL, NULL, NULL, 'F', NULL, 101, ''),
+(5, 'president@esnlille.fr', 'president@esnlille.fr', 'president@esnlille.fr', 'president@esnlille.fr', 0, 'sm9po609acggckowwk0sw880wwgw4k0', '$2y$13$sm9po609acggckowwk0swuT3ViE5j40nSvvCttsSDuqQ9reUe06lC', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Nassim', 'Abderrahim', NULL, NULL, NULL, NULL, NULL, NULL, 'M', NULL, 223, ''),
+(7, 'adr@ixesn.fr', 'adr@ixesn.fr', 'adr@ixesn.fr', 'adr@ixesn.fr', 0, 'l1msvr399qo88k44wc880wk0ok4oo84', '$2y$13$l1msvr399qo88k44wc880u8ytAt.YIImkO5qTkdMd6A5ouYEW2.oi', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Lenny', 'Baha', NULL, NULL, NULL, NULL, NULL, NULL, 'M', NULL, 234, ''),
+(8, 'tiphaine.stolorz@gmail.com', 'tiphaine.stolorz@gmail.com', 'tiphaine.stolorz@gmail.com', 'tiphaine.stolorz@gmail.com', 0, 'o0q33d4vf1ck8g8kc8c44scgkgcgcso', '$2y$13$o0q33d4vf1ck8g8kc8c44eKsNYx50a6ccAnYsuAgxeL0cgpARsfKG', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Tiphaine', 'Stolorz', NULL, NULL, NULL, NULL, NULL, NULL, 'F', NULL, 266, ''),
+(9, 'international@ixesn.fr', 'international@ixesn.fr', 'international@ixesn.fr', 'international@ixesn.fr', 0, 'i7nfhzvyv8ggosc8sgocwwco0c4sw4w', '$2y$13$i7nfhzvyv8ggosc8sgocwumUtrOlQHQFUUSIjf86Q5m/L008khRja', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Gregory', 'Elard', NULL, NULL, NULL, NULL, NULL, NULL, 'M', NULL, 304, ''),
+(10, 'education@ixesn.fr', 'education@ixesn.fr', 'education@ixesn.fr', 'education@ixesn.fr', 0, 'g4m9205o9k0gkwswgso484ogowg00sc', '$2y$13$g4m9205o9k0gkwswgso48uOCGLj46AWjejcO4WEXK3GUZLkgN2SpS', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Salomé', 'Morin', NULL, NULL, NULL, NULL, NULL, NULL, 'M', NULL, 5, ''),
+(11, 'geeks@ixesn.fr', 'geeks@ixesn.fr', 'geeks@ixesn.fr', 'geeks@ixesn.fr', 0, 'akw90zisn6ogc0s4ko84wccwgg8ks8w', '$2y$13$akw90zisn6ogc0s4ko84wOVRqwWeEanY4wQmCTxF5vcScLUnbgr9C', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Hassan', 'Alami', NULL, NULL, NULL, NULL, NULL, NULL, 'M', NULL, 101, ''),
+(12, 'camille.eurin@gmail.com', 'camille.eurin@gmail.com', 'camille.eurin@gmail.com', 'camille.eurin@gmail.com', 1, '84hpifp0mk4c84scog0csck4wg84404', '$2y$13$84hpifp0mk4c84scog0csOD3Ob.m1rHpz.LFj9LlGzWaTe0ILTyeW', '2015-12-01 20:23:31', 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Camille', 'Eurin', NULL, NULL, NULL, 'authenticated user,Local.alumnus,National.alumnus', 'http://galaxy.esn.org/sites/galaxy.esn.org/files/avatars/picture-8959.jpg', '1987-07-24', 'M', '+33680525789', 223, ''),
+(13, 'mass_76@hotmail.fr', 'mass_76@hotmail.fr', 'mass_76@hotmail.fr', 'mass_76@hotmail.fr', 1, 'jbdjda1253ww808wokkssocsoo04sg0', '$2y$13$jbdjda1253ww808wokksse6odqOmoLEOl/pY4V8bhaf/.tFFu4G9a', '2015-12-01 21:14:36', 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Mamadou', 'Diop', NULL, NULL, NULL, 'authenticated user,National.webmaster,Local.activeMember', 'http://galaxy.esn.org/sites/galaxy.esn.org/files/avatars/picture-15687.jpg', '1991-11-02', 'M', NULL, 223, ''),
+(14, 'se@esnlille.fr', 'se@esnlille.fr', 'julie.helin@ix.esnlille.fr', 'julie.helin@ix.esnlille.fr', 0, 'mel5k8wfwdw8go84g4c8k0oggk0gkgk', '$2y$13$mel5k8wfwdw8go84g4c8ku.xbv9XUzMGrzAJCFJ.RzCQl1Oit3Uxu', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Julie', 'Hélin', NULL, NULL, NULL, NULL, NULL, NULL, 'F', '0633339437', 223, ''),
+(16, 'aneta.cira@esnlille.fr', 'aneta.cira@esnlille.fr', 'aneta.cira@esnlille.fr', 'aneta.cira@esnlille.fr', 0, 'rbfa7hypd1c4ogw48os8s80ss0cc8gg', '$2y$13$rbfa7hypd1c4ogw48os8sualQuj/X2l/nYMVshaj2C/gWYemONuaG', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Aneta', 'Cira', NULL, NULL, NULL, NULL, NULL, NULL, 'M', '0782460623', 223, ''),
+(17, 'vp@esnlille.fr', 'vp@esnlille.fr', 'vp@esnlille.fr', 'vp@esnlille.fr', 0, 'mdjj6ff54sg0ogw4g408o8k0wo8o48c', '$2y$13$mdjj6ff54sg0ogw4g408ouHuhnonYGyoXZ6fU4lbOW1VwGHeAufv2', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Anis', 'Roux', NULL, NULL, NULL, NULL, NULL, NULL, 'M', '0637561138', 223, ''),
+(18, 'tresorier@esnlille.fr', 'tresorier@esnlille.fr', 'tresorier@esnlille.fr', 'tresorier@esnlille.fr', 0, 'f659j8fp33swo4w8wwkcwcco0k04k04', '$2y$13$f659j8fp33swo4w8wwkcwOljUEbxZl6nX3FP98THCN7Mz.s2viswO', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Audrey', 'Fournier', NULL, NULL, NULL, NULL, NULL, NULL, 'F', NULL, 223, ''),
+(20, 'benjamin.makusa@gmail.com', 'benjamin.makusa@gmail.com', 'benjamin.makusa@gmail.com', 'benjamin.makusa@gmail.com', 0, 'oqd61e9a37kwc44084w888k80owg4cg', '$2y$13$oqd61e9a37kwc44084w88uErRZ3eP8vfx/TB47JZrpB9ExY3UHUn6', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Benjamin', 'Makusa', NULL, NULL, NULL, NULL, NULL, NULL, 'M', '0611855959', 223, ''),
+(21, 'coralie.evrard98@gmail.com', 'coralie.evrard98@gmail.com', 'coralie.evrard98@gmail.com', 'coralie.evrard98@gmail.com', 0, 'qtezor8ns2s40soo404kk48sscs8gog', '$2y$13$qtezor8ns2s40soo404kkuqHjcVvHLiVg.ysTQZ9Xzpm0Pvroq6ia', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Coralie', 'Evrard', NULL, NULL, NULL, NULL, NULL, NULL, 'F', '0682018221', 223, ''),
+(22, 'fanny.cuzon@yahoo.fr', 'fanny.cuzon@yahoo.fr', 'fanny.cuzon@yahoo.fr', 'fanny.cuzon@yahoo.fr', 0, 'bnlj7ezkwzk0s0g4k4ogscoggsgkcgw', '$2y$13$bnlj7ezkwzk0s0g4k4ogsO5xcYWLAE1yA1vo.lGIToDlkldsr6AGO', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Fanny', 'Cuzon', NULL, NULL, NULL, NULL, NULL, NULL, 'F', '0664541904', 223, ''),
+(23, 'lille@ixesn.fr', 'lille@ixesn.fr', 'lille@ixesn.fr', 'lille@ixesn.fr', 0, '5fiuw0iua9gcs8gsw80okgkowgg4wkc', '$2y$13$5fiuw0iua9gcs8gsw80okeXUOEMO/GRnVex2IffZOVJn7Ce5l107C', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Oussama', 'Belouki', NULL, NULL, NULL, NULL, NULL, NULL, 'M', '0601407730', 223, ''),
+(24, 'pierre.morette@laposte.net', 'pierre.morette@laposte.net', 'pierre.morette@laposte.net', 'pierre.morette@laposte.net', 0, 'mjqzr86gflcs4cw0cwgs8gs8o4gwg4o', '$2y$13$mjqzr86gflcs4cw0cwgs8eqODBwQKgnEibimU/lCEse.bvbx78aZ.', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Pierre', 'Morette', NULL, NULL, NULL, NULL, NULL, NULL, 'M', '0674973980', 223, ''),
+(25, 'laetitia.briscese@gmail.com', 'laetitia.briscese@gmail.com', 'laetitia.briscese@gmail.com', 'laetitia.briscese@gmail.com', 0, '1s11s3yxkfb480kwg84oosoooosc8ok', '$2y$13$1s11s3yxkfb480kwg84ooeWsuy/5iOro.veUsSKsJ.LIa9RHy5a16', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Laëtitia', 'Briscese', NULL, NULL, NULL, NULL, NULL, NULL, 'F', '0627484152', 44, ''),
+(26, 'antoniniflorian@gmail.com', 'antoniniflorian@gmail.com', 'antoniniflorian@gmail.com', 'antoniniflorian@gmail.com', 0, '6wax0r4qnjc4880gco4wkogw0cg0kg4', '$2y$13$6wax0r4qnjc4880gco4wke1K3Re0fOj1KX5G8zFoIIQ0T5yZmLKdK', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Florian', 'Antonini', NULL, NULL, NULL, NULL, NULL, NULL, 'M', '0668412725', 8, ''),
+(27, 'tresorier@cosmolyon.com', 'tresorier@cosmolyon.com', 'tresorier@cosmolyon.com', 'tresorier@cosmolyon.com', 0, 'fbwzpoxuqrs4kckog4kg8ogcgg0wgsg', '$2y$13$fbwzpoxuqrs4kckog4kg8eLY9oHYfu9Q1THamXihOI2pTlmFhkC4K', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Affandi', 'Sidi', NULL, NULL, NULL, NULL, NULL, NULL, 'M', NULL, 234, ''),
+(28, 'president@cosmolyon.com', 'president@cosmolyon.com', 'president@cosmolyon.com', 'president@cosmolyon.com', 0, 'j9av8mwp5woow8wkscwgc8ss8o0gk0o', '$2y$13$j9av8mwp5woow8wkscwgcufcOW1VfxJuvFqdSBJajc6SH15/V2Cli', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Barthélémy', 'Piana', NULL, NULL, NULL, NULL, NULL, NULL, 'M', NULL, 234, ''),
+(29, 'representantlocal@cosmolyon.com', 'representantlocal@cosmolyon.com', 'representantlocal@cosmolyon.com', 'representantlocal@cosmolyon.com', 0, 'bk9166xe0bccowsgsg4sog04cs8gk44', '$2y$13$bk9166xe0bccowsgsg4soer3ENbzEmQ2rw7.Jgiu/lY8tNnF8wMN.', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Laura', 'Masi', NULL, NULL, NULL, NULL, NULL, NULL, 'F', NULL, 234, ''),
+(30, 'Communication@cosmolyon.com', 'communication@cosmolyon.com', 'Communication@cosmolyon.com', 'communication@cosmolyon.com', 0, '5q38es9kv3k888cc8os4cwgcc4s84k4', '$2y$13$5q38es9kv3k888cc8os4cuIQet0Vd/weV3A/MrX59tvyGYCfhnHGe', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Manon', 'Garcia', NULL, NULL, NULL, NULL, NULL, NULL, 'F', NULL, 234, ''),
+(31, 'contact@cosmolyon.com', 'contact@cosmolyon.com', 'contact@cosmolyon.com', 'contact@cosmolyon.com', 0, 'x4x8d61v86s844088swo8cg0sgswgs', '$2y$13$x4x8d61v86s844088swo8ObN/Bj45ufgIuNrOhGOVo/OXNIm6ajum', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Mélanie', 'Bordonaro', NULL, NULL, NULL, NULL, NULL, NULL, 'F', NULL, 234, ''),
+(32, 'vicepresident@cosmolyon.com', 'vicepresident@cosmolyon.com', 'vicepresident@cosmolyon.com', 'vicepresident@cosmolyon.com', 0, '2916q4kk6v6scgc000g8ggcsc4k4swo', '$2y$13$2916q4kk6v6scgc000g8gefSep0pLn.qDdUW5N6ZW3EVKesxVzxC6', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Perrine', 'Laurent', NULL, NULL, NULL, NULL, NULL, NULL, 'F', NULL, 234, ''),
+(33, 'vice-president@ereimsmus.org', 'vice-president@ereimsmus.org', 'vice-president@ereimsmus.org', 'vice-president@ereimsmus.org', 0, 'p0q1xx297twww84g44kcs8ksw004oc8', '$2y$13$p0q1xx297twww84g44kcsuG/ljoURBcbWjfWJxoiE2LblOM6YOWdq', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Audrey', 'James', NULL, NULL, NULL, NULL, NULL, NULL, 'F', NULL, 471, ''),
+(34, 'secretaire@ereimsmus.org', 'secretaire@ereimsmus.org', 'secretaire@ereimsmus.org', 'secretaire@ereimsmus.org', 0, '5qzf4vx8bfggg80so44w8ko0os4w8c0', '$2y$13$5qzf4vx8bfggg80so44w8elXdblpmorSoiv.3HVB6bEs14sZ9rXyu', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Cyrielle', 'Arcos', NULL, NULL, NULL, NULL, NULL, NULL, 'F', NULL, 471, ''),
+(35, 'tresorier@ereimsmus.org', 'tresorier@ereimsmus.org', 'tresorier@ereimsmus.org', 'tresorier@ereimsmus.org', 0, '5o79kixvxa4gs8kkk8o8ks08o0sow4k', '$2y$13$5o79kixvxa4gs8kkk8o8keDH3s1xrsvpfPhHL.1kKyhh3yjBMo2Zi', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Éléonore', 'Dejonghe', NULL, NULL, NULL, NULL, NULL, NULL, 'F', NULL, 471, ''),
+(36, 'rl@ereimsmus.org', 'rl@ereimsmus.org', 'rl@ereimsmus.org', 'rl@ereimsmus.org', 0, 'nn4020khg0gckok8okck0ws8ogkccw8', '$2y$13$nn4020khg0gckok8okck0uXiLkBZVhLFLvD3QADcGly12Nj63T8Sm', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Marie', 'Hennequin', NULL, NULL, NULL, NULL, NULL, NULL, 'M', NULL, 471, ''),
+(37, 'president@ereimsmus.org', 'president@ereimsmus.org', 'president@ereimsmus.org', 'president@ereimsmus.org', 0, 'hl5mnytn05c0cockk4skc4oc88wscok', '$2y$13$hl5mnytn05c0cockk4skcuc1jULdF8VK6.N4dc/xVDLNxGiPX5mba', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Marie', 'Sauvage', NULL, NULL, NULL, NULL, NULL, NULL, 'F', NULL, 471, ''),
+(38, 'j.deribaut@hotmail.fr', 'j.deribaut@hotmail.fr', 'j.deribaut@hotmail.fr', 'j.deribaut@hotmail.fr', 0, 'rghf43kqyyo0wos8co0sso04s4g80cc', '$2y$13$rghf43kqyyo0wos8co0ssePavl8btqlCpEm4.Eguea6o7ObuWTOAS', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Julie', 'De Ribaut', NULL, NULL, NULL, NULL, NULL, NULL, 'F', NULL, 101, ''),
+(39, 'marjorie.autret@hotmail.com', 'marjorie.autret@hotmail.com', 'marjorie.autret@hotmail.com', 'marjorie.autret@hotmail.com', 0, 'a5ad7m7afbk8w0w48kcc0s08s0cos4g', '$2y$13$a5ad7m7afbk8w0w48kcc0eyYoX88OAaZwUqXWeoVIqof154yMtT42', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Marjorie', 'Autret', NULL, NULL, NULL, NULL, NULL, NULL, 'F', '0630273377', 101, ''),
+(40, 'mika89700@gmail.com', 'mika89700@gmail.com', 'mika89700@gmail.com', 'mika89700@gmail.com', 0, 'o9u7g32bsusog40o0kswowwsg0488g8', '$2y$13$o9u7g32bsusog40o0kswouLNY8g6IAddORGrHEMWjZ14cEKeboINO', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Michaël', 'Rollin', NULL, NULL, NULL, NULL, NULL, NULL, 'M', '0676060243', 101, ''),
+(41, 'pierrevicente@live.com', 'pierrevicente@live.com', 'pierrevicente@live.com', 'pierrevicente@live.com', 0, '5cxo451caj4s84kc0o448cc8wsswoow', '$2y$13$5cxo451caj4s84kc0o448OLUUiQkPbD2jF5c1Ony313TU7mf.6kP6', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Pierre', 'Vincente', NULL, NULL, NULL, NULL, NULL, NULL, 'M', '0689380431', 101, ''),
+(42, 'siraintxus@gmail.com', 'siraintxus@gmail.com', 'siraintxus@gmail.com', 'siraintxus@gmail.com', 0, 'q765grjge5cgwgc04k4g8owgkwo4owk', '$2y$13$q765grjge5cgwgc04k4g8eN9CO7MSk4LQwM7GynG2/paX89QSxJMa', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Sira', 'Inchusta Carrillo', NULL, NULL, NULL, NULL, NULL, NULL, 'F', '0782781042', 101, ''),
+(43, '3sonushka0@gmail.com', '3sonushka0@gmail.com', '3sonushka0@gmail.com', '3sonushka0@gmail.com', 0, 'l0mq2ve8rsgok0kkgkwss40ggkws44c', '$2y$13$l0mq2ve8rsgok0kkgkwssu7rDQRGmkwUi51uvAfgc5kpFwGqOO7bO', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Sofia', 'Kudinova', NULL, NULL, NULL, NULL, NULL, NULL, 'F', '0641202931', 101, ''),
+(44, 'wassimbella5@gmail.com', 'wassimbella5@gmail.com', 'wassimbella5@gmail.com', 'wassimbella5@gmail.com', 0, '7c9pbv88ohs00so4o008so8sscggs84', '$2y$13$7c9pbv88ohs00so4o008se5aOqh6XmTn6.X5Dc0t4nq9CDXOSb7WC', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Wassim', 'Bella', NULL, NULL, NULL, NULL, NULL, NULL, 'M', NULL, 101, ''),
+(45, 'cafedeslanguesluminy@gmail.com', 'cafedeslanguesluminy@gmail.com', 'cafedeslanguesluminy@gmail.com', 'cafedeslanguesluminy@gmail.com', 0, 'bprgeddkids8w04cgo4kwsk48wocskk', '$2y$13$bprgeddkids8w04cgo4kweoKQYozw4ELaETySMkCPDeEokAXzdLRO', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'cafedeslanguesluminy@gmail.com', 'Iezzi', NULL, NULL, NULL, NULL, NULL, NULL, 'F', '+33751366636', 248, ''),
+(46, 'tresorerie.esnmars@gmail.com', 'tresorerie.esnmars@gmail.com', 'tresorerie.esnmars@gmail.com', 'tresorerie.esnmars@gmail.com', 0, 'i6zqwo9rkyoksk080c40wg48www8oo4', '$2y$13$i6zqwo9rkyoksk080c40weZKi2KFmZ6x6UJgG3SZvqY2aqePpVkeS', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Anne', 'Poulain', NULL, NULL, NULL, NULL, NULL, NULL, 'F', '33770172927', 248, ''),
+(47, 'presidence.esnmars@gmail.com', 'presidence.esnmars@gmail.com', 'presidence.esnmars@gmail.com', 'presidence.esnmars@gmail.com', 0, '96p6vzy0j9k4goc848ggg0cs8ckcwgs', '$2y$13$96p6vzy0j9k4goc848ggguc7pDWxzgShM6X4wDq0gfxXJojrxy1AO', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Daveen-Alexander', 'Wingrove', NULL, NULL, NULL, NULL, NULL, NULL, 'M', '+33613174860', 248, ''),
+(48, 'secretaire.esnmars@gmail.com', 'secretaire.esnmars@gmail.com', 'secretaire.esnmars@gmail.com', 'secretaire.esnmars@gmail.com', 0, 'dvfhosoebls0k8o4okc4s848owsg4w', '$2y$13$dvfhosoebls0k8o4okc4su.ieXI4j5RUWlIeO1GgM7.Gsik5DrAxO', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Mathias', 'Bonal', NULL, NULL, NULL, NULL, NULL, NULL, 'M', '+33635107691', 248, ''),
+(49, 'replocal.esnmars@gmail.com', 'replocal.esnmars@gmail.com', 'replocal.esnmars@gmail.com', 'replocal.esnmars@gmail.com', 0, 'f181zw6evbc4k8w4ooscow0ksg04000', '$2y$13$f181zw6evbc4k8w4ooscouUJsNSL2Ja7bDa4n/RScFGlUjY2h1UYS', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Rômulo', 'Duarte', NULL, NULL, NULL, NULL, NULL, NULL, 'M', '+ 33751109701', 248, ''),
+(50, 'president@esnmontpellier.fr', 'president@esnmontpellier.fr', 'president@esnmontpellier.fr', 'president@esnmontpellier.fr', 0, '8jv015nirts0cc8o48wow4og84wc08w', '$2y$13$8jv015nirts0cc8o48wowuGeO7Y6McYkwRpvT5D3Ksxh7p/A7opeG', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Arlémi', 'Turpault', NULL, NULL, NULL, NULL, NULL, NULL, 'M', '0617977536', 259, ''),
+(51, 'dianedorier@hotmail.fr', 'dianedorier@hotmail.fr', 'dianedorier@hotmail.fr', 'dianedorier@hotmail.fr', 0, 'hjkig83l7dsg4gs8c8040kw08sso84k', '$2y$13$hjkig83l7dsg4gs8c8040eVzLXcE1TgnVTWWWEfOI6VMCmRUE3fVG', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Diane', 'Dorier', NULL, NULL, NULL, NULL, NULL, NULL, 'F', '0650089401', 259, ''),
+(52, 'contact@esnmontpellier.fr', 'contact@esnmontpellier.fr', 'contact@esnmontpellier.fr', 'contact@esnmontpellier.fr', 0, '6xala31oeescowccwgo84gk844ss8o0', '$2y$13$6xala31oeescowccwgo84efajh3WRX0bJBCyahWlyRcFx/J5o2crK', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Marjorie', 'Fino', NULL, NULL, NULL, NULL, NULL, NULL, 'F', '0650967791', 259, ''),
+(53, 'tresorier@esnmontpellier.fr', 'tresorier@esnmontpellier.fr', 'tresorier@esnmontpellier.fr', 'tresorier@esnmontpellier.fr', 0, 'h7na0qe1a4g0ww4cc8084cowwkok48k', '$2y$13$h7na0qe1a4g0ww4cc8084OYdwlKe9NQKocXAxKiUGd25NDLPl218.', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Philippine', 'Ramirez', NULL, NULL, NULL, NULL, NULL, NULL, 'F', '0618460757', 259, ''),
+(54, 'vp@esnmontpellier.fr', 'vp@esnmontpellier.fr', 'vp@esnmontpellier.fr', 'vp@esnmontpellier.fr', 0, '1xrwovn7h000wscg000088cgoco0coo', '$2y$13$1xrwovn7h000wscg00008uveyHtltDkxuQu1xTqCMoroQIkl8qErO', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Sofie', 'Munsters', NULL, NULL, NULL, NULL, NULL, NULL, 'F', '0631624134', 259, ''),
+(57, 'test@test.com', 'test@test.com', 'test@test.com', 'test@test.com', 1, '6p3gacw8a0gskkoc0k400w4oc84wwg4', '$2y$13$6p3gacw8a0gskkoc0k400u/oXwXkqzNFabXd4VNJ9lIBs1jRzsdT2', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Test', 'test', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 'test@test.com'),
+(58, 'test@te2st.com', 'test@te2st.com', 'test@te2st.com', 'test@te2st.com', 1, 'tdj4jsav8c0sc04oc84440oss4w8400', '$2y$13$tdj4jsav8c0sc04oc8444u7hrcR8dKTC7REUX5oKpMts8MnGVrFmK', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Test', 'test', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 'test@te2st.com'),
+(59, 'totogalax@toto.com', 'totogalax@toto.com', 'toto@toto.com', 'toto@toto.com', 1, 'a7mcz6ye8t4cokwsc0csgkc8gww4sgw', '$2y$13$a7mcz6ye8t4cokwsc0csgeQOICKkAYSJbo/jFHgIWnRxaeI/YxIoy', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Test', 'test', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 'totogalax@toto.com'),
+(60, 'totogalax2@toto.com', 'totogalax2@toto.com', 'totogalax2@toto.com', 'totogalax2@toto.com', 1, '5eo3bfvf8g00wg8kk444ck40ckokg8c', '$2y$13$5eo3bfvf8g00wg8kk444cebdFGjB7RtJAKKdgbf2zWqdGjiXAqjbK', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Test', 'azeaze', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 'totogalax2@toto.com'),
+(61, 'vice-president@esnnancy.fr', 'vice-president@esnnancy.fr', 'vice-president@esnnancy.fr', 'vice-president@esnnancy.fr', 0, 'dq8yy3kun3wcsg4soscgoc4skwskoko', '$2y$13$dq8yy3kun3wcsg4soscgoOS6jIx1tm9.SJDqwgEKkmGV1yB7lv92C', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Azra', 'Hayat-Vautrin', NULL, NULL, NULL, NULL, NULL, NULL, 'M', NULL, 266, 'vice-president@esnnancy.fr'),
+(62, 'president@esnnancy.fr', 'president@esnnancy.fr', 'president@esnnancy.fr', 'president@esnnancy.fr', 0, 'dkojhpnl5wgkcw4444o40wg40w8wook', '$2y$13$dkojhpnl5wgkcw4444o40uB3MRE05mCloxGx8UhJeFiszUq6DluAa', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Bertrand', 'Kaufmann', NULL, NULL, NULL, NULL, NULL, NULL, 'M', NULL, 266, 'president@esnnancy.fr'),
+(63, 'tresorier@esnnancy.fr', 'tresorier@esnnancy.fr', 'tresorier@esnnancy.fr', 'tresorier@esnnancy.fr', 0, 'crkqt9hghr4k0ogwocggs08so8owokk', '$2y$13$crkqt9hghr4k0ogwocggsuK.VMY.v0QTj9tGjXe1NgDjshIZ6lawa', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Carole', 'Eber', NULL, NULL, NULL, NULL, NULL, NULL, 'F', NULL, 266, 'tresorier@esnnancy.fr'),
+(64, 'communication@esnnancy.fr', 'communication@esnnancy.fr', 'communication@esnnancy.fr', 'communication@esnnancy.fr', 0, 'kkr1m2biyyo04go488044cw0ocgwcw4', '$2y$13$kkr1m2biyyo04go488044OzVZZ.iT5OeKpzZSWC2FHS2xtZsicg26', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Emma', 'Mirgain', NULL, NULL, NULL, NULL, NULL, NULL, 'F', NULL, 266, 'communication@esnnancy.fr'),
+(65, 'vp-partenariats@esnnancy.fr', 'vp-partenariats@esnnancy.fr', 'vp-partenariats@esnnancy.fr', 'vp-partenariats@esnnancy.fr', 0, '1a3g6lcnos4gcko4ok808ckoc8ckgsk', '$2y$13$1a3g6lcnos4gcko4ok808On3UiNkDHMPuMjMZdV5X0.MMplMGS/.O', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Inès', 'Jelassi', NULL, NULL, NULL, NULL, NULL, NULL, 'F', NULL, 266, 'vp-partenariats@esnnancy.fr'),
+(66, 'secretariat@esnnancy.fr', 'secretariat@esnnancy.fr', 'secretariat@esnnancy.fr', 'secretariat@esnnancy.fr', 0, 'l8xi7inpe1w44wwcw8w8wokgg0s8sck', '$2y$13$l8xi7inpe1w44wwcw8w8wexsFp2OFEEQkpDz3QsuMjXkrohvYmiSO', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Marie', 'Courier', NULL, NULL, NULL, NULL, NULL, NULL, 'F', NULL, 266, 'secretariat@esnnancy.fr'),
+(67, 'webmaster@esnnancy.fr', 'webmaster@esnnancy.fr', 'webmaster@esnnancy.fr', 'webmaster@esnnancy.fr', 0, 'mxj2xiycavk84004gc0wwkw8ok0c4cs', '$2y$13$mxj2xiycavk84004gc0wweqShfGIiOBjeMTMrT7NmmBvTZbzLVFry', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Rudy', 'Hoarau', NULL, NULL, NULL, NULL, NULL, NULL, 'M', NULL, 266, 'webmaster@esnnancy.fr'),
+(68, 'representant-local@esnnancy.fr', 'representant-local@esnnancy.fr', 'representant-local@esnnancy.fr', 'representant-local@esnnancy.fr', 0, '5ozclw2bv6o0o44co4444s8k0o0oo04', '$2y$13$5ozclw2bv6o0o44co4444e3cOyg.0ZXKzB/EusmUQIHzwouRQOUZ6', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Tiphaine', 'Stolorz', NULL, NULL, NULL, NULL, NULL, NULL, 'F', NULL, 266, 'representant-local@esnnancy.fr'),
+(69, 'griachejeremy@gmail.com', 'griachejeremy@gmail.com', 'griachejeremy@gmail.com', 'griachejeremy@gmail.com', 0, 'qol4kcu3b9cwwc8gc4wsog8okcw4gsg', '$2y$13$qol4kcu3b9cwwc8gc4wsoeEFs9pI2jf.d6cRolIpGHaC9WD9rrqLi', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Jérémy', 'Griache', NULL, NULL, NULL, NULL, NULL, NULL, 'M', '0783530503', 277, 'griachejeremy@gmail.com'),
+(70, 'mandalorr@gmail.com', 'mandalorr@gmail.com', 'mandalorr@gmail.com', 'mandalorr@gmail.com', 0, 'r7fb9tccb34g0ow8wwwwcs808g8k448', '$2y$13$r7fb9tccb34g0ow8wwwwce3jmysJU/LxyqfXA78WWzgZ.B4aq89u6', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Julien', 'Guiller', NULL, NULL, NULL, NULL, NULL, NULL, 'M', '0686158430', 277, 'mandalorr@gmail.com'),
+(71, 'mailan.le04@gmail.com', 'mailan.le04@gmail.com', 'mailan.le04@gmail.com', 'mailan.le04@gmail.com', 0, 'jhyb3xitknwwcg48kwowwkgg08sw88o', '$2y$13$jhyb3xitknwwcg48kwowweiFow038Va/VdTbtkF62JYo1IJTDnDrG', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Mai Lan', 'Lê', NULL, NULL, NULL, NULL, NULL, NULL, 'F', '0601178734', 277, 'mailan.le04@gmail.com'),
+(72, 'marine_rousseau@hotmail.fr', 'marine_rousseau@hotmail.fr', 'marine_rousseau@hotmail.fr', 'marine_rousseau@hotmail.fr', 0, '1zjal5vibt1c4wswcs00sksc4w0ss44', '$2y$13$1zjal5vibt1c4wswcs00seFFozTLAmW3HiHN4LIHLUF7O3h2S8lcS', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Marine', 'Rousseau', NULL, NULL, NULL, NULL, NULL, NULL, 'F', '0637682597', 277, 'marine_rousseau@hotmail.fr'),
+(73, 'esnorleans.rl@gmail.com', 'esnorleans.rl@gmail.com', 'esnorleans.rl@gmail.com', 'esnorleans.rl@gmail.com', 0, '4y5849u99n8cgs0ggokwg0cksw80sko', '$2y$13$4y5849u99n8cgs0ggokwguypVxvgFwRP.nA9AOHmPO1Nu2fDQaVee', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Pierre', 'Virmoux', NULL, NULL, NULL, NULL, NULL, NULL, 'M', '0665018393', 277, 'esnorleans.rl@gmail.com'),
+(74, 'rl.esnassas@gmail.com', 'rl.esnassas@gmail.com', 'rl.esnassas@gmail.com', 'rl.esnassas@gmail.com', 0, '6hhhbmab9s84488c08cowc8008c404c', '$2y$13$6hhhbmab9s84488c08cowO/NSQDwOpTjqpWjS3GnAtC7rdBh2O5Ba', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Fadile', 'BHAYAT', NULL, NULL, NULL, NULL, NULL, NULL, 'M', NULL, 479, 'rl.esnassas@gmail.com'),
+(75, 'president.esn.paris@gmail.com', 'president.esn.paris@gmail.com', 'president.esn.paris@gmail.com', 'president.esn.paris@gmail.com', 0, '5saucmjbyo4kcgk4sos8g0sooc0sc8c', '$2y$13$5saucmjbyo4kcgk4sos8gu7ma9eN1I7NfZVqtdejhg4eP5JnK0OlW', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Mehdi', 'Mesirdi', NULL, NULL, NULL, NULL, NULL, NULL, 'M', NULL, NULL, 'president.esn.paris@gmail.com'),
+(76, 'sg.esn.paris@gmail.com', 'sg.esn.paris@gmail.com', 'sg.esn.paris@gmail.com', 'sg.esn.paris@gmail.com', 0, 'd6wq8h23o4gk0o004gokg000s8w0888', '$2y$13$d6wq8h23o4gk0o004gokgue8VjvhhLUOuFEd6RFsf7MQYlZi/yg4O', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Ouafae', 'Ben Rhazal', NULL, NULL, NULL, NULL, NULL, NULL, 'M', NULL, 479, 'sg.esn.paris@gmail.com'),
+(77, 'tresorier.esn.paris@gmail.com', 'tresorier.esn.paris@gmail.com', 'tresorier.esn.paris@gmail.com', 'tresorier.esn.paris@gmail.com', 0, '7wnb6esv1rkskcw4wswsw884080so0k', '$2y$13$7wnb6esv1rkskcw4wswswuhft8jZj89e3q3ZZjDxx0QSANAxzojz6', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Pierre-Antoine', 'Lallande', NULL, NULL, NULL, NULL, NULL, NULL, 'M', NULL, 479, 'tresorier.esn.paris@gmail.com'),
+(78, 'rl.esnrennes@gmail.com', 'rl.esnrennes@gmail.com', 'rl.esnrennes@gmail.com', 'rl.esnrennes@gmail.com', 0, '3vf7rds2q5ycscgsgsgg0gswss0ggk0', '$2y$13$3vf7rds2q5ycscgsgsgg0ec.zKZyWI5d9hu5SAegCWb6/SSyaqID6', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Grégory', 'ELARD', NULL, NULL, NULL, NULL, NULL, NULL, 'M', '0634124576', 304, 'rl.esnrennes@gmail.com'),
+(79, 'kev.le-guen@laposte.net', 'kev.le-guen@laposte.net', 'kev.le-guen@laposte.net', 'kev.le-guen@laposte.net', 0, 'laohov3lzggwws4w8kc0cokk440swgk', '$2y$13$laohov3lzggwws4w8kc0cekSRbOTBhw0ICNWVtiGngxuqJAao5bBm', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Kevin', 'LE GUEN', NULL, NULL, NULL, NULL, NULL, NULL, 'M', '0613896148', 304, 'kev.le-guen@laposte.net'),
+(80, 'lise.heautot@wanadoo.fr', 'lise.heautot@wanadoo.fr', 'lise.heautot@wanadoo.fr', 'lise.heautot@wanadoo.fr', 0, 'jxvs2zf3k9wwgc4ockgkgwws8ckgogo', '$2y$13$jxvs2zf3k9wwgc4ockgkgu/4QC8peXIGxfz5zZysxSXrZsCSbICK.', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Lise', 'HEAUTOT', NULL, NULL, NULL, NULL, NULL, NULL, 'M', '0642118758', 304, 'lise.heautot@wanadoo.fr'),
+(81, 'esn.rennes@gmail.com', 'esn.rennes@gmail.com', 'esn.rennes@gmail.com', 'esn.rennes@gmail.com', 0, 'gn47wiwo6g0gwsggscs4kgo4s88gs08', '$2y$13$gn47wiwo6g0gwsggscs4ke9jaZSFZdzY9FQsDACIHyN/BmTPEQxgW', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Lolita', 'MENSEAU', NULL, NULL, NULL, NULL, NULL, NULL, 'F', '0615579395', 304, 'esn.rennes@gmail.com'),
+(82, 'president@esn-strasbourg.eu', 'president@esn-strasbourg.eu', 'president@esn-strasbourg.eu', 'president@esn-strasbourg.eu', 0, '6wuoa1xm2yo04cso4ckswc80ks84oos', '$2y$13$6wuoa1xm2yo04cso4ckswOwsQwTZr.unNlB/LiNgSaCnWZLAuzhOq', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Benjamin', 'Genin', NULL, NULL, NULL, NULL, NULL, NULL, 'M', '0684880597', 347, 'president@esn-strasbourg.eu'),
+(83, 'julian.risler@gmail.com', 'julian.risler@gmail.com', 'julian.risler@gmail.com', 'julian.risler@gmail.com', 0, '7quldywupgg0csg4c804kokggkk0ss8', '$2y$13$7quldywupgg0csg4c804keEtI3Ugn/UPD1dOKdHnQfHQ9zE66kBkK', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Julian', 'Risler', NULL, NULL, NULL, NULL, NULL, NULL, 'M', '0684596006', 347, 'julian.risler@gmail.com'),
+(84, 'contact@esn-strasbourg.eu', 'contact@esn-strasbourg.eu', 'contact@esn-strasbourg.eu', 'contact@esn-strasbourg.eu', 0, 'ekr6ue8ur8ggks4ccwssw4s0s0ok08o', '$2y$13$ekr6ue8ur8ggks4ccwsswuYWc8ZZ/5AsjEGqaFy97oasAvSBHh3E6', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Manon', 'Brunot', NULL, NULL, NULL, NULL, NULL, NULL, 'F', '0641769072', 347, 'contact@esn-strasbourg.eu'),
+(85, 'vice-president@esn-strasbourg.eu', 'vice-president@esn-strasbourg.eu', 'vice-president@esn-strasbourg.eu', 'vice-president@esn-strasbourg.eu', 0, 'nmb8c8dk02okc4gg00ksc8k4c44o8g8', '$2y$13$nmb8c8dk02okc4gg00kscubiyj/w.X8fzWBHr9sAjCx3YVSJD7.2C', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Margaux', 'Bastien', NULL, NULL, NULL, NULL, NULL, NULL, 'F', '0618932749', 347, 'vice-president@esn-strasbourg.eu'),
+(86, 'simonlabroue1991@gmail.com', 'simonlabroue1991@gmail.com', 'simonlabroue1991@gmail.com', 'simonlabroue1991@gmail.com', 0, '99eeajs7sc0sos0wskg80o4wgkgkkkk', '$2y$13$99eeajs7sc0sos0wskg80eZhnDqGamvDAzTTLQVBYTJHB.eKLqx2G', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Simon', 'Labroue', NULL, NULL, NULL, NULL, NULL, NULL, 'M', '0628075774', 347, 'simonlabroue1991@gmail.com'),
+(87, 'thomas.joly@ixesn.fr', 'thomas.joly@ixesn.fr', 'thomas.joly@ixesn.fr', 'thomas.joly@ixesn.fr', 0, 'twhfo5cd0v4go4ko8ogo40s04w0wwgw', '$2y$13$twhfo5cd0v4go4ko8ogo4uJb1h2kNclsZdqdIKckSo8GzClCGgEVK', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Thomas', 'Joly', NULL, NULL, NULL, NULL, NULL, NULL, 'M', '0624641995', 347, 'thomas.joly@ixesn.fr'),
+(88, 'mathilde.lafage@gmail.com', 'mathilde.lafage@gmail.com', 'mathilde.lafage@gmail.com', 'mathilde.lafage@gmail.com', 0, 'dr0xw7m7q5cg8ow0o0gwkgwkkcw0wss', '$2y$13$dr0xw7m7q5cg8ow0o0gwkeKYWOcimAkO0YUxVRHCR8Pt2MEQZaAC6', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Mathilde', 'Lafage', NULL, NULL, NULL, NULL, NULL, NULL, 'F', '0685208926', 20, 'mathilde.lafage@gmail.com'),
+(89, 'jeremie.ddd@gmail.com', 'jeremie.ddd@gmail.com', 'jeremie.ddd@gmail.com', 'jeremie.ddd@gmail.com', 0, '36jlpfxvtxic40ok44s0k8c4oc4gco8', '$2y$13$36jlpfxvtxic40ok44s0ku0bP2adIqPshuiELgIUrjtycDJXH8zCK', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Azekk', 'aze', NULL, NULL, NULL, NULL, NULL, NULL, 'M', NULL, 8, 'jeremie.ddd@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -159,9 +232,8 @@ INSERT INTO `fo_user` (`id`, `username`, `username_canonical`, `email`, `email_c
 -- Structure de la table `migration_versions`
 --
 
-CREATE TABLE IF NOT EXISTS `migration_versions` (
-  `version` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`version`)
+CREATE TABLE `migration_versions` (
+  `version` varchar(255) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -180,7 +252,31 @@ INSERT INTO `migration_versions` (`version`) VALUES
 ('20151111112041'),
 ('20151111112848'),
 ('20151111113140'),
-('20151116145331');
+('20151116145331'),
+('20151123221304'),
+('20151129180516'),
+('20151129182618'),
+('20151129190953'),
+('20151129191431'),
+('20151129192829'),
+('20151213105902');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `points`
+--
+
+CREATE TABLE `points` (
+  `id` int(11) NOT NULL,
+  `points` int(11) NOT NULL,
+  `date` datetime NOT NULL,
+  `basic_action` int(11) NOT NULL,
+  `bonus` int(11) DEFAULT NULL,
+  `from_id` int(11) DEFAULT NULL,
+  `to_id` int(11) DEFAULT NULL,
+  `status` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -188,13 +284,12 @@ INSERT INTO `migration_versions` (`version`) VALUES
 -- Structure de la table `post`
 --
 
-CREATE TABLE IF NOT EXISTS `post` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `post` (
+  `id` int(11) NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `role` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `level` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=12 ;
+  `level` varchar(255) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Contenu de la table `post`
@@ -208,9 +303,32 @@ INSERT INTO `post` (`id`, `name`, `role`, `level`) VALUES
 (6, 'NationalBoardMember', 'regularBoardMember', 'National'),
 (7, 'RL', 'localRepresentative', 'Local'),
 (8, 'NR', 'nationalRepresentative', 'National'),
-(9, 'President', 'local.president', 'Local'),
-(10, 'VP', 'local.vicePresident', 'Local'),
-(11, 'Président', 'president', 'National');
+(11, 'Président', 'president', 'National'),
+(12, 'activeMember', 'activeMember', 'Local'),
+(13, 'Activity', 'activity', 'Local'),
+(14, 'Alumnus', 'Alumnus', 'Local'),
+(15, 'cardManager', 'cardManager', 'Local'),
+(16, 'exchangeability', 'exchangeability', 'Local'),
+(17, 'pr', 'pr', 'Local'),
+(18, 'secretary', 'secretary', 'Local'),
+(19, 'socialerasmus', 'socialerasmus', 'Local'),
+(20, 'treasurer', 'treasurer', 'Local'),
+(21, 'vicePresident', 'vicePresident', 'Local'),
+(22, 'ALCoordinator', 'ALCoordinator', 'National'),
+(23, 'alumnus', 'alumnus', 'National'),
+(24, 'cardManager', 'cardManager', 'National'),
+(25, 'EducationOfficer', 'EducationOfficer', 'National'),
+(26, 'exchangeability', 'exchangeability', 'National'),
+(27, 'Vice NR', 'nationalViceRepresentative', 'National'),
+(28, 'PR', 'pr', 'National'),
+(29, 'secretary', 'secretary', 'National'),
+(30, 'socialerasmus', 'socialerasmus', 'National'),
+(31, 'Treasurer', 'treasurer', 'National'),
+(32, 'VP', 'vicePresident', 'National'),
+(33, 'SCV', 'serviceCivique', 'Local'),
+(34, 'National SCV', 'serviceCivique', 'National'),
+(35, 'CA', 'Administrator', 'National'),
+(36, 'President', 'president', 'Local');
 
 -- --------------------------------------------------------
 
@@ -218,8 +336,8 @@ INSERT INTO `post` (`id`, `name`, `role`, `level`) VALUES
 -- Structure de la table `section`
 --
 
-CREATE TABLE IF NOT EXISTS `section` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `section` (
+  `id` int(11) NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `joindate` datetime NOT NULL,
   `code` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -229,9 +347,8 @@ CREATE TABLE IF NOT EXISTS `section` (
   `website` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `facebook` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `longitude` int(11) NOT NULL,
-  `latitude` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=501 ;
+  `latitude` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Contenu de la table `section`
@@ -476,9 +593,9 @@ INSERT INTO `section` (`id`, `name`, `joindate`, `code`, `country`, `street`, `c
 (236, 'ESN METU', '2015-11-15 17:19:19', 'TR-ANKA-MET', 'TR', 'ESN METU\n	 	 International Cooperations Office Solmaz Izdemir Hall, Main Library Building \nMiddle East Technical University Universiteler Mah. Dumlupinar Blv. No:1 \n06800', 'Ankara', 'metu.esnturkey.org', 'https://www.facebook.com/#!/groups/222979244431753/', 0, 0),
 (237, 'ESN MONS''ters', '2015-11-15 17:19:19', 'BE-MONS-UCL', 'BE', 'c/o Marchesani Enrico, Chaussee de Binche 151, B-7000 ', 'Mons', 'online as soon as possible', '', 0, 0),
 (238, 'ESN MRU Vilnius', '2015-11-15 17:19:19', 'LT-VILN-MRU', 'LT', 'ESN MRU \nMykolas Romeris University\nAteities str. 20 \n05268', 'Vilnius', 'http://mru.esnlithuania.org/', 'http://www.facebook.com/esn.mru.vilnius', 25, 55),
-(239, 'ESN MU', '2015-11-15 17:19:19', 'TR-ISTA-MAL', 'TR', 'Marmara Egitim Koyu 34857 Maltepe, Istanbul', 'Turkey', '', '', 0, 0);
+(239, 'ESN MU', '2015-11-15 17:19:19', 'TR-ISTA-MAL', 'TR', 'Marmara Egitim Koyu 34857 Maltepe, Istanbul', 'Turkey', '', '', 0, 0),
+(240, 'ESN Macerata', '2015-11-15 17:19:19', 'IT-MACE-ESN', 'IT', 'Associazione “MacErasmus” - ESN \nc/o Centro Rapporti Internazionali – Università di \nVia della Pescheria Vechia\n62100', 'Macerata', 'http://www.esnmacerata.it', 'http://www.facebook.com/esn.macerasmus', 13, 43);
 INSERT INTO `section` (`id`, `name`, `joindate`, `code`, `country`, `street`, `city`, `website`, `facebook`, `longitude`, `latitude`) VALUES
-(240, 'ESN Macerata', '2015-11-15 17:19:19', 'IT-MACE-ESN', 'IT', 'Associazione “MacErasmus” - ESN \nc/o Centro Rapporti Internazionali – Università di \nVia della Pescheria Vechia\n62100', 'Macerata', 'http://www.esnmacerata.it', 'http://www.facebook.com/esn.macerasmus', 13, 43),
 (241, 'ESN Madeira', '2015-11-15 17:19:19', 'PT-FUNC-ESN', 'PT', 'ESN Madeira\nRua do Poço Barral, n.º 4, casa C, freguesia de São Martinho,\n9000-154', 'Funchal', 'www.esnmadeira.org', 'https://www.facebook.com/ESNMadeira', 0, 0),
 (242, 'ESN Maleventum', '2015-11-15 17:19:19', 'IT-BENE-ESN', 'IT', 'Ufficio Relazioni Internazionali \nUniversità degli Studi del Sannio, complesso di S.Agostino\nVia G. De Nicastro, n. 13\n82100', 'Benevento', 'http://www.esnmaleventum.it', '', 15, 41),
 (243, 'ESN Malmö', '2015-11-15 17:19:19', 'SE-MALM-INT', 'SE', 'Studentkåren \nBassängkajen 8\n211 18', 'Malmö', 'http://esnmalmo.org', 'https://www.facebook.com/pages/ESN-Malm%C3%B6/211265365580653?ref=aymt_homepage_panel', 13, 56),
@@ -714,11 +831,11 @@ INSERT INTO `section` (`id`, `name`, `joindate`, `code`, `country`, `street`, `c
 (473, 'ESN Åbo Akademi ', '2015-11-15 17:19:41', 'FI-TURK-AAU', 'FI', 'ESN Åbo Akademi\nFänriksgatan 3, entrance B, second floor, room B225\n20500', 'Turku', 'esnabo.org', 'http://www.facebook.com/groups/19534003480/', 22, 60),
 (474, 'ESN Ås', '2015-11-15 17:19:41', 'NO-AS-ESN', 'NO', 'P.O. Boks 1207, 1432, ', 'Ås', 'http://www.as.esn.no/', 'https://www.facebook.com/esniaas?fref=ts', 0, 0),
 (475, 'ESN Óbuda University', '2015-11-15 17:19:41', 'HU-BUPE-OBU', 'HU', 'ESN Óbuda University\nTavaszmező utca  17. A\n1084', 'Budapest', 'http://obuda.esn.hu/', 'https://www.facebook.com/esn.obuda', 0, 0),
-(476, 'ESN Örebro', '2015-11-15 17:19:41', 'SE-OREB-ESN', 'SE', 'ESN \nFakultetsgatan 1\n702 18', 'Örebro', 'esn-orebro.org', '', 15, 59);
-INSERT INTO `section` (`id`, `name`, `joindate`, `code`, `country`, `street`, `city`, `website`, `facebook`, `longitude`, `latitude`) VALUES
+(476, 'ESN Örebro', '2015-11-15 17:19:41', 'SE-OREB-ESN', 'SE', 'ESN \nFakultetsgatan 1\n702 18', 'Örebro', 'esn-orebro.org', '', 15, 59),
 (477, 'ESN ŠU', '2015-11-15 17:19:41', 'LT-SUSA-ESN', 'LT', 'ESN ŠU\nDubijos st. \n1B\n77158', 'Šiauliai', '', 'https://www.facebook.com/pages/ESN-%C5%A0U/490155704345814', 23, 56),
 (478, 'ESN-Luleå', '2015-11-15 17:19:41', 'SE-LULE-ESN', 'SE', 'LURC\nInternational Office\n University of Technology\n971 87', 'Luleå', 'http://www.lurc.se/', 'https://www.facebook.com/LURC.ESNLulea', 0, 0),
-(479, 'ESN-Paris Assas', '2013-01-01 00:00:00', 'FR-PARI-ASS', 'FR', 'Association ESN Assas, Université  II Pantéon Assas, 12 Place du pantéon 75005, ', 'Paris', 'http://assas.ixesn.fr', 'https://www.facebook.com/esnassas', 0, 0),
+(479, 'ESN-Paris Assas', '2013-01-01 00:00:00', 'FR-PARI-ASS', 'FR', 'Association ESN Assas, Université  II Pantéon Assas, 12 Place du pantéon 75005, ', 'Paris', 'http://assas.ixesn.fr', 'https://www.facebook.com/esnassas', 0, 0);
+INSERT INTO `section` (`id`, `name`, `joindate`, `code`, `country`, `street`, `city`, `website`, `facebook`, `longitude`, `latitude`) VALUES
 (480, 'ESN-SDU', '2015-11-15 17:19:41', 'TR-ISPA-SDU', 'TR', 'ESN-SDU\nSuleyman Demirel University Erasmus Office\nBati Campus, Cunur\n32260', 'Isparta', 'http://sdu.esnturkey.org/', '', 0, 0),
 (481, 'ESN-Samsun', '2015-11-15 17:19:41', 'TR-SAMS-ESN', 'TR', 'ESN-\nInternational Relations Office  Ondokuz Mayis University\n55200', 'Samsun', 'http://erasmus.omu.edu.tr/genel-bilgiler/esn-samsun/', 'https://www.facebook.com/pages/Esn-Samsun', 0, 0),
 (482, 'ESN-UTAD', '2015-11-15 17:19:42', 'PT-VILA-UTA', 'PT', 'ESN UTAD, \nUniversidade de Trás-os-Montes e Alto Douro \nQuinta de Prados 5001-801 ', 'Vila Real', 'www.esnutad.org', 'http://www.facebook.com/ESNUTAD', 0, 0),
@@ -747,12 +864,9 @@ INSERT INTO `section` (`id`, `name`, `joindate`, `code`, `country`, `street`, `c
 -- Structure de la table `section_events`
 --
 
-CREATE TABLE IF NOT EXISTS `section_events` (
+CREATE TABLE `section_events` (
   `section_id` int(11) NOT NULL,
-  `events_id` int(11) NOT NULL,
-  PRIMARY KEY (`section_id`,`events_id`),
-  KEY `IDX_19CFA56CD823E37A` (`section_id`),
-  KEY `IDX_19CFA56C9D6A1065` (`events_id`)
+  `events_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -835,6 +949,11 @@ INSERT INTO `section_events` (`section_id`, `events_id`) VALUES
 (101, 14),
 (101, 15),
 (101, 16),
+(108, 12),
+(108, 13),
+(108, 14),
+(108, 15),
+(108, 16),
 (314, 14),
 (314, 16),
 (499, 16),
@@ -846,12 +965,9 @@ INSERT INTO `section_events` (`section_id`, `events_id`) VALUES
 -- Structure de la table `user_post`
 --
 
-CREATE TABLE IF NOT EXISTS `user_post` (
+CREATE TABLE `user_post` (
   `user_id` int(11) NOT NULL,
-  `post_id` int(11) NOT NULL,
-  PRIMARY KEY (`user_id`,`post_id`),
-  KEY `IDX_200B2044A76ED395` (`user_id`),
-  KEY `IDX_200B20444B89032C` (`post_id`)
+  `post_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -862,18 +978,341 @@ INSERT INTO `user_post` (`user_id`, `post_id`) VALUES
 (1, 1),
 (1, 3),
 (1, 4),
-(1, 5),
 (1, 6),
-(2, 3),
-(2, 10),
+(1, 12),
+(1, 32),
 (3, 3),
 (3, 7),
+(3, 12),
 (4, 6),
 (4, 11),
 (5, 3),
-(5, 9),
-(6, 5);
+(5, 12),
+(5, 36),
+(7, 12),
+(7, 14),
+(8, 3),
+(8, 12),
+(9, 3),
+(9, 7),
+(10, 12),
+(10, 18),
+(11, 4),
+(11, 12),
+(12, 14),
+(12, 23),
+(13, 12),
+(14, 3),
+(14, 12),
+(14, 19),
+(16, 3),
+(16, 12),
+(16, 33),
+(17, 3),
+(17, 12),
+(17, 21),
+(17, 35),
+(18, 3),
+(18, 12),
+(18, 20),
+(20, 3),
+(20, 12),
+(21, 3),
+(21, 12),
+(22, 3),
+(22, 12),
+(23, 3),
+(23, 12),
+(23, 18),
+(24, 3),
+(24, 12),
+(25, 3),
+(25, 7),
+(25, 12),
+(26, 3),
+(26, 7),
+(26, 12),
+(27, 3),
+(27, 12),
+(27, 20),
+(28, 3),
+(28, 12),
+(29, 7),
+(29, 12),
+(30, 3),
+(30, 12),
+(31, 3),
+(31, 12),
+(31, 18),
+(32, 3),
+(32, 12),
+(32, 21),
+(33, 3),
+(33, 12),
+(33, 21),
+(34, 3),
+(34, 12),
+(34, 18),
+(35, 3),
+(35, 12),
+(35, 20),
+(36, 3),
+(36, 7),
+(36, 12),
+(37, 3),
+(37, 12),
+(37, 36),
+(38, 3),
+(38, 12),
+(38, 21),
+(39, 3),
+(39, 12),
+(39, 20),
+(40, 3),
+(40, 4),
+(40, 12),
+(41, 3),
+(41, 12),
+(41, 36),
+(42, 3),
+(42, 12),
+(42, 18),
+(43, 3),
+(43, 12),
+(43, 17),
+(44, 3),
+(44, 7),
+(44, 12),
+(45, 3),
+(45, 12),
+(46, 3),
+(46, 12),
+(46, 20),
+(47, 3),
+(47, 12),
+(47, 36),
+(48, 3),
+(48, 12),
+(48, 18),
+(49, 3),
+(49, 7),
+(49, 12),
+(50, 3),
+(50, 12),
+(50, 36),
+(51, 3),
+(51, 7),
+(51, 12),
+(52, 3),
+(52, 12),
+(52, 18),
+(53, 3),
+(53, 12),
+(53, 20),
+(54, 3),
+(54, 12),
+(54, 21),
+(61, 3),
+(61, 12),
+(61, 21),
+(62, 3),
+(62, 12),
+(62, 36),
+(63, 3),
+(63, 12),
+(63, 20),
+(64, 3),
+(64, 12),
+(64, 17),
+(64, 21),
+(65, 3),
+(65, 12),
+(65, 21),
+(66, 3),
+(66, 12),
+(66, 18),
+(67, 3),
+(67, 4),
+(67, 12),
+(68, 3),
+(68, 7),
+(68, 12),
+(69, 3),
+(69, 12),
+(69, 20),
+(70, 3),
+(70, 12),
+(70, 36),
+(71, 3),
+(71, 12),
+(71, 18),
+(72, 3),
+(72, 12),
+(72, 21),
+(73, 3),
+(73, 7),
+(73, 12),
+(74, 3),
+(74, 7),
+(74, 12),
+(75, 3),
+(75, 12),
+(75, 36),
+(76, 3),
+(76, 12),
+(76, 18),
+(77, 3),
+(77, 12),
+(77, 20),
+(78, 3),
+(78, 7),
+(78, 12),
+(79, 3),
+(79, 12),
+(79, 20),
+(80, 3),
+(80, 12),
+(80, 18),
+(81, 3),
+(81, 12),
+(81, 36),
+(82, 3),
+(82, 12),
+(82, 36),
+(83, 3),
+(83, 12),
+(83, 20),
+(84, 3),
+(84, 12),
+(84, 18),
+(85, 3),
+(85, 12),
+(85, 21),
+(86, 3),
+(86, 12),
+(86, 21),
+(87, 3),
+(87, 6),
+(87, 7),
+(87, 12),
+(87, 32),
+(88, 3),
+(88, 7),
+(88, 12),
+(89, 3),
+(89, 12),
+(89, 36);
 
+--
+-- Index pour les tables exportées
+--
+
+--
+-- Index pour la table `committee`
+--
+ALTER TABLE `committee`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `UNIQ_D2F2C2378CA3C745` (`chair_id`);
+
+--
+-- Index pour la table `committee_user`
+--
+ALTER TABLE `committee_user`
+  ADD PRIMARY KEY (`committee_id`,`user_id`),
+  ADD KEY `IDX_1ABDE46AED1A100B` (`committee_id`),
+  ADD KEY `IDX_1ABDE46AA76ED395` (`user_id`);
+
+--
+-- Index pour la table `events`
+--
+ALTER TABLE `events`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `fo_user`
+--
+ALTER TABLE `fo_user`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `UNIQ_9A3C4A6192FC23A8` (`username_canonical`),
+  ADD UNIQUE KEY `UNIQ_9A3C4A61A0D96FBF` (`email_canonical`),
+  ADD KEY `IDX_9A3C4A61D823E37A` (`section_id`);
+
+--
+-- Index pour la table `migration_versions`
+--
+ALTER TABLE `migration_versions`
+  ADD PRIMARY KEY (`version`);
+
+--
+-- Index pour la table `points`
+--
+ALTER TABLE `points`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `IDX_27BA8E2978CED90B` (`from_id`),
+  ADD KEY `IDX_27BA8E2930354A65` (`to_id`);
+
+--
+-- Index pour la table `post`
+--
+ALTER TABLE `post`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `section`
+--
+ALTER TABLE `section`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `section_events`
+--
+ALTER TABLE `section_events`
+  ADD PRIMARY KEY (`section_id`,`events_id`),
+  ADD KEY `IDX_19CFA56CD823E37A` (`section_id`),
+  ADD KEY `IDX_19CFA56C9D6A1065` (`events_id`);
+
+--
+-- Index pour la table `user_post`
+--
+ALTER TABLE `user_post`
+  ADD PRIMARY KEY (`user_id`,`post_id`),
+  ADD KEY `IDX_200B2044A76ED395` (`user_id`),
+  ADD KEY `IDX_200B20444B89032C` (`post_id`);
+
+--
+-- AUTO_INCREMENT pour les tables exportées
+--
+
+--
+-- AUTO_INCREMENT pour la table `committee`
+--
+ALTER TABLE `committee`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+--
+-- AUTO_INCREMENT pour la table `events`
+--
+ALTER TABLE `events`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+--
+-- AUTO_INCREMENT pour la table `fo_user`
+--
+ALTER TABLE `fo_user`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=90;
+--
+-- AUTO_INCREMENT pour la table `points`
+--
+ALTER TABLE `points`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT pour la table `post`
+--
+ALTER TABLE `post`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+--
+-- AUTO_INCREMENT pour la table `section`
+--
+ALTER TABLE `section`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=501;
 --
 -- Contraintes pour les tables exportées
 --
@@ -896,6 +1335,13 @@ ALTER TABLE `committee_user`
 --
 ALTER TABLE `fo_user`
   ADD CONSTRAINT `FK_9A3C4A61D823E37A` FOREIGN KEY (`section_id`) REFERENCES `section` (`id`);
+
+--
+-- Contraintes pour la table `points`
+--
+ALTER TABLE `points`
+  ADD CONSTRAINT `FK_27BA8E2930354A65` FOREIGN KEY (`to_id`) REFERENCES `fo_user` (`id`),
+  ADD CONSTRAINT `FK_27BA8E2978CED90B` FOREIGN KEY (`from_id`) REFERENCES `fo_user` (`id`);
 
 --
 -- Contraintes pour la table `section_events`

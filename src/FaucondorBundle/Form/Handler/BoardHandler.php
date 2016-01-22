@@ -71,6 +71,10 @@ class BoardHandler
      * @param User $user
      */
     protected function onSuccess(User $user){
+        if (!$user->getId()){
+            $this->sendEmail($user);
+        }
+
         $this->em->persist($user);
         $this->em->flush();
     }
@@ -89,7 +93,7 @@ class BoardHandler
             ->setTo($user->getEmail())
             ->setBody(
                 $this->templating->render(
-                    'ESNHRBundle:Emails:registration.html.twig',
+                    'FaucondorBundle:Emails:rl.html.twig',
                     array('user' => $user)
                 ),
                 'text/html'

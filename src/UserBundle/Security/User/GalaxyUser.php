@@ -34,19 +34,19 @@ class GalaxyUser implements UserInterface, EquatableInterface
     public function __construct($username, $attributes, $password = null, $salt = null, array $roles = null)
     {
         $this->username     = $username;
-        $this->email        = $attributes['mail'];
-        $this->firstname    = $attributes['first'];
-        $this->lastname     = $attributes['last'];
-        $this->nationality  = $attributes['nationality'];
-        $this->picture      = $attributes['picture'];
-        $this->birthdate    = $attributes['birthdate'];
-        $this->gender       = $attributes['gender'];
-        $this->telephone    = $attributes['telephone'];
-        $this->address      = $attributes['address'];
-        $this->section      = $attributes['section'];
-        $this->country      = $attributes['country'];
-        $this->sc           = $attributes['sc'];
-        $this->roles        = $attributes['roles'];
+        $this->email        = (array_key_exists('mail', $attributes)) ? $attributes['mail'] : null;
+        $this->firstname    = (array_key_exists('first', $attributes)) ? $attributes['first'] : null;
+        $this->lastname     = (array_key_exists('last', $attributes)) ? $attributes['last'] : null;
+        $this->nationality  = (array_key_exists('nationality', $attributes)) ? $attributes['nationality'] : null;
+        $this->picture      = (array_key_exists('picture', $attributes)) ? $attributes['picture'] : null;
+        $this->birthdate    = (array_key_exists('birthdate', $attributes)) ? $attributes['birthdate'] : null;
+        $this->gender       = (array_key_exists('gender', $attributes)) ? $attributes['gender'] : null;
+        $this->telephone    = (array_key_exists('telephone', $attributes)) ? $attributes['telephone'] : null;
+        $this->address      = (array_key_exists('address', $attributes)) ? $attributes['address'] : null;
+        $this->section      = (array_key_exists('section', $attributes)) ? $attributes['section'] : null;
+        $this->country      = (array_key_exists('country', $attributes)) ? $attributes['country'] : null;
+        $this->sc           = (array_key_exists('sc', $attributes)) ? $attributes['sc'] : null;
+        $this->roles        = (array_key_exists('roles', $attributes)) ? $attributes['roles'] : null;
     }
 
     /**

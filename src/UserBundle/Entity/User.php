@@ -15,10 +15,16 @@ use FaucondorBundle\Entity\Post;
 use FaucondorBundle\Entity\Section;
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
+use JMS\Serializer\Annotation\Groups;
+use JMS\Serializer\Annotation\VirtualProperty;
 
 /**
  * @ORM\Entity(repositoryClass="UserBundle\Entity\UserRepository")
  * @ORM\Table(name="fo_user")
+ *
+ * @ExclusionPolicy("all")
  */
 class User extends BaseUser
 {
@@ -26,6 +32,9 @@ class User extends BaseUser
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
+     *
+     * @Expose
+     * @Groups({"default"})
      */
     protected $id;
 
@@ -33,6 +42,9 @@ class User extends BaseUser
      * @var string
      *
      * @ORM\Column(name="firstname", type="string", length=255)
+     *
+     * @Expose
+     * @Groups({"default"})
      */
     private $firstname;
 
@@ -40,13 +52,35 @@ class User extends BaseUser
      * @var string
      *
      * @ORM\Column(name="lastname", type="string", length=255)
+     *
+     * @Expose
+     * @Groups({"default"})
      */
     private $lastname;
+
+    /**
+     * @Expose
+     * @Groups({"default"})
+     */
+    protected $email;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="emailgalaxy", type="string", length=255)
+     *
+     * @Expose
+     * @Groups({"default"})
+     */
+    private $emailgalaxy;
 
     /**
      * @var string
      *
      * @ORM\Column(name="address", type="string", length=255, nullable=true)
+     *
+     * @Expose
+     * @Groups({"default"})
      */
     private $address;
 
@@ -392,6 +426,15 @@ class User extends BaseUser
      *
      * @return bool
      */
+    public function isNationalWebmaster(){
+        return $this->hasPermission("national", "webmaster");
+    }
+
+    /**
+     * Check if user is national Comity Chair
+     *
+     * @return bool
+     */
     public function isInternationalChair(){
         return $this->hasPermission("international", "projectCoordinator");
     }
@@ -403,6 +446,15 @@ class User extends BaseUser
      */
     public function isNationalVP(){
         return $this->hasPermission("national", "vicePresident");
+    }
+
+    /**
+     * Check if user is national VP
+     *
+     * @return bool
+     */
+    public function isAlumnus(){
+        return $this->hasPermission("national", "alumnus") or $this->hasPermission("local", "alumnus");
     }
 
     /**
@@ -460,6 +512,7 @@ class User extends BaseUser
         if ($this->isLocalPresident()) return 3;
         if ($this->isLocalBoardMember()) return 2;
         if ($this->isActiveMember()) return 1;
+        if ($this->isAlumnus()) return -1;
     }
 
     /**
@@ -679,5 +732,21 @@ class User extends BaseUser
     public function getPointsGiven()
     {
         return $this->pointsGiven;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmailgalaxy()
+    {
+        return $this->emailgalaxy;
+    }
+
+    /**
+     * @param string $emailgalaxy
+     */
+    public function setEmailgalaxy($emailgalaxy)
+    {
+        $this->emailgalaxy = $emailgalaxy;
     }
 }

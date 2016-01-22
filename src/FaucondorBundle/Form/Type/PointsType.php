@@ -5,9 +5,20 @@ namespace FaucondorBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\Translation\Translator;
+use Symfony\Component\Translation\TranslatorInterface;
 
 class PointsType extends AbstractType
 {
+    /**
+     * @var TranslatorInterface
+     */
+    protected $translator;
+
+    public function __constructor(TranslatorInterface $translator){
+        $this->translator = $translator;
+    }
+
     /**
      * @param FormBuilderInterface $builder
      * @param array $options

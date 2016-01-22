@@ -10,4 +10,10 @@ namespace FaucondorBundle\Entity;
  */
 class SectionRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getSectionsByCountry($code_country){
+        return $this->createQueryBuilder('s')
+            ->where('s.country = :country')
+            ->setParameter('country', $code_country)
+            ->orderBy('s.name', 'ASC');
+    }
 }

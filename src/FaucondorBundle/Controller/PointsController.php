@@ -70,7 +70,7 @@ class PointsController extends Controller
             $receiverPoints->setBonus($form->get('situation')->getData());
             $receiverPoints->setFrom($entity->getTo());
             $receiverPoints->setTo($this->getUser());
-            $receiverPoints->setStatus(0);
+            $receiverPoints->setStatus(-1);
             $receiverPoints->setDate($entity->getDate());
             $em->persist($receiverPoints);
 
@@ -163,10 +163,7 @@ class PointsController extends Controller
             'to' => $entity->getFrom()
         ));
 
-        var_dump($pointRelated->getId());die();
         $em->flush();
-
-
 
         $this->addFlash(
             'success',

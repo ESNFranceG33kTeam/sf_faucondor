@@ -28,7 +28,7 @@ php composer.phar install
 Ajouter le répertoir des médias : 
 
 ```shell
-mkdir -p /web/uploads/media
+mkdir -p web/uploads/media
 ```
 
 Configurez les permissions des répertoires du projet :

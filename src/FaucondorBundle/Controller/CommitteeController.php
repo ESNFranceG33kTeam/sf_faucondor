@@ -22,6 +22,10 @@ class CommitteeController extends Controller
      */
     public function indexAction()
     {
+        if (!$this->getUser()->isNationalVP() || !$this->getUser()->isNationalNR() ){
+            throw $this->createAccessDeniedException();
+        }
+
         $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('FaucondorBundle:Committee')->findAll();
@@ -36,6 +40,10 @@ class CommitteeController extends Controller
      */
     public function createAction(Request $request)
     {
+        if (!$this->getUser()->isNationalVP() || !$this->getUser()->isNationalNR() ){
+            throw $this->createAccessDeniedException();
+        }
+
         $entity = new Committee();
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
@@ -79,6 +87,10 @@ class CommitteeController extends Controller
      */
     public function newAction()
     {
+        if (!$this->getUser()->isNationalVP() || !$this->getUser()->isNationalNR() ){
+            throw $this->createAccessDeniedException();
+        }
+
         $entity = new Committee();
         $form   = $this->createCreateForm($entity);
 
@@ -94,6 +106,10 @@ class CommitteeController extends Controller
      */
     public function showAction($id)
     {
+        if (!$this->getUser()->isNationalVP() || !$this->getUser()->isNationalNR() ){
+            throw $this->createAccessDeniedException();
+        }
+
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('FaucondorBundle:Committee')->find($id);
@@ -116,6 +132,10 @@ class CommitteeController extends Controller
      */
     public function editAction($id)
     {
+        if (!$this->getUser()->isNationalVP() || !$this->getUser()->isNationalNR() ){
+            throw $this->createAccessDeniedException();
+        }
+
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('FaucondorBundle:Committee')->find($id);
@@ -154,6 +174,10 @@ class CommitteeController extends Controller
      */
     public function updateAction(Request $request, $id)
     {
+        if (!$this->getUser()->isNationalVP() || !$this->getUser()->isNationalNR() ){
+            throw $this->createAccessDeniedException();
+        }
+
         /** @var EntityManager $em */
         $em = $this->getDoctrine()->getManager();
 
@@ -161,7 +185,7 @@ class CommitteeController extends Controller
         $committee = $em->getRepository('FaucondorBundle:Committee')->find($id);
 
         if (!$committee) {
-            throw $this->createNotFoundException('Unable to find Committee entity.');
+            throw $this->createNotFoundException('Unable to find Committee.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
@@ -188,6 +212,10 @@ class CommitteeController extends Controller
      */
     public function deleteAction(Request $request, $id)
     {
+        if (!$this->getUser()->isNationalVP() || !$this->getUser()->isNationalNR() ){
+            throw $this->createAccessDeniedException();
+        }
+
         /** @var EntityManager $em */
         $em = $this->getDoctrine()->getManager();
 

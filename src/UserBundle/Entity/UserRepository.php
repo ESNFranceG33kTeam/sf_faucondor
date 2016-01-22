@@ -2,6 +2,7 @@
 
 namespace UserBundle\Entity;
 use FaucondorBundle\Entity\Post;
+use FaucondorBundle\Entity\Section;
 
 /**
  * SectionRepository
@@ -15,6 +16,15 @@ class UserRepository extends \Doctrine\ORM\EntityRepository
         return $this->createQueryBuilder('u')
             ->innerJoin('u.posts', 'p', 'WITH', 'p.id = :post')
             ->setParameter('post', $post->getId())
+            ->orderBy('u.firstname, u.lastname', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findUsersBySection(Section $section){
+        return $this->createQueryBuilder('u')
+            ->where('u.section = :section')
+            ->setParameter('section', $section->getId())
             ->orderBy('u.firstname, u.lastname', 'ASC')
             ->getQuery()
             ->getResult();

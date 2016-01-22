@@ -31,12 +31,12 @@
                     <td>
                         {% if point.status == 1 %}
                             <i class="fa fa-check" style="color:green;"></i>
-                        {% elseif point.status == 0 %}
+                        {% elseif point.status <= 0 %}
                             <i class="fa fa-times" style="color:red;"></i>
                         {% endif %}
                     </td>
                     <td>
-                        {% if point.status == 0 and app.user == point.to %}
+                        {% if point.status == -1 %}
                             <a href="{{ path('points_validate', {'id': point.id}) }}"><span style="color:green"><b>{{ 'label.validate'|trans }}</b></span></a>
                         {% endif %}
                     </td>

@@ -5,12 +5,18 @@ namespace FaucondorBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use UserBundle\Entity\User;
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
+use JMS\Serializer\Annotation\Groups;
+use JMS\Serializer\Annotation\VirtualProperty;
 
 /**
  * Post
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="FaucondorBundle\Entity\PostRepository")
+ *
+ * @ExclusionPolicy("all")
  */
 class Post
 {
@@ -26,6 +32,9 @@ class Post
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     *
+     * @Expose
+     * @Groups({"default"})
      */
     private $id;
 
@@ -33,6 +42,9 @@ class Post
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
+     *
+     * @Expose
+     * @Groups({"default"})
      */
     private $name;
 
@@ -40,6 +52,9 @@ class Post
      * @var string
      *
      * @ORM\Column(name="role", type="string", length=255)
+     *
+     * @Expose
+     * @Groups({"default"})
      */
     private $role;
 
@@ -47,6 +62,9 @@ class Post
      * @var string
      *
      * @ORM\Column(name="level", type="string", length=255)
+     *
+     * @Expose
+     * @Groups({"default"})
      */
     private $level;
 

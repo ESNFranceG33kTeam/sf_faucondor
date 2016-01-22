@@ -2,21 +2,52 @@
 
 {% form_theme edit_form _self %}
 
-{%- block radio_widget -%}
+{% block radio_widget %}
     {% spaceless %}
-         <input style="min-width: 15px;" type="radio" name="{{ full_name }}" id="radio_{{ value }}" value="{{ value }}"{% if checked %} checked="checked"{% endif %} />
+        <label  for="{{ id }}"><input type="radio" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />{{ label|trans }}</label>
     {% endspaceless %}
-{%- endblock -%}
+{% endblock radio_widget %}
 
 {% block choice_widget %}
     {% spaceless %}
-    <div {{ block('widget_container_attributes') }} style="margin-left: 150px;">
-        {% for child in form %}
-            {{ form_widget(child) }}
-        {% endfor %}
-    </div>
+        {% if expanded %}
+            <div {{ block('widget_container_attributes') }} style="margin-left: 150px;">
+                {% for child in form %}
+                    {{ form_widget(child) }}
+                {% endfor %}
+            </div>
+        {% else %}
+            <select {{ block('widget_attributes') }}{% if multiple %} multiple="multiple"{% endif %}>
+                {% if empty_value is not none %}
+                    <option value="">{{ empty_value|trans }}</option>
+                {% endif %}
+                {% if preferred_choices|length > 0 %}
+                    {% set options = preferred_choices %}
+                    {{ block('widget_choice_options') }}
+                    {% if choices|length > 0 and separator is not none %}
+                        <option disabled="disabled">{{ separator }}</option>
+                    {% endif %}
+                {% endif %}
+                {% set options = choices %}
+                {{ block('choice_widget_options') }}
+            </select>
+        {% endif %}
     {% endspaceless %}
 {% endblock %}
+
+{%- block choice_widget_options -%}
+    {% for group_label, choice in options %}
+        {%- if choice is iterable -%}
+            <optgroup label="{{ choice_translation_domain is same as(false) ? group_label : group_label|trans({}, choice_translation_domain) }}">
+                {% set options = choice %}
+                {{- block('choice_widget_options') -}}
+            </optgroup>
+        {%- else -%}
+            {% set attr = choice.attr %}
+            <option value="{{ choice.value }}" {{ block('attributes') }}{% if choice is selectedchoice(value) %} selected="selected"{% endif %}>{{ choice_translation_domain is same as(false) ? choice.label : choice.label|trans({}, choice_translation_domain) }}</option>
+        {%- endif -%}
+    {% endfor %}
+{%- endblock choice_widget_options -%}
 
 {%- block checkbox_widget -%}
     {% spaceless %}
@@ -27,9 +58,17 @@
     {% endspaceless %}
 {%- endblock -%}
 
+{% block choice_widget_expanded %}
+    {% spaceless %}
+        <div {{ block('widget_container_attributes') }}>
+            {% for child in form %}
+                {{ form_widget(child) }}
+            {% endfor %}
+        </div>
+    {% endspaceless %}
+{% endblock choice_widget_expanded %}
 
 {% block content -%}
-    <section>
     <h1>{{ 'entity.section.edit'|trans }}</h1>
 
         <div id="edit_board">
@@ -56,6 +95,5 @@
 
             {{ form_end(edit_form) }}
         </div>
-    </section>
 {% endblock %}
 
