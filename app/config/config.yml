@@ -120,6 +120,8 @@ monolog:
             type:         fingers_crossed
             action_level: critical
             handler:      grouped
+            excluded_404:
+                - ^/
         grouped:
             type:    group
             members: [streamed, swift]
@@ -132,7 +134,7 @@ monolog:
             from_email: 'no-reply@buddysystem.eu'
             to_email:   'jeremie.samson@ix.esnlille.fr'
             subject:    An Error Occurred!
-            level:      error
+            level:      critical
         login:
             type: stream
             path: "%kernel.logs_dir%/auth.log"
