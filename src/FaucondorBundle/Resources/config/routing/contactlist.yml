@@ -1,0 +1,30 @@
+contactlist:
+    path:     /
+    defaults: { _controller: "FaucondorBundle:ContactList:index" }
+
+contactlist_show:
+    path:     /{id}/show
+    defaults: { _controller: "FaucondorBundle:ContactList:show" }
+
+contactlist_new:
+    path:     /new
+    defaults: { _controller: "FaucondorBundle:ContactList:new" }
+
+contactlist_create:
+    path:     /create
+    defaults: { _controller: "FaucondorBundle:ContactList:create" }
+    methods:  POST
+
+contactlist_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "FaucondorBundle:ContactList:edit" }
+
+contactlist_update:
+    path:     /{id}/update
+    defaults: { _controller: "FaucondorBundle:ContactList:update" }
+    methods:  [POST, PUT]
+
+contactlist_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "FaucondorBundle:ContactList:delete" }
+    methods:  [POST, DELETE]

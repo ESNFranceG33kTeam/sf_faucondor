@@ -1,22 +1,24 @@
 {% extends 'FaucondorBundle::layout.html.twig' %}
 
 {% block content -%}
-    <h1>{{ 'entity.committee.title'|trans }}</h1>
+    <h1>{{ 'label.contact.list'|trans }}</h1>
+
+    <p>
+        <a class="button" href="{{ path('contactlist_new') }}">{{ 'label.contact.new'|trans }}</a>
+    </p>
 
     <div class="tables">
         <table class="table records_list datatable">
             <thead>
-                <tr>
-                    <th>{{ 'entity.committee.name'|trans }}</th>
-                    <th>{{ 'entity.committee.chair'|trans }}</th>
-                    <th>{{ 'entity.committee.createdat'|trans }}</th>
-                </tr>
+            <tr>
+                <th>{{ 'entity.section.name'|trans }}</th>
+                <th>{{ 'entity.committee.createdat'|trans }}</th>
+            </tr>
             </thead>
             <tbody>
             {% for entity in entities %}
                 <tr>
-                    <td><a href="{{ path('committee_edit', { 'id': entity.id }) }}">{{ entity.name }}</a></td>
-                    <td>{{ entity.chair }}</td>
+                    <td><a href="{{ path('contactlist_edit', { 'id': entity.id }) }}">{{ entity.name }}</a></td>
                     <td>{% if entity.createdat %}{{ entity.createdat|date('Y-m-d H:i:s') }}{% endif %}</td>
                 </tr>
             {% endfor %}

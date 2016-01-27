@@ -561,8 +561,10 @@ class User extends BaseUser
      * Reinit posts
      */
     public function resetPosts(){
+        /** @var Post $post */
         foreach($this->getPosts() as $post){
-            $this->removePost($post);
+            if ($post->getRole() != "scv" && !$post->isNational())
+                $this->removePost($post);
         }
     }
 
@@ -639,6 +641,21 @@ class User extends BaseUser
         return false;
     }
 
+    /**
+     * @return bool
+     */
+    public function isNationalSCV(){
+        /** @var Post $post */
+        foreach($this->getPosts() as $post){
+            if ($post->isNational() && $post->getRole() == "scv") return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @return bool
+     */
     public function isNationalBoardMember(){
         /** @var Post $post */
         foreach($this->getPosts() as $post){

@@ -24,6 +24,7 @@ label.back.list: Back to the list
 label.menu.email: Email to local representative
 label.menu.export: Export lists
 label.menu.committee: Committee
+label.menu.scv: SCV
 entity.section.name: Name
 entity.section.joindate: Joindate
 entity.section.actions: Actions
@@ -79,3 +80,8 @@ label.droits: Droits
 label.situation: Your situation
 error.multiplenbmembers: Multiple National Board members on the same post
 email.welcome: <h1>Bienvenue dans Faucon d'or</h1><p>Bienvenue, tu viens d'être ajouter dans notre annuaire national : <a href="http://faucondor.ixesn.fr">le Faucon d'or</a></p><p>Tu peux t'y connecter via l'adresse email avec laquelle tu t'es enregistré sur <a href="http://galaxy.esn.org">galaxy</a></p><p>Pour tout probleme tu peux contacter ta RL, le <a href="mailto:vp@ixesn.fr">VP Section</a> ou encore <a href="mailto:jeremie.samson@ix.esnlille.fr">le développeur</a></p><br><p>A bientôt !</p>
+label.contact.list: Contact list
+label.contact.new: New Contact list
+label.contact.edit: Edit Contact list
+label.contact.update: Update Contact list
+label.events.create: Events creation

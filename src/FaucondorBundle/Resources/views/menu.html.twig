@@ -14,6 +14,11 @@
                 <a href="{{ path('board') }}">{{ 'label.menu.board'|trans }}</a>
             </li>
         {% endif %}
+        {% if app.user.isNationalSCV %}
+            <li {% if current == "contactlist" %}id="current"{% endif %}>
+                <a href="{{ path('contactlist') }}">{{ 'label.menu.scv'|trans }}</a>
+            </li>
+        {% endif %}
         {% if app.user.isNationalVP() or app.user.isNationalNR() %}
             <li {% if current == "events" or current == "events_new" or current == "events_edit" %}id="current"{% endif %}>
                 <a href="{{ path('events') }}">{{ 'label.menu.events'|trans }}</a>

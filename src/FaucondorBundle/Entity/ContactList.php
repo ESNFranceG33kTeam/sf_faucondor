@@ -10,9 +10,9 @@ use UserBundle\Entity\User;
  * Committee
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="FaucondorBundle\Entity\CommitteeRepository")
+ * @ORM\Entity(repositoryClass="FaucondorBundle\Entity\ContactListRepository")
  */
-class Committee
+class ContactList
 {
     /**
      * @var integer
@@ -40,17 +40,9 @@ class Committee
     /**
      * @var ArrayCollection
      *
-     * @ORM\ManyToMany(targetEntity="UserBundle\Entity\User", cascade={"all"})
+     * @ORM\ManyToMany(targetEntity="UserBundle\Entity\User", cascade={"persist"})
      */
     private $users;
-
-    /**
-     * @var User
-     *
-     * @ORM\OneToOne(targetEntity="UserBundle\Entity\User", cascade={"all"})
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $chair;
 
     /**
      * Constructor
@@ -125,6 +117,8 @@ class Committee
     {
         $this->users->add($user);
 
+        $user->setCommittee($this);
+
         return $this;
     }
 
@@ -142,22 +136,6 @@ class Committee
     public function getUsers()
     {
         return $this->users;
-    }
-
-    /**
-     * @return User
-     */
-    public function getChair()
-    {
-        return $this->chair;
-    }
-
-    /**
-     * @param User $chair
-     */
-    public function setChair($chair)
-    {
-        $this->chair = $chair;
     }
 }
 

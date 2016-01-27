@@ -1,13 +1,12 @@
 {% extends 'FaucondorBundle::layout.html.twig' %}
 
 {% block content -%}
-    <h1>{{ 'label.events.create'|trans }}</h1>
+    <h1>ContactList creation</h1>
 
     {{ form_start(form) }}
 
     {{ form_row(form.name) }}<br>
-    {{ form_row(form.start) }}<br>
-    {{ form_row(form.end) }}<br>
+    {{ form_row(form.users) }}<br>
 
     <input type="submit" value="{{ 'label.button.save'|trans }}" class="button" />
 

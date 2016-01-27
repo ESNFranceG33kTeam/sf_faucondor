@@ -1,3 +1,7 @@
+faucondor_contactlist:
+    resource: "@FaucondorBundle/Resources/config/routing/contactlist.yml"
+    prefix:   /contactlist
+
 faucondor_points:
     resource: "@FaucondorBundle/Resources/config/routing/points.yml"
     prefix:   /points
