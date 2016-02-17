@@ -3,3 +3,4 @@ label.success.login: Authentification réussi
 label.logout: Déconnexion
 label.login: Connexion
 label.login: Se connecter avec Galaxy
+label.menu.doc: Doc API

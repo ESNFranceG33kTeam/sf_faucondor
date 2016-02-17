@@ -26,7 +26,7 @@ class BoardController extends Controller
      */
     public function indexAction()
     {
-        if (!$this->getUser()->isRL() || !$this->getUser()->isNationalVP() || !$this->getUser()->isNationalNR() ){
+        if ($this->checkPermission()){
             throw $this->createAccessDeniedException();
         }
 
@@ -118,7 +118,7 @@ class BoardController extends Controller
      */
     public function createAction(Request $request)
     {
-        if (!$this->getUser()->isRL() || !$this->getUser()->isNationalVP() || !$this->getUser()->isNationalNR() ){
+        if ($this->checkPermission()){
             throw $this->createAccessDeniedException();
         }
 
@@ -177,7 +177,7 @@ class BoardController extends Controller
      */
     public function newAction()
     {
-        if (!$this->getUser()->isRL() || !$this->getUser()->isNationalVP() || !$this->getUser()->isNationalNR() ){
+        if ($this->checkPermission()){
             throw $this->createAccessDeniedException();
         }
 
@@ -197,7 +197,7 @@ class BoardController extends Controller
      */
     public function editAction($id, $type)
     {
-        if (!$this->getUser()->isRL() || !$this->getUser()->isNationalVP() || !$this->getUser()->isNationalNR() ){
+        if ($this->checkPermission()){
             throw $this->createAccessDeniedException();
         }
 
@@ -239,7 +239,7 @@ class BoardController extends Controller
      */
     public function updateAction(Request $request, $type, $id)
     {
-        if (!$this->getUser()->isRL() || !$this->getUser()->isNationalVP() || !$this->getUser()->isNationalNR() ){
+        if ($this->checkPermission()){
             throw $this->createAccessDeniedException();
         }
 
@@ -273,7 +273,7 @@ class BoardController extends Controller
      */
     public function deleteAction(Request $request, $id)
     {
-        if (!$this->getUser()->isRL() || !$this->getUser()->isNationalVP() || !$this->getUser()->isNationalNR() ){
+        if ($this->checkPermission()){
             throw $this->createAccessDeniedException();
         }
 
@@ -335,5 +335,14 @@ class BoardController extends Controller
             )
         ;
         $this->get('mailer')->send($message);
+    }
+
+    /**
+     * Check Permission on board functions
+     *
+     * @return bool
+     */
+    public function checkPermission(){
+        return !$this->getUser()->isRL() && !$this->getUser()->isNationalVP() && !$this->getUser()->isNationalNR() && !$this->getUser()->isNationalChair();
     }
 }

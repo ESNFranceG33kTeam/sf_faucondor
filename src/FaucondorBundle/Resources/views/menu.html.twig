@@ -40,13 +40,22 @@
                 <a href="{{ path('faucondor_listes') }}">{{ 'label.menu.listes'|trans }}</a>
             </li>
         {% endif %}
+        {% if app.user.isNationalWebmaster %}
+            <li {% if current == "nelmio_api_doc_index" %}id="current"{% endif %}>
+                <a href="{{ path('nelmio_api_doc_index') }}" target="_blank">{{ 'label.menu.doc'|trans }}</a>
+            </li>
+        {% endif %}
     </ul>
 
     <div id="profile">
 
         {% set value = (app.user.getValue >= 1) ? app.user.getValue : 1 %}
 
-        <img src='{{ app.user.galaxypicture }}' title="{{ 'label.worth.point'|transchoice(value, {'%points%': app.user.getValue} ) }}">
+        {% if not app.user.emailgalaxy == "dg@ixesn.fr" %}
+            <img src='{{ app.user.galaxypicture }}' title="{{ 'label.worth.point'|transchoice(value, {'%points%': app.user.getValue} ) }}">
+        {% else %}
+            <img src='{{ asset('bundles/faucondor/images/antoine.png') }}' title="{{ 'label.worth.point'|transchoice(value, {'%points%': app.user.getValue} ) }}">
+        {% endif %}
 
         <p>
             {{ 'label.menu.hello'|trans }} {{ app.user }}<br><br>
