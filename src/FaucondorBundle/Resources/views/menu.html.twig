@@ -46,7 +46,11 @@
 
         {% set value = (app.user.getValue >= 1) ? app.user.getValue : 1 %}
 
-        <img src='{{ app.user.galaxypicture }}' title="{{ 'label.worth.point'|transchoice(value, {'%points%': app.user.getValue} ) }}">
+        {% if not app.user.emailgalaxy == "dg@ixesn.fr" %}
+            <img src='{{ app.user.galaxypicture }}' title="{{ 'label.worth.point'|transchoice(value, {'%points%': app.user.getValue} ) }}">
+        {% else %}
+            <img src='{{ asset('bundles/faucondor/images/antoine.png') }}' title="{{ 'label.worth.point'|transchoice(value, {'%points%': app.user.getValue} ) }}">
+        {% endif %}
 
         <p>
             {{ 'label.menu.hello'|trans }} {{ app.user }}<br><br>
