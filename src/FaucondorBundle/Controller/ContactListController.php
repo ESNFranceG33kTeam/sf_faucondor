@@ -92,7 +92,7 @@ class ContactListController extends Controller
      * Finds and displays a ContactList entity.
      *
      */
-    public function showAction($id)
+    public function showAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -101,6 +101,8 @@ class ContactListController extends Controller
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find ContactList entity.');
         }
+
+        $request->getSession()->set('contactlist_id', $entity->getId());
 
         $deleteForm = $this->createDeleteForm($id);
 

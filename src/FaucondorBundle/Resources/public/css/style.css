@@ -396,3 +396,7 @@ background-image: url('../images/error.png');
 #userbundle_user_posts > div > input{
     min-width: 15px;
 }
+
+input[type=radio] {
+    min-width: 15px;
+}

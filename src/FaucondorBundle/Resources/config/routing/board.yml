@@ -7,6 +7,10 @@ board_show:
     defaults: { _controller: "FaucondorBundle:Board:show" }
 
 board_new:
+    path:     /new/contact
+    defaults: { _controller: "FaucondorBundle:Board:newSCVContact" }
+
+board_new:
     path:     /new
     defaults: { _controller: "FaucondorBundle:Board:new" }
 

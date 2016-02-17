@@ -86,3 +86,5 @@ label.contact.new: New Contact list
 label.contact.edit: Edit Contact list
 label.contact.update: Update Contact list
 label.events.create: Events creation
+label.contact.show: Show list
+label.user.newcontactscv: New SCV Contact

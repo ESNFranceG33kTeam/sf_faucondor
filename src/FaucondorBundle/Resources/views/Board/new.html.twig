@@ -69,12 +69,12 @@
 {% endblock choice_widget_expanded %}
 
 {% block content -%}
-    <h1>{{ 'entity.board.new'|trans }}</h1>
+    <h1>{% if type is defined %}{{ 'label.user.newcontactscv'|trans }}{% else %}{{ 'entity.board.new'|trans }}{% endif %}</h1>
 
     {{ form_start(form) }}
     {{ form_row(form.firstname) }}<br>
     {{ form_row(form.lastname) }}<br>
-    {{ form_row(form.gender) }}<br><br>
+    {{ form_row(form.gender, {'attr': {'class' : 'inputgender'}}) }}<br><br>
     {{ form_row(form.email) }}<br>
     {{ form_row(form.mobile) }}<br>
 

@@ -5,6 +5,7 @@ namespace FaucondorBundle\Controller;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
 use FaucondorBundle\Entity\Committee;
+use FaucondorBundle\Entity\ContactList;
 use FaucondorBundle\Entity\Post;
 use FaucondorBundle\Form\Type\BoardType;
 use Symfony\Component\HttpFoundation\Request;
@@ -145,7 +146,24 @@ class BoardController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('board'));
+            if ($this->getUser()->isSCV()) {
+                $contactlist_id = $request->getSession()->get('contactlist_id');
+                if ($contactlist_id){
+                    /** @var ContactList $contactlist */
+                    $contactlist = $em->getRepository('FaucondorBundle:ContactList')->find($contactlist_id);
+
+                    if ($contactlist){
+                        $contactlist->addUser($entity);
+                        $em->flush();
+
+                        return $this->redirect($this->generateUrl('contactlist_show', array('id' => $contactlist_id)));
+                    }
+                }else{
+                    return $this->redirect($this->generateUrl('board'));
+                }
+            }else{
+                return $this->redirect($this->generateUrl('board'));
+            }
         }
 
         return $this->render('FaucondorBundle:Board:new.html.twig', array(
@@ -163,7 +181,9 @@ class BoardController extends Controller
      */
     private function createCreateForm(User $entity)
     {
-        $form = $this->createForm(new BoardType($this->getDoctrine()->getManager(), $this->getUser(), substr($this->container->getParameter('country'),0,2)), $entity, array(
+        $type = $this->getUser()->isSCV() ? "SCV" : null;
+
+        $form = $this->createForm(new BoardType($this->getDoctrine()->getManager(), $this->getUser(), substr($this->container->getParameter('country'),0,2), $type), $entity, array(
             'action' => $this->generateUrl('board_create'),
             'method' => 'POST',
         ));
@@ -185,6 +205,29 @@ class BoardController extends Controller
         $form   = $this->createCreateForm($entity);
 
         return $this->render('FaucondorBundle:Board:new.html.twig', array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        ));
+    }
+
+    /**
+     * Displays a form to create a new User entity.
+     *
+     */
+    public function newSCVContactAction()
+    {
+        if (!$this->getUser()->isSCV()){
+            throw $this->createAccessDeniedException();
+        }
+
+        $entity = new User();
+        $form = $this->createForm(new BoardType($this->getDoctrine()->getManager(), $this->getUser(), substr($this->container->getParameter('country'),0,2), "SCV"), $entity, array(
+            'action' => $this->generateUrl('board_create'),
+            'method' => 'POST',
+        ));
+
+        return $this->render('FaucondorBundle:Board:new.html.twig', array(
+            'type'   => 'scv',
             'entity' => $entity,
             'form'   => $form->createView(),
         ));
@@ -343,6 +386,6 @@ class BoardController extends Controller
      * @return bool
      */
     public function checkPermission(){
-        return !$this->getUser()->isRL() && !$this->getUser()->isNationalVP() && !$this->getUser()->isNationalNR() && !$this->getUser()->isNationalChair();
+        return !$this->getUser()->isSCV() && !$this->getUser()->isRL() && !$this->getUser()->isNationalVP() && !$this->getUser()->isNationalNR() && !$this->getUser()->isNationalChair();
     }
 }

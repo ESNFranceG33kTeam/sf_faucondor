@@ -42,7 +42,7 @@ class ContactList
      *
      * @ORM\ManyToMany(targetEntity="UserBundle\Entity\User", cascade={"persist"})
      */
-    private $users;
+    protected $users;
 
     /**
      * Constructor
@@ -115,9 +115,10 @@ class ContactList
      */
     public function addUser(User $user)
     {
-        $this->users->add($user);
+        if (!$this->users)
+            $this->users = new ArrayCollection();
 
-        $user->setCommittee($this);
+        $this->users->add($user);
 
         return $this;
     }

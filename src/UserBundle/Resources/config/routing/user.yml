@@ -10,6 +10,10 @@ user_new:
     path:     /new
     defaults: { _controller: "UserBundle:User:new" }
 
+user_new_contact:
+    path:     /new/userscv
+    defaults: { _controller: "UserBundle:User:new" }
+
 user_create:
     path:     /create
     defaults: { _controller: "UserBundle:User:create" }

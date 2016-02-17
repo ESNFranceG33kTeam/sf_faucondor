@@ -359,6 +359,15 @@ class User extends BaseUser
     }
 
     /**
+     * Check if user is SCV
+     *
+     * @return bool
+     */
+    public function isSCV(){
+        return $this->hasPermission("national", "SCV");
+    }
+
+    /**
      * Check if user is VP
      *
      * @return bool
@@ -537,7 +546,8 @@ class User extends BaseUser
      * @return $this
      */
     public function addPost(Post $post){
-        $this->posts->add($post);
+        if (!$this->posts->contains($post))
+            $this->posts->add($post);
 
         return $this;
     }
@@ -563,7 +573,7 @@ class User extends BaseUser
     public function resetPosts(){
         /** @var Post $post */
         foreach($this->getPosts() as $post){
-            if ($post->getRole() != "scv" && !$post->isNational())
+            if (strtolower($post->getRole()) != "scv" && !$post->isNational())
                 $this->removePost($post);
         }
     }
