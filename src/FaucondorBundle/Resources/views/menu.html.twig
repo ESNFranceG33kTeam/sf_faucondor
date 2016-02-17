@@ -51,10 +51,10 @@
 
         {% set value = (app.user.getValue >= 1) ? app.user.getValue : 1 %}
 
-        {% if not app.user.emailgalaxy == "dg@ixesn.fr" %}
-            <img src='{{ app.user.galaxypicture }}' title="{{ 'label.worth.point'|transchoice(value, {'%points%': app.user.getValue} ) }}">
-        {% else %}
+        {% if app.user.username == "dg@ixesn.fr" %}
             <img src='{{ asset('bundles/faucondor/images/antoine.png') }}' title="{{ 'label.worth.point'|transchoice(value, {'%points%': app.user.getValue} ) }}">
+        {% else %}
+            <img src='{{ app.user.galaxypicture }}' title="{{ 'label.worth.point'|transchoice(value, {'%points%': app.user.getValue} ) }}">
         {% endif %}
 
         <p>
