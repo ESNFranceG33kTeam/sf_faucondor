@@ -35,6 +35,11 @@
                 <a href="{{ path('faucondor_listes') }}">{{ 'label.menu.listes'|trans }}</a>
             </li>
         {% endif %}
+        {% if app.user.isNationalWebmaster %}
+            <li {% if current == "nelmio_api_doc_index" %}id="current"{% endif %}>
+                <a href="{{ path('nelmio_api_doc_index') }}" target="_blank">{{ 'label.menu.doc'|trans }}</a>
+            </li>
+        {% endif %}
     </ul>
 
     <div id="profile">

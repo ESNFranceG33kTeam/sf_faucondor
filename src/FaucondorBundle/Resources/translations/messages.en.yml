@@ -24,6 +24,7 @@ label.back.list: Back to the list
 label.menu.email: Email to local representative
 label.menu.export: Export lists
 label.menu.committee: Committee
+label.menu.doc: Doc API
 entity.section.name: Name
 entity.section.joindate: Joindate
 entity.section.actions: Actions

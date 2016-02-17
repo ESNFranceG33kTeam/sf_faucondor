@@ -43,9 +43,10 @@ class LoginController extends Controller
             //$user_db = $em->getRepository("UserBundle:User")->findOneBy(array("email" => "camille.eurin@gmail.com"));
             //$user_db = $em->getRepository("UserBundle:User")->findOneBy(array("email" => "jeremie.samson@ix.esnlille.fr"));
             //$user_db = $em->getRepository("UserBundle:User")->findOneBy(array("email" => "rl@esnlille.fr"));
-            //$user_db = $em->getRepository("UserBundle:User")->findOneBy(array("email" => "rl@esnlille.fr"));
+            //$user_db = $em->getRepository("UserBundle:User")->findOneBy(array("email" => "dg@ixesn.fr"));
+            $user_db = $em->getRepository("UserBundle:User")->findOneBy(array("email" => "maxime.scher@live.fr"));
 
-            //$user_cas =  $this->userTransformer($user_db);
+            $user_cas =  $this->userTransformer($user_db);
         //}
 
 
