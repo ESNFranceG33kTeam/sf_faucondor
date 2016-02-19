@@ -3,7 +3,7 @@ set :deploy_to, "/homez.635/esnfranc/www/gestion/dev.faucondor.ixesn.fr"
 set :symfony_env_prod, "prod"
 set :domain,      "ftp.ixesn.fr"
 set :user, "esnfranc"
-#set :php_bin, "/usr/local/php5.5/bin/php"
+set :php_bin, "/usr/local/php5.5/bin/php"
 
 role :web,        domain
 role :app,        domain, :primary => true
