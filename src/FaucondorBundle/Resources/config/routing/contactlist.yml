@@ -3,6 +3,7 @@ contactlist:
     defaults: { _controller: "FaucondorBundle:ContactList:index" }
 
 contactlist_show:
+
     path:     /{id}/show
     defaults: { _controller: "FaucondorBundle:ContactList:show" }
 

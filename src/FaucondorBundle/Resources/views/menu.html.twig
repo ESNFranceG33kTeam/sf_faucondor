@@ -1,14 +1,12 @@
 {% block menu %}
     {% set current = app.request.attributes.get('_route') %}
     <ul id="menu">
-        {% if app.user.isActiveMember() or app.user.isAlumnus() %}
-            <li {% if current == "faucondor_annuaire" %}id="current"{% endif %}>
-                <a href="{{ path('faucondor_annuaire') }}">{{ 'label.menu.annuaire'|trans }}</a>
-            </li>
-            <li {% if current == "faucondor_participation" %}id="current"{% endif %}>
-                <a href="{{ path('faucondor_participation') }}">{{ 'label.menu.participation'|trans }}</a>
-            </li>
-        {% endif %}
+        <li {% if current == "faucondor_annuaire" %}id="current"{% endif %}>
+            <a href="{{ path('faucondor_annuaire') }}">{{ 'label.menu.annuaire'|trans }}</a>
+        </li>
+        <li {% if current == "faucondor_participation" %}id="current"{% endif %}>
+            <a href="{{ path('faucondor_participation') }}">{{ 'label.menu.participation'|trans }}</a>
+        </li>
         {% if app.user.isRL() or app.user.isNationalChair() or app.user.isNationalVP() %}
             <li {% if current == "board" or current == "board_new" or current == "board_edit" %}id="current"{% endif %}>
                 <a href="{{ path('board') }}">{{ 'label.menu.board'|trans }}</a>

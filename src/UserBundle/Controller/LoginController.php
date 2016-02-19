@@ -44,30 +44,17 @@ class LoginController extends Controller
             //$user_db = $em->getRepository("UserBundle:User")->findOneBy(array("email" => "jeremie.samson@ix.esnlille.fr"));
             //$user_db = $em->getRepository("UserBundle:User")->findOneBy(array("email" => "rl@esnlille.fr"));
             //$user_db = $em->getRepository("UserBundle:User")->findOneBy(array("email" => "dg@ixesn.fr"));
+            $user_db = $em->getRepository("UserBundle:User")->findOneBy(array("email" => "dg@ixesn.fr"));
             $user_cas =  $this->userTransformer($user_db);
         }
 
 
         if ($user_cas != null && $user_cas->getNationality() == $code_country){
-            $user_db = $em->getRepository("UserBundle:User")->findOneBy(array("emailgalaxy" => $user_cas->getEmail()));
+            $user_db = $em->getRepository("UserBundle:User")->findOneBy(array("username" => $user_cas->getEmail()));
 
-            //Check on first and lastname
             if (!$user_db){
-                $user_db = $em->getRepository("UserBundle:User")->findOneBy(array("firstname" => $user_cas->getFirstname(), "lastname" => $user_cas->getLastname()));
-
-                if ($user_db && $user_db->getEmail() != $user_cas->getEmail()){
-                    $user_db->setEmailgalaxy($user_cas->getEmail());
-                }
-            }else{
-                //Check on email
-                $user_db = $em->getRepository("UserBundle:User")->findOneBy(array("email" => $user_cas->getEmail()));
-
-                if ($user_db){
-                    if (!$user_db->getEmail())
-                        $user_db->setEmail($user_cas->getEmail());
-
-                    $user_db->setEmailgalaxy($user_cas->getEmail());
-                }
+                //Check on email canonical
+                $user_db = $em->getRepository("UserBundle:User")->findOneBy(array("email_canonical" => $user_cas->getEmail()));
             }
 
             $user = (!$user_db) ? new User() : $user_db;
@@ -79,8 +66,6 @@ class LoginController extends Controller
                 throw new Exception('Section not found');
             }
 
-            $user->setUsername($user_cas->getEmail());
-            $user->setUsernameCanonical($user_cas->getEmail());
             $user->setEmailgalaxy($user_cas->getEmail());
             $user->setGalaxyRoles(implode(",", $user_cas->getRoles()));
             $user->setFirstname($user_cas->getFirstname());
@@ -125,6 +110,9 @@ class LoginController extends Controller
             if (!$user_db) {
                 $user->setEnabled(true);
                 $user->setEmail($user_cas->getEmail());
+                $user->setUsername($user_cas->getEmail());
+                $user->setUsernameCanonical($user_cas->getEmail());
+                $user->setEmailCanonical($user_cas->getEmail());
                 $user->setRoles(array('ROLE_USER'));
                 $user->setRandomPassword();
                 $section->addUser($user);

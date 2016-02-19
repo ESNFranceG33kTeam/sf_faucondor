@@ -1,7 +1,11 @@
-reset:
+rest:
     type: rest
     resource: "@RestBundle/Resources/config/routing.yml"
     prefix:   /api
+
+NelmioApiDocBundle:
+  resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
+  prefix:   /doc
 
 faucon_dor:
     resource: "@FaucondorBundle/Resources/config/routing.yml"
@@ -10,7 +14,3 @@ faucon_dor:
 user:
     resource: "@UserBundle/Resources/config/routing.yml"
     prefix:   /
-
-NelmioApiDocBundle:
-  resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
-  prefix:   /doc
