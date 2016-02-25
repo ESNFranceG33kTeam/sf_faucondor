@@ -54,7 +54,7 @@ class LoginController extends Controller
 
             if (!$user_db){
                 //Check on email canonical
-                $user_db = $em->getRepository("UserBundle:User")->findOneBy(array("email_canonical" => $user_cas->getEmail()));
+                $user_db = $em->getRepository("UserBundle:User")->findOneBy(array("email" => $user_cas->getEmail()));
             }
 
             $user = (!$user_db) ? new User() : $user_db;
