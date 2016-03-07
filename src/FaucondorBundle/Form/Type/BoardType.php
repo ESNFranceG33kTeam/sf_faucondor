@@ -61,7 +61,7 @@ class BoardType extends AbstractType
             ->add('email')
         ;
 
-        if ($this->user->isNationalBoardMember() && $this->type != "SCV"){
+        if ($this->user->isNationalBoardMember() || $this->type = "SCV"){
             $builder
                 ->add('section', null, array(
                     'expanded' => false,
@@ -73,7 +73,7 @@ class BoardType extends AbstractType
         }
 
 
-        if ($this->type != "committee" && $this->type != "SCV"){
+        if ($this->type != "committee"){
             $level = ($this->user->isNationalBoardMember() || $this->user->isNationalSCV()) ? "National" : "Local";
 
             $builder

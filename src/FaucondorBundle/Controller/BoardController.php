@@ -8,6 +8,7 @@ use FaucondorBundle\Entity\Committee;
 use FaucondorBundle\Entity\ContactList;
 use FaucondorBundle\Entity\Post;
 use FaucondorBundle\Form\Type\BoardType;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -131,6 +132,17 @@ class BoardController extends Controller
             /** @var EntityManager $em */
             $em = $this->getDoctrine()->getManager();
 
+            $user_db = $em->getRepository('UserBundle:User')->findOneByUsername($form->get('email')->getData());
+
+            if ($user_db) {
+                $this->addFlash('error', 'Email already used');
+
+                return $this->render('FaucondorBundle:Board:new.html.twig', array(
+                    'entity' => $entity,
+                    'form'   => $form->createView(),
+                ));
+            }
+
             if (!$entity->getId()){
                 if ($entity->isRL()){
                     $this->sendRLEmail($entity);
@@ -141,6 +153,7 @@ class BoardController extends Controller
                 $entity->setEmailgalaxy($form->get('email')->getData());
                 $entity->setUsername($form->get('email')->getData());
                 $entity->setRandomPassword();
+                $entity->setEnabled(1);
             }
 
             $em->persist($entity);
