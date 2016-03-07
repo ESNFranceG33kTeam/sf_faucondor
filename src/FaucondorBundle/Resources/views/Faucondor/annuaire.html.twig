@@ -18,7 +18,7 @@
                 {% for section, users in localusers %}
                     {% for user in users %}
                         <tr>
-                            <td>{% if app.user.isNationalVP or app.user.isNationalWebmaster %}
+                            <td>{% if app.user.isNationalVP or app.user.isNationalWebmaster or app.user.isNationalSCV %}
                                     <a href="{{ path('board_edit', { 'id': user.id, 'type' : 'NationalBoardMember' }) }}">{{ user.firstname }}</a>
                                 {% else %}
                                     {{ user.firstname }}

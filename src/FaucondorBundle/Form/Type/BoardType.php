@@ -74,7 +74,7 @@ class BoardType extends AbstractType
 
 
         if ($this->type != "committee" && $this->type != "SCV"){
-            $level = ($this->user->isNationalBoardMember()) ? $this->user->getNationalBoardPost()->getLevel() : $this->user->getLocalBoardPost()->getLevel();
+            $level = ($this->user->isNationalBoardMember() || $this->user->isNationalSCV()) ? "National" : "Local";
 
             $builder
                 ->add('posts', null, array(

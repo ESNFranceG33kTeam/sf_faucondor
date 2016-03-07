@@ -161,6 +161,10 @@ class Post
         return strtolower($this->getRole()) == "regularboardmember";
     }
 
+    public function isSCV(){
+        return strtolower($this->getRole()) == "scv";
+    }
+
     public function fullname(){
         return $this->getLevel() . " " . $this->getName();
     }

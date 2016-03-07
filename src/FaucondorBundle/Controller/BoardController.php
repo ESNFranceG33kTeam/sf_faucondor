@@ -64,7 +64,7 @@ class BoardController extends Controller
         }
 
         //National Board Members
-        if ($user->isNationalBoardMember()){
+        if ($user->isNationalBoardMember() ){
             $nationalboardname = "ESN " . $this->container->getParameter('country');
             $board_members = $em->getRepository('UserBundle:User')->findUsersByPost($user->getNationalBoardPost());
             $users[$user->getNationalBoardPost()->getName()] = array();

@@ -667,6 +667,9 @@ class User extends BaseUser
      * @return bool
      */
     public function isNationalBoardMember(){
+        if ($this->isNationalSCV())
+            return true;
+
         /** @var Post $post */
         foreach($this->getPosts() as $post){
             if ($post->isNational() && $post->isBoardMember()) return true;
@@ -688,6 +691,10 @@ class User extends BaseUser
         /** @var Post $post */
         foreach($this->getPosts() as $post){
             if ($post->isNational() && $post->isBoardMember()) return $post;
+        }
+
+        foreach($this->getPosts() as $post){
+            if ($post->isNational() && $post->isSCV()) return $post;
         }
 
         return false;
