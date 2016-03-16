@@ -399,6 +399,6 @@ class BoardController extends Controller
      * @return bool
      */
     public function checkPermission(){
-        return !$this->getUser()->isSCV() && !$this->getUser()->isRL() && !$this->getUser()->isNationalVP() && !$this->getUser()->isNationalNR() && !$this->getUser()->isNationalChair();
+        return !$this->getUser()->isSCV() && !$this->getUser()->isRL() && !$this->getUser()->isNationalBoardMember() && !$this->getUser()->isNationalChair();
     }
 }
