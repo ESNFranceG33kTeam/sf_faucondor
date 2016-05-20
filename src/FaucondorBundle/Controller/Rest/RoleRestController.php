@@ -6,7 +6,7 @@
  * Time: 16:00
  */
 
-namespace RestBundle\Controller;
+namespace MainBundle\Controller\Rest;
 
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations\Get;

@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use UserBundle\Entity\User;
-use UserBundle\Form\UserType;
+use UserBundle\Form\Type\UserTypeBase as UserType;
 
 /**
  * User controller.

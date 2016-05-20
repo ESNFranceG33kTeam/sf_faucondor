@@ -14,3 +14,11 @@ faucon_dor:
 user:
     resource: "@UserBundle/Resources/config/routing.yml"
     prefix:   /
+
+api_rest_users :
+  type: rest
+  resource:     "@UserBundle/Controller/UserRestController.php"
+
+api_rest_roles :
+  type: rest
+  resource:     "@FaucondorBundle/Controller/RoleRestController.php"

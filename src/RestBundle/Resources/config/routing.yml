@@ -1,7 +1,0 @@
-api_rest_users :
-  type: rest
-  resource:     "@RestBundle/Controller/UserRestController.php"
-
-api_rest_roles :
-  type: rest
-  resource:     "@RestBundle/Controller/RoleRestController.php"

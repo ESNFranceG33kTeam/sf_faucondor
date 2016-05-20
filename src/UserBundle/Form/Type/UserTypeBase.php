@@ -1,6 +1,6 @@
 <?php
 
-namespace UserBundle\Form;
+namespace UserBundle\Form\Type;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
@@ -9,7 +9,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class UserType extends AbstractType
+class UserTypeBase extends AbstractType
 {
     public function __construct(){
 
