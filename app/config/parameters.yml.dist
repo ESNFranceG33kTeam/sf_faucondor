@@ -26,3 +26,6 @@ parameters:
 
     #Country ie: FRANCE
     country:      ~
+
+    #Locale
+    locale: en
