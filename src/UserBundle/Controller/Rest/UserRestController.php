@@ -219,7 +219,7 @@ class UserRestController extends FOSRestController{
             $form->addError(new FormError('Veuillez soumettre le formulaire'));
         }
 
-        return $this->handleView($this->view("Error during user post request", 404));
+        return $this->handleView($this->view($form->getErrors(), 400));
     }
 
     /**
@@ -275,6 +275,6 @@ class UserRestController extends FOSRestController{
             $form->addError(new FormError('Veuillez soumettre le formulaire'));
         }
 
-        return $this->handleView($this->view("Error during user post request", 404));
+        return $this->handleView($this->view($form->getErrors(), 400));
     }
 }

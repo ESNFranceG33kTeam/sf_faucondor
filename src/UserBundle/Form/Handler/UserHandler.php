@@ -12,6 +12,7 @@ namespace UserBundle\Form\Handler;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManager;
 use FaucondorBundle\Entity\Section;
+use Symfony\Component\Form\FormError;
 use UserBundle\Form\Model\ModelUser;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Form\FormInterface;
@@ -72,20 +73,35 @@ class UserHandler
                 /** @var ModelUser $user */
                 $user = $this->form->getData();
 
-                if (!$user->getFirstname() || !$user->getLastname() || !$user->getEmailGalaxy() || !$user->getSection() || !$user->getMobile()){
-                    throw new Exception('Missing parameters');
+                if (!$user->getFirstname() || !$user->getLastname() || !$user->getEmailGalaxy() || !$user->getSection()){
+                    $this->form->addError(new FormError('Missing parameter(s)'));
+                } else {
+                    if (!filter_var($user->getEmail(), FILTER_VALIDATE_EMAIL) || !filter_var($user->getEmailGalaxy(), FILTER_VALIDATE_EMAIL)) {
+                        $error = new FormError('email invalid');
+
+                        if (!filter_var($user->getEmail(), FILTER_VALIDATE_EMAIL))
+                            $this->form->get('email')->addError($error);
+
+                        if (!filter_var($user->getEmailGalaxy(), FILTER_VALIDATE_EMAIL))
+                            $this->form->get('emailGalaxy')->addError($error);
+
+                    } else {
+                        $section_id = $this->em->getRepository('FaucondorBundle:Section')->find($user->getSection());
+                        $section_code = $this->em->getRepository('FaucondorBundle:Section')->findOneBy(array(
+                            "code" => $user->getSection()
+                        ));
+
+                        if (!$section_id && !$section_code){
+                            $this->form->get('section')->addError(new FormError('Section with id ' . $user->getSection() . ' not found'));
+                        } else {
+                            /** @var Section $section */
+                            $section = ($section_id) ? $section_id : $section_code;
+                            $this->onSuccess($user, $section);
+
+                            return true;
+                        }
+                    }
                 }
-
-                /** @var Section $section */
-                $section = $this->em->getRepository('FaucondorBundle:Section')->find($user->getSection());
-
-                if (!$section){
-                    throw new NotFoundResourceException('Section with id ' . $user->getSection() . ' not found');
-                }
-
-                $this->onSuccess($user, $section);
-
-                return true;
             }
         }
 

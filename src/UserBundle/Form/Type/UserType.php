@@ -23,7 +23,7 @@ class UserType extends AbstractType
         $builder
             ->add('firstname', 'text', array('required' => true))
             ->add('lastname', 'text', array('required' => true))
-            ->add('mobile', 'text', array('required' => true))
+            ->add('mobile', 'text', array('required' => false))
             ->add('emailGalaxy', 'email', array('required' => true))
             ->add('email', 'email', array('required' => false))
             ->add('section', null, array('required' => true))
