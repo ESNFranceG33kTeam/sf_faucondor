@@ -1,9 +1,7 @@
 services:
     login_listener:
         class: UserBundle\EventListener\LoginListener
-        arguments:
-                - "@router"
-                - "@security.context"
+        arguments: [ "@router", "@security.token_storage"]
         tags:
             -
                   name: kernel.event_listener

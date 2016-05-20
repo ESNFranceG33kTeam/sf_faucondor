@@ -1,0 +1,14 @@
+fos_user_security:
+    resource: "@FOSUserBundle/Resources/config/routing/security.xml"
+
+api_rest_users :
+  type: rest
+  resource:     "@UserBundle/Controller/Rest/UserRestController.php"
+  defaults:
+      _format: json
+
+api_rest_roles :
+  type: rest
+  resource:     "@FaucondorBundle/Controller/Rest/RoleRestController.php"
+  defaults:
+      _format: json

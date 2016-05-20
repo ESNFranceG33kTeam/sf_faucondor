@@ -1,6 +1,5 @@
 imports:
     - { resource: parameters.yml }
-    - { resource: security.yml }
     - { resource: services.yml }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
@@ -134,8 +133,3 @@ monolog:
             to_email:   'jeremie.samson@ix.esnlille.fr'
             subject:    An Error Occurred!
             level:      critical
-        login:
-            type: stream
-            path: "%kernel.logs_dir%/auth.log"
-            level: error
-            channels: security
