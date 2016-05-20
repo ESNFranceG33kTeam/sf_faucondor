@@ -6,7 +6,7 @@
  * Time: 16:00
  */
 
-namespace RestBundle\Controller\Rest;
+namespace UserBundle\Controller\Rest;
 
 use FaucondorBundle\Entity\Section;
 use FOS\RestBundle\Controller\FOSRestController;
