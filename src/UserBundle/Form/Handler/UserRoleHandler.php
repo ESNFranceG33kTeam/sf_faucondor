@@ -7,14 +7,14 @@
  * Time: 12:07
  */
 
-namespace RestBundle\Form\Handler;
+namespace UserBundle\Form\Handler;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManager;
 use FaucondorBundle\Entity\Post;
 use FaucondorBundle\Entity\Section;
-use RestBundle\Form\Model\ModelUser;
-use RestBundle\Form\Model\ModelUserRole;
+use UserBundle\Form\Model\ModelUser;
+use UserBundle\Form\Model\ModelUserRole;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;

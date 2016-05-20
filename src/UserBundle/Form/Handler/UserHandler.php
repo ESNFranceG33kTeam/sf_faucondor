@@ -7,12 +7,12 @@
  * Time: 12:07
  */
 
-namespace RestBundle\Form\Handler;
+namespace UserBundle\Form\Handler;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManager;
 use FaucondorBundle\Entity\Section;
-use RestBundle\Form\Model\ModelUser;
+use UserBundle\Form\Model\ModelUser;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -72,10 +72,11 @@ class UserHandler
                 /** @var ModelUser $user */
                 $user = $this->form->getData();
 
-                if (!$user->getFirstname() || !$user->getLastname() || !$user->getEmailGalaxy() || !$user->getSection()){
+                if (!$user->getFirstname() || !$user->getLastname() || !$user->getEmailGalaxy() || !$user->getSection() || !$user->getMobile()){
                     throw new Exception('Missing parameters');
                 }
 
+                /** @var Section $section */
                 $section = $this->em->getRepository('FaucondorBundle:Section')->find($user->getSection());
 
                 if (!$section){
@@ -94,7 +95,7 @@ class UserHandler
     /**
      * Add a User
      *
-     * @author Jeremie Samson <jeremie@ylly.fr>
+     * @author Jeremie Samson <jeremie.samson@ix.esnlille.fr>
      *
      * @param ModelUser $user
      */
@@ -109,6 +110,7 @@ class UserHandler
         $user->setEmailgalaxy($model->getEmailGalaxy());
         $user->setEmail(($model->getEmail()) ? $model->getEmail() : $model->getEmailGalaxy());
         $user->setUsername($model->getEmailgalaxy());
+        $user->setMobile($model->getMobile());
 
         $section->addUser($user);
 

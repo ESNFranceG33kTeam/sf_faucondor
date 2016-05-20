@@ -1,6 +1,6 @@
 <?php
 
-namespace RestBundle\Form\Model;
+namespace UserBundle\Form\Model;
 use FaucondorBundle\Entity\Post;
 use UserBundle\Entity\User;
 

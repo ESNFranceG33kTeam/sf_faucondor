@@ -7,7 +7,7 @@
  * Time: 12:07
  */
 
-namespace RestBundle\Form\Type;
+namespace UserBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -23,6 +23,7 @@ class UserType extends AbstractType
         $builder
             ->add('firstname', 'text', array('required' => true))
             ->add('lastname', 'text', array('required' => true))
+            ->add('mobile', 'text', array('required' => true))
             ->add('emailGalaxy', 'email', array('required' => true))
             ->add('email', 'email', array('required' => false))
             ->add('section', null, array('required' => true))
@@ -36,7 +37,7 @@ class UserType extends AbstractType
     {
         $resolver->setDefaults(array(
             'csrf_protection'   => false,
-            'data_class'    => 'RestBundle\Form\Model\ModelUser'
+            'data_class'    => 'UserBundle\Form\Model\ModelUser'
         ));
     }
 

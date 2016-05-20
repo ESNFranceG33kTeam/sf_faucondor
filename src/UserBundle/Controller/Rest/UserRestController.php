@@ -14,12 +14,12 @@ use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\Post;
 use JMS\Serializer\SerializationContext;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use RestBundle\Form\Handler\UserHandler;
-use RestBundle\Form\Handler\UserRoleHandler;
-use RestBundle\Form\Model\ModelUser;
-use RestBundle\Form\Model\ModelUserRole;
-use RestBundle\Form\Type\UserRoleType;
-use RestBundle\Form\Type\UserType;
+use UserBundle\Form\Handler\UserHandler;
+use UserBundle\Form\Handler\UserRoleHandler;
+use UserBundle\Form\Model\ModelUser;
+use UserBundle\Form\Model\ModelUserRole;
+use UserBundle\Form\Type\UserRoleType;
+use UserBundle\Form\Type\UserType;
 use Symfony\Component\BrowserKit\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Form\Form;
@@ -176,7 +176,7 @@ class UserRestController extends FOSRestController{
      *         403="Returned when authentification failed",
      *         405="Method not allowed"
      *     },
-     *     input="RestBundle\Form\Type\UserType",
+     *     input="UserBundle\Form\Type\UserType",
      *     output={
      *         "class"="UserBundle\Entity\User",
      *         "groups"={"default"},
@@ -232,7 +232,7 @@ class UserRestController extends FOSRestController{
      *         403="Returned when authentification failed",
      *         405="Method not allowed"
      *     },
-     *     input="RestBundle\Form\Type\UserAddRoleType",
+     *     input="UserBundle\Form\Type\UserRoleType",
      *     output={
      *         "class"="UserBundle\Entity\User",
      *         "groups"={"default"},

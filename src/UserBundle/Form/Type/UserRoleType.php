@@ -7,7 +7,7 @@
  * Time: 12:07
  */
 
-namespace RestBundle\Form\Type;
+namespace UserBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -33,7 +33,7 @@ class UserRoleType extends AbstractType
     {
         $resolver->setDefaults(array(
             'csrf_protection'   => false,
-            'data_class'    => 'RestBundle\Form\Model\ModelUserRole'
+            'data_class'    => 'UserBundle\Form\Model\ModelUserRole'
         ));
     }
 

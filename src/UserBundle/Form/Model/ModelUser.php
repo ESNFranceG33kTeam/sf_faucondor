@@ -1,6 +1,6 @@
 <?php
 
-namespace RestBundle\Form\Model;
+namespace UserBundle\Form\Model;
 
 /**
  * Created by PhpStorm.
@@ -20,6 +20,8 @@ class ModelUser
     private $email;
 
     private $section;
+
+    private $mobile;
 
     /**
      * @return mixed
@@ -99,5 +101,21 @@ class ModelUser
     public function setSection($section)
     {
         $this->section = $section;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMobile()
+    {
+        return $this->mobile;
+    }
+
+    /**
+     * @param mixed $mobile
+     */
+    public function setMobile($mobile)
+    {
+        $this->mobile = $mobile;
     }
 }
