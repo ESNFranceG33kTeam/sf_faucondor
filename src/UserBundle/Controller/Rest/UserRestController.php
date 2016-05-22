@@ -167,6 +167,37 @@ class UserRestController extends FOSRestController{
     }
 
     /**
+     * Retrieves the list of users whom connected today
+     *
+     * @ApiDoc(
+     *     resource=true,
+     *     statusCodes={
+     *         200="Returned when successful",
+     *         403="Returned when authentification failed",
+     *         405="Method not allowed"
+     *     },
+     *     output={
+     *         "class"="UserBundle\Entity\User",
+     *         "groups"={"default"},
+     *         "parsers"={"Nelmio\ApiDocBundle\Parser\JmsMetadataParser"}
+     *     }
+     * )
+     *
+     * @Get("/stats/activity/login/today")
+     *
+     * @author Jérémie Samson <jeremie@ylly.fr>
+     *
+     * @return Response
+     */
+    public function getTodayLoginActivityAction(){
+        return $this->handleView(
+            $this->view($this->getDoctrine()->getRepository('UserBundle:User')->searchLoginActivity(), 200
+            )
+                ->setSerializationContext(SerializationContext::create()->setGroups(array('default')))
+        );
+    }
+
+    /**
      * Adds a user
      *
      * @ApiDoc(

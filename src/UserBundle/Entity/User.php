@@ -10,6 +10,7 @@ namespace UserBundle\Entity;
  */
 
 use Doctrine\Common\Collections\ArrayCollection;
+use FaucondorBundle\Entity\Activity;
 use FaucondorBundle\Entity\Committee;
 use FaucondorBundle\Entity\Post;
 use FaucondorBundle\Entity\Section;
@@ -161,13 +162,21 @@ class User extends BaseUser
      */
     private $pointsGiven;
 
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="FaucondorBundle\Entity\Activity", mappedBy="user")
+     */
+    private $activities;
+
     public function __construct()
     {
         parent::__construct();
 
-        $this->posts = new ArrayCollection();
+        $this->posts          = new ArrayCollection();
         $this->pointsReceived = new ArrayCollection();
-        $this->pointsGiven = new ArrayCollection();
+        $this->pointsGiven    = new ArrayCollection();
+        $this->activities     = new ArrayCollection();
     }
 
     /**
@@ -782,5 +791,36 @@ class User extends BaseUser
     public function setEmailgalaxy($emailgalaxy)
     {
         $this->emailgalaxy = $emailgalaxy;
+    }
+
+    /**
+     * @param Activity $activity
+     *
+     * @return $this
+     */
+    public function addActivity(Activity $activity){
+        $this->activities->add($activity);
+
+        $activity->setUser($this);
+
+        return $this;
+    }
+
+    /**
+     * @param Activity $activity
+     *
+     * @return $this
+     */
+    public function removeActivity(Activity $activity){
+        $this->activities->removeElement($activity);
+
+        return $this;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getActivities(){
+        return $this->activities;
     }
 }

@@ -1,8 +1,11 @@
 <?php
 
 namespace UserBundle\Entity;
+
 use FaucondorBundle\Entity\Post;
 use FaucondorBundle\Entity\Section;
+use Datetime;
+use Symfony\Component\Validator\Constraints\Date;
 
 /**
  * SectionRepository
@@ -12,6 +15,21 @@ use FaucondorBundle\Entity\Section;
  */
 class UserRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function searchLoginActivity(){
+        $qb = $this->createQueryBuilder('u');
+
+        $date = date('Y-m-d');
+        $date.= " 00:00:00";
+
+        $qb
+            ->select('COUNT(u)')
+            ->where('u.lastLogin >= :date')
+            ->setParameter('date', $date)
+        ;
+
+        return $qb->getQuery()->getSingleScalarResult();
+    }
+
     public function findUsersByPost(Post $post){
         return $this->createQueryBuilder('u')
             ->innerJoin('u.posts', 'p', 'WITH', 'p.id = :post')

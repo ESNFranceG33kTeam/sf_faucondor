@@ -13,6 +13,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManager;
 use FaucondorBundle\Entity\Post;
 use FaucondorBundle\Entity\Section;
+use Symfony\Component\Form\FormError;
 use UserBundle\Form\Model\ModelUser;
 use UserBundle\Form\Model\ModelUserRole;
 use Symfony\Component\Config\Definition\Exception\Exception;
@@ -75,7 +76,7 @@ class UserRoleHandler
                 $model = $this->form->getData();
 
                 if (!$model->getUser() || !$model->getRole()){
-                    throw new Exception('Missing parameters');
+                    $this->form->addError(new FormError('Missing parameter(s)'));
                 }
 
                 /** @var User $user */
@@ -85,11 +86,11 @@ class UserRoleHandler
                 $role = $this->em->getRepository('FaucondorBundle:Post')->find($model->getRole());
 
                 if (!$user){
-                    throw new NotFoundResourceException('User with id ' . $model->getUser() . ' not found ');
+                    $this->form->get('user')->addError(new FormError('User with id ' . $model->getUser() . ' not found '));
                 }
 
                 if (!$role){
-                    throw new NotFoundResourceException('Role with id ' . $model->getRole() . ' not found ');
+                    $this->form->get('role')->addError(new FormError('Role with id ' . $model->getRole() . ' not found '));
                 }
 
                 $this->onSuccess($user, $role);
