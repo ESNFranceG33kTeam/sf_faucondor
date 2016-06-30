@@ -35,6 +35,8 @@ class BoardController extends Controller
         /** @var EntityManager $em */
         $em = $this->getDoctrine()->getManager();
 
+        $options = array();
+
         /** @var User $user */
         $user = $this->getUser();
 
@@ -67,6 +69,8 @@ class BoardController extends Controller
         //National Board Members
         if ($user->isNationalBoardMember() ){
             $nationalboardname = "ESN " . $this->container->getParameter('country');
+            $options["nationalboardname"] = $nationalboardname;
+
             $board_members = $em->getRepository('UserBundle:User')->findUsersByPost($user->getNationalBoardPost());
             $users[$user->getNationalBoardPost()->getName()] = array();
 
@@ -108,11 +112,10 @@ class BoardController extends Controller
             throw $this->createNotFoundException('No members, faucondor system error');
         }
 
-        return $this->render('FaucondorBundle:Board:index.html.twig', array(
-            'board_members' => $users,
-            'committees'    => $committees,
-            'nationalboardname' => $nationalboardname
-        ));
+        $options["board_members"] = $users;
+        $options["committees"] = $committees;
+
+        return $this->render('FaucondorBundle:Board:index.html.twig', $options);
     }
     /**
      * Creates a new User entity.
@@ -399,6 +402,12 @@ class BoardController extends Controller
      * @return bool
      */
     public function checkPermission(){
-        return !$this->getUser()->isSCV() && !$this->getUser()->isRL() && !$this->getUser()->isNationalBoardMember() && !$this->getUser()->isNationalChair();
+        if (!$this->getUser()->isSCV()
+            || !$this->getUser()->isRL()
+            || !$this->getUser()->isNationalBoardMember() || !$this->getUser()->isNationalChair()){
+            return false;
+        }
+
+        return true;
     }
 }
