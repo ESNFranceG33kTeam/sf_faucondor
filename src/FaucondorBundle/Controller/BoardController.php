@@ -101,7 +101,6 @@ class BoardController extends Controller
             if ($committee){
                 $users["committee"] = array();
 
-
                 foreach($committee->getUsers() as $board_member){
                     $users["committee"][] = $board_member;
                 }
@@ -109,7 +108,7 @@ class BoardController extends Controller
         }
 
         if (count($users) == 0){
-            throw $this->createNotFoundException('No members, faucondor system error');
+            $this->addFlash('error', 'No members');
         }
 
         $options["board_members"] = $users;

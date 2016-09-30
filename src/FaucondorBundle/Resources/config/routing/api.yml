@@ -1,0 +1,7 @@
+api_user_logged:
+    path:     /user/logged
+    defaults: { _controller: "FaucondorBundle:Api:userLogin" }
+
+api_user_subscribe:
+    path:     /user/subscribe
+    defaults: { _controller: "FaucondorBundle:Api:userSubscribe" }

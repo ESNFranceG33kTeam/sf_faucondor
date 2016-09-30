@@ -20,6 +20,7 @@ use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Expose;
 use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\VirtualProperty;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * @ORM\Entity(repositoryClass="UserBundle\Entity\UserRepository")
@@ -121,6 +122,13 @@ class User extends BaseUser
     private $birthdate;
 
     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="created_at", type="datetime", nullable=true)
+     */
+    private $createdAt;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="gender", type="string", length=1, nullable=true)
@@ -177,6 +185,7 @@ class User extends BaseUser
         $this->pointsReceived = new ArrayCollection();
         $this->pointsGiven    = new ArrayCollection();
         $this->activities     = new ArrayCollection();
+        $this->createdAt      = new \DateTime("now");
     }
 
     /**

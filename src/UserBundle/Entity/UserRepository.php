@@ -15,16 +15,46 @@ use Symfony\Component\Validator\Constraints\Date;
  */
 class UserRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function searchLoginActivity(){
+    /**
+     * @return mixed
+     */
+    public function getLoggedUserThisWeek(){
         $qb = $this->createQueryBuilder('u');
-
-        $date = date('Y-m-d');
-        $date.= " 00:00:00";
 
         $qb
             ->select('COUNT(u)')
             ->where('u.lastLogin >= :date')
             ->setParameter('date', $date)
+        ;
+
+        return $qb->getQuery()->getSingleScalarResult();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function searchCreatedActivity(\Datetime $datetime){
+        $qb = $this->createQueryBuilder('u');
+
+        $qb
+            ->select('COUNT(u)')
+            ->where('u.createdAt >= :date')
+            ->setParameter('date', $datetime)
+        ;
+
+        return $qb->getQuery()->getSingleScalarResult();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function searchLoginActivity(\Datetime $datetime){
+        $qb = $this->createQueryBuilder('u');
+
+        $qb
+            ->select('COUNT(u)')
+            ->where('u.lastLogin >= :date')
+            ->setParameter('date', $datetime)
         ;
 
         return $qb->getQuery()->getSingleScalarResult();
