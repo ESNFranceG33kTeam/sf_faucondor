@@ -15,6 +15,7 @@ parameters:
     mailer_user:       ~
     mailer_password:   ~
     mailer_port:       ~
+    mailer_from:       ~
 
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
@@ -26,3 +27,6 @@ parameters:
 
     #Country ie: FRANCE
     country:      ~
+
+    #Locale
+    locale: en

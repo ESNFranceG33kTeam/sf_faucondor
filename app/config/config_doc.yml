@@ -1,0 +1,30 @@
+imports:
+    - { resource: config.yml }
+    - { resource: security_doc.yml }
+
+parameters:
+    router.request_context.host: doc.faucondor.local
+    router.request_context.scheme: http
+
+framework:
+    router:
+        resource: "%kernel.root_dir%/config/routing_doc.yml"
+
+nelmio_api_doc: ~
+
+monolog:
+    handlers:
+        main:
+            type: fingers_crossed
+            action_level: error
+            handler: streamed
+        streamed:
+            type: stream
+            path: "%kernel.logs_dir%/%kernel.environment%.log"
+            level: debug
+        firephp:
+            type:  firephp
+            level: error
+        chromephp:
+            type:  chromephp
+            level: error

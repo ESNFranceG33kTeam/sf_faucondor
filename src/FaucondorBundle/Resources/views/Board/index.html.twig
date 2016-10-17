@@ -4,7 +4,9 @@
     <h1>{{ 'label.menu.board'|trans }}</h1>
 
     <p>
-        <a class="button" href="{{ path('board_new') }}">{{ 'entity.board.new'|trans }}</a>
+        {% set path = (app.user.isSCV) ? path('board_newcontact_scv') : path('board_new') %}
+
+        <a class="button" href="{{ path }}">{{ 'entity.board.new'|trans }}</a>
     </p>
 
     <div class="tables">

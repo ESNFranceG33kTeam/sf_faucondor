@@ -53,3 +53,7 @@ faucondor_mailrl:
 faucondor_listes:
     path:     /export
     defaults: { _controller: FaucondorBundle:Faucondor:exportlistes }
+
+faucondor_api:
+    resource: "@FaucondorBundle/Resources/config/routing/api.yml"
+    prefix:   /api

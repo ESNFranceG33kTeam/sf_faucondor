@@ -1,11 +1,17 @@
 services:
     login_listener:
         class: UserBundle\EventListener\LoginListener
-        arguments:
-                - "@router"
-                - "@security.context"
+        arguments: [ "@router", "@security.token_storage"]
         tags:
             -
                   name: kernel.event_listener
                   event: kernel.request
                   method: onKernelRequest
+
+    wsse.security.authentication.provider:
+        class:  UserBundle\Security\Authentification\Provider\WsseProvider
+        arguments: ['', %kernel.cache_dir%/security/nonces]
+
+    wsse.security.authentication.listener:
+        class:  UserBundle\Security\Firewall\WsseListener
+        arguments: [@security.token_storage, @security.authentication.manager]
