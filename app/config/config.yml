@@ -128,12 +128,6 @@ monolog:
             type:  stream
             path:  '%kernel.logs_dir%/%kernel.environment%.log'
             level: debug
-        swift:
-            type:       swift_mailer
-            from_email: 'no-reply@buddysystem.eu'
-            to_email:   'jeremie.samson@ix.esnlille.fr'
-            subject:    An Error Occurred!
-            level:      critical
         login:
             type: stream
             path: "%kernel.logs_dir%/auth.log"
