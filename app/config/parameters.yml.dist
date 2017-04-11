@@ -21,7 +21,7 @@ parameters:
     secret:            ThisTokenIsNotSoSecretChangeIt
 
     #CAS
-    cas_host:          galaxy.esn.org
+    cas_host:          accounts.esn.org
     cas_context:       cas
     cas_port:          443
 
